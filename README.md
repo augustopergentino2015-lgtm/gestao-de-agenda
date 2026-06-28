@@ -255,3 +255,5 @@ Todas carregadas via CDN (sem npm necessário):
 ---
 
 *Desenvolvido com arquitetura Mobile-First · Privacidade por Design · PWA Nativo*
+
+.
