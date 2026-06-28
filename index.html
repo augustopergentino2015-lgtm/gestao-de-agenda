@@ -1,495 +1,380 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#1A2B4A" />
-  <meta name="description" content="Gestão de Agenda — controle privado de compromissos e instituições" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Gestão de Agenda" />
-
-  <title>Gestão de Agenda</title>
-
-  <!-- PWA Manifest -->
-  <link rel="manifest" href="manifest.json" />
-
-  <!-- Apple Icons -->
-  <link rel="apple-touch-icon" href="icons/icon-192.png" />
-  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
-
-  <!-- Google Fonts: Inter + Space Grotesk -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
-
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGI - Gestão Inteligente de Agendas</title>
+    
+    <!-- PWA Meta Tags para funcionar como aplicativo nativo no celular -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1E463C">
+    
+    <!-- Tailwind CSS para estilização rápida e moderna via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+    <style>
+        /* Paleta de Cores Customizada do SIGI baseada nas diretrizes do PRD */
+        :root {
+            --cor-fundo: #F7F7F4;       /* Tom claro/areia muito suave */
+            --cor-primaria: #1E463C;    /* Verde institucional profundo */
+            --cor-secundaria: #E3EDE9;  /* Verde claro para cartões informativos */
+            --cor-destaque: #E28743;    /* Laranja suave para prioridades/alertas */
+        }
+        body {
+            background-color: var(--cor-fundo);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        .aba-ativa {
+            background-color: var(--cor-primaria) !important;
+            color: white !important;
+        }
+        /* Esconder barra de rolagem horizontal das abas mantendo o scroll funcional */
+        .scroll-abas::-webkit-scrollbar {
+            display: none;
+        }
+        .scroll-abas {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
 </head>
-<body>
+<body class="pb-12 text-gray-800">
 
-  <!-- ===================== SPLASH / LOADING ===================== -->
-  <div id="splash" class="splash">
-    <div class="splash-inner">
-      <div class="splash-logo">
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="48" height="48" rx="14" fill="#2563EB"/>
-          <rect x="10" y="14" width="28" height="24" rx="3" stroke="white" stroke-width="2.2" fill="none"/>
-          <line x1="10" y1="20" x2="38" y2="20" stroke="white" stroke-width="2.2"/>
-          <line x1="17" y1="10" x2="17" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
-          <line x1="31" y1="10" x2="31" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
-          <rect x="15" y="24" width="5" height="4" rx="1" fill="white"/>
-          <rect x="22" y="24" width="5" height="4" rx="1" fill="#93C5FD"/>
-          <rect x="29" y="24" width="5" height="4" rx="1" fill="white"/>
-          <rect x="15" y="30" width="5" height="4" rx="1" fill="#93C5FD"/>
-          <rect x="22" y="30" width="5" height="4" rx="1" fill="white"/>
-        </svg>
-      </div>
-      <p class="splash-title">Gestão de Agenda</p>
-      <div class="splash-spinner"></div>
-    </div>
-  </div>
-
-  <!-- ===================== AUTH SCREEN ===================== -->
-  <div id="screen-auth" class="screen hidden">
-    <div class="auth-container">
-      <div class="auth-brand">
-        <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
-          <rect width="48" height="48" rx="14" fill="#2563EB"/>
-          <rect x="10" y="14" width="28" height="24" rx="3" stroke="white" stroke-width="2.2" fill="none"/>
-          <line x1="10" y1="20" x2="38" y2="20" stroke="white" stroke-width="2.2"/>
-          <line x1="17" y1="10" x2="17" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
-          <line x1="31" y1="10" x2="31" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
-          <rect x="15" y="24" width="5" height="4" rx="1" fill="white"/>
-          <rect x="22" y="24" width="5" height="4" rx="1" fill="#93C5FD"/>
-          <rect x="29" y="24" width="5" height="4" rx="1" fill="white"/>
-          <rect x="15" y="30" width="5" height="4" rx="1" fill="#93C5FD"/>
-          <rect x="22" y="30" width="5" height="4" rx="1" fill="white"/>
-        </svg>
-        <h1>Gestão de Agenda</h1>
-        <p>Sua agenda. Seus dados. Sua privacidade.</p>
-      </div>
-
-      <div class="auth-tabs">
-        <button class="auth-tab active" data-tab="login">Entrar</button>
-        <button class="auth-tab" data-tab="register">Criar conta</button>
-      </div>
-
-      <!-- Login -->
-      <div id="auth-login" class="auth-form">
-        <div class="field-group">
-          <label>E-mail ou Telefone</label>
-          <input type="text" id="login-identifier" placeholder="seuemail@exemplo.com" autocomplete="username" />
+    <!-- HEADER INSTITUCIONAL -->
+    <header class="bg-[#1E463C] text-white p-4 sticky top-0 z-50 shadow-md rounded-b-xl">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-xl font-bold tracking-wide">SIGI</h1>
+                <p class="text-xs text-emerald-200">Sistema Integrado de Gestão Institucional</p>
+            </div>
+            <span class="text-xs bg-emerald-800 px-3 py-1 rounded-full border border-emerald-600 font-medium" id="data-atual"></span>
         </div>
-        <div class="field-group">
-          <label>Senha</label>
-          <div class="input-eye">
-            <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" />
-            <button type="button" class="eye-btn" data-target="login-password">👁</button>
-          </div>
-        </div>
-        <button id="btn-login" class="btn-primary">Entrar</button>
-        <p id="login-error" class="form-error hidden"></p>
-      </div>
-
-      <!-- Register -->
-      <div id="auth-register" class="auth-form hidden">
-        <div class="field-group">
-          <label>E-mail</label>
-          <input type="email" id="reg-email" placeholder="seuemail@exemplo.com" autocomplete="email" />
-        </div>
-        <div class="field-group">
-          <label>Telefone (opcional)</label>
-          <input type="tel" id="reg-phone" placeholder="(00) 00000-0000" />
-        </div>
-        <div class="field-group">
-          <label>Senha</label>
-          <div class="input-eye">
-            <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" autocomplete="new-password" />
-            <button type="button" class="eye-btn" data-target="reg-password">👁</button>
-          </div>
-        </div>
-        <div class="field-group">
-          <label>Confirmar Senha</label>
-          <div class="input-eye">
-            <input type="password" id="reg-confirm" placeholder="Repita a senha" autocomplete="new-password" />
-            <button type="button" class="eye-btn" data-target="reg-confirm">👁</button>
-          </div>
-        </div>
-        <button id="btn-register" class="btn-primary">Criar conta</button>
-        <p id="register-error" class="form-error hidden"></p>
-      </div>
-
-      <p class="auth-note">🔒 Seus dados são isolados por conta e nunca compartilhados.</p>
-    </div>
-  </div>
-
-  <!-- ===================== PERFIL OBRIGATÓRIO ===================== -->
-  <div id="screen-profile-setup" class="screen hidden">
-    <div class="setup-header">
-      <h2>Complete seu Perfil</h2>
-      <p>Necessário para usar o app</p>
-    </div>
-    <div class="setup-body">
-      <div class="field-group">
-        <label>Nome Completo <span class="req">*</span></label>
-        <input type="text" id="p-name" placeholder="Seu nome completo" />
-      </div>
-      <div class="field-grid-2">
-        <div class="field-group">
-          <label>CPF / CNPJ <span class="req">*</span></label>
-          <input type="text" id="p-cpf" placeholder="000.000.000-00" maxlength="18" />
-        </div>
-        <div class="field-group">
-          <label>Telefone <span class="req">*</span></label>
-          <input type="tel" id="p-tel" placeholder="(00) 00000-0000" />
-        </div>
-      </div>
-      <div class="field-group">
-        <label>Cargo / Função</label>
-        <input type="text" id="p-role" placeholder="Ex: Vereador, Assessor, Diretor..." />
-      </div>
-      <div class="section-label">Endereço</div>
-      <div class="field-grid-2">
-        <div class="field-group" style="grid-column: span 2;">
-          <label>Rua / Logradouro</label>
-          <input type="text" id="p-street" placeholder="Rua, Avenida..." />
-        </div>
-        <div class="field-group">
-          <label>Número</label>
-          <input type="text" id="p-number" placeholder="Nº" />
-        </div>
-        <div class="field-group">
-          <label>Bairro</label>
-          <input type="text" id="p-neighborhood" placeholder="Bairro" />
-        </div>
-        <div class="field-group">
-          <label>Cidade</label>
-          <input type="text" id="p-city" placeholder="Cidade" />
-        </div>
-        <div class="field-group">
-          <label>Estado</label>
-          <select id="p-state">
-            <option value="">UF</option>
-            <option>AC</option><option>AL</option><option>AM</option><option>AP</option>
-            <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
-            <option>GO</option><option>MA</option><option>MG</option><option>MS</option>
-            <option>MT</option><option>PA</option><option>PB</option><option>PE</option>
-            <option>PI</option><option>PR</option><option>RJ</option><option>RN</option>
-            <option>RO</option><option>RR</option><option>RS</option><option>SC</option>
-            <option>SE</option><option>SP</option><option>TO</option>
-          </select>
-        </div>
-        <div class="field-group">
-          <label>CEP</label>
-          <input type="text" id="p-cep" placeholder="00000-000" maxlength="9" />
-        </div>
-      </div>
-      <button id="btn-save-profile" class="btn-primary">Salvar e Continuar →</button>
-      <p id="profile-error" class="form-error hidden"></p>
-    </div>
-  </div>
-
-  <!-- ===================== APP PRINCIPAL ===================== -->
-  <div id="screen-app" class="screen hidden">
-
-    <!-- TOP HEADER -->
-    <header class="app-header">
-      <div class="header-left">
-        <div class="header-avatar" id="header-avatar">?</div>
-        <div>
-          <div class="header-greeting" id="header-greeting">Olá!</div>
-          <div class="header-role" id="header-role"></div>
-        </div>
-      </div>
-      <div class="header-right">
-        <button class="icon-btn" id="btn-sync" title="Sincronizar">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline>
-            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-          </svg>
-        </button>
-        <button class="icon-btn" id="btn-logout" title="Sair">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line>
-          </svg>
-        </button>
-      </div>
     </header>
 
-    <!-- CRITICAL REMINDERS PANEL (D-1) -->
-    <div id="panel-d1" class="panel-d1">
-      <div class="d1-header">
-        <span class="d1-badge">⚡ Amanhã</span>
-        <span class="d1-date" id="d1-date"></span>
-      </div>
-      <div id="d1-list" class="d1-list">
-        <p class="d1-empty">Nenhum compromisso para amanhã.</p>
-      </div>
-    </div>
+    <main class="max-w-4xl mx-auto px-4 mt-4 space-y-4">
 
-    <!-- MAIN CONTENT (tab panels) -->
-    <main class="app-main">
+        <!-- MENU DE CAMPOS / INSTITUIÇÕES (ABAS COM SCROLL HORIZONTAL) -->
+        <section class="relative">
+            <div class="flex overflow-x-auto gap-2 pb-2 scroll-abas snap-x" id="container-abas">
+                <!-- Inserido dinamicamente via JS para manter controle completo -->
+            </div>
+        </section>
 
-      <!-- ---- TAB: AGENDA ---- -->
-      <section id="tab-agenda" class="tab-panel active">
-        <div class="agenda-toolbar">
-          <div class="agenda-date-nav">
-            <button class="nav-btn" id="btn-prev-day">‹</button>
-            <div>
-              <div class="agenda-day-label" id="agenda-day-label">Hoje</div>
-              <div class="agenda-full-date" id="agenda-full-date"></div>
+        <!-- SEÇÃO: MISSÃO DO DIA E PRIORIDADES -->
+        <section class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+            <h2 class="text-xs font-bold text-[#1E463C] uppercase tracking-wider mb-2 flex items-center gap-1">
+                <span>📌</span> Prioridades e Missão do Dia
+            </h2>
+            <div id="painel-prioridades" class="space-y-2">
+                <!-- Cards de alta prioridade entram aqui -->
+                <p class="text-sm text-gray-400 italic">Nenhuma prioridade crítica listada para este campo hoje.</p>
             </div>
-            <button class="nav-btn" id="btn-next-day">›</button>
-          </div>
-          <button class="btn-add-event" id="btn-add-event">+ Evento</button>
-        </div>
+        </section>
 
-        <!-- Institution Filter -->
-        <div class="inst-filter-row" id="inst-filter-row">
-          <button class="inst-chip active" data-inst="all">Todos</button>
-        </div>
+        <!-- SEÇÃO: MOTOR INTELIGENTE DE RELATORIA (ENTRADA TEXTUAL) -->
+        <section class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 space-y-3">
+            <div class="flex justify-between items-center">
+                <h2 class="text-xs font-bold text-[#1E463C] uppercase tracking-wider flex items-center gap-1">
+                    <span>⚡</span> Motor de Relatorias (Processamento Automático)
+                </h2>
+                <span class="text-[10px] text-gray-400 font-mono">SIGI AI Ativo</span>
+            </div>
+            <p class="text-xs text-gray-500">Cole o texto da sua relatoria ou ata abaixo. O motor irá extrair datas, tarefas e alocar na instituição citada automaticamente.</p>
+            <textarea id="texto-relatoria" rows="4" class="w-full p-3 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#1E463C]" placeholder="Ex: Na reunião do Instituto Coopera ocorrida em 15/06, ficou definido que Augusto será responsável por organizar a biblioteca até dia 26/06..."></textarea>
+            <button onclick="processarRelatoria()" class="w-full bg-[#1E463C] hover:bg-[#16332c] text-white text-sm font-medium py-2 rounded-lg transition-colors shadow-sm">
+                Processar e Distribuir Texto
+            </button>
+        </section>
 
-        <!-- Events List -->
-        <div id="events-list" class="events-list">
-          <div class="events-empty">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#CBD5E1" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            <p>Sem eventos neste dia.</p>
-            <button class="btn-link" id="btn-add-first">Adicionar evento</button>
-          </div>
-        </div>
-      </section>
+        <!-- SEÇÃO: LANÇAMENTO MANUAL -->
+        <section class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 space-y-3">
+            <h2 class="text-xs font-bold text-[#1E463C] uppercase tracking-wider flex items-center gap-1">
+                <span>➕</span> Inserção Manual de Dados
+            </h2>
+            <form id="form-manual" onsubmit="adicionarManual(event)" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <input type="date" id="manual-data" required class="p-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#1E463C]">
+                <select id="manual-institicao" required class="p-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#1E463C]">
+                    <!-- Opções preenchidas automaticamente pelas instituições oficiais -->
+                </select>
+                <input type="text" id="manual-descricao" placeholder="Descrição do evento/compromisso" required class="md:col-span-2 p-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#1E463C]">
+                <input type="text" id="manual-responsavel" placeholder="Responsável (Ex: Augusto)" class="p-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#1E463C]">
+                <select id="manual-prioridade" class="p-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#1E463C]">
+                    <option value="Normal">Prioridade: Normal</option>
+                    <option value="Alta">Prioridade: Alta ⭐</option>
+                </select>
+                <button type="submit" class="md:col-span-2 bg-[#E3EDE9] hover:bg-emerald-100 text-[#1E463C] text-sm font-semibold py-2 rounded-lg transition-colors">
+                    Salvar Registro na Agenda
+                </button>
+            </form>
+        </section>
 
-      <!-- ---- TAB: RELATORIA ---- -->
-      <section id="tab-relatoria" class="tab-panel hidden">
-        <div class="tab-inner">
-          <h3 class="section-title">Lançamento Inteligente</h3>
-          <p class="section-sub">Cole ou digita o texto. O sistema extrai datas e vincula suas instituições automaticamente.</p>
-          <textarea id="relatoria-input" class="relatoria-textarea"
-            placeholder="Ex: Reunião com a CÂMARA MUNICIPAL no dia 15/07/2025 às 14h para discutir o orçamento. Sessão plenária na ASSEMBLEIA em 18/07/2025..."></textarea>
-          <button id="btn-process-relatoria" class="btn-primary">⚡ Processar e Lançar</button>
+        <!-- SEÇÃO: COMUNICAÇÃO (WHATSAPP & RELATÓRIOS) -->
+        <section id="secao-comunicacao" class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 space-y-2 hidden">
+            <h2 class="text-xs font-bold text-[#1E463C] uppercase tracking-wider flex items-center gap-1">
+                <span>📢</span> Comunicação e Relatório Semanal
+            </h2>
+            <div class="flex gap-2">
+                <button onclick="gerarRelatorioWhatsApp()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium py-2 px-3 rounded-lg flex items-center justify-center gap-1">
+                    <span>💬</span> Copiar Texto para WhatsApp
+                </button>
+            </div>
+        </section>
 
-          <!-- Preview -->
-          <div id="relatoria-preview" class="relatoria-preview hidden">
-            <h4>Eventos Identificados</h4>
-            <div id="relatoria-results"></div>
-            <button id="btn-confirm-relatoria" class="btn-primary">✔ Confirmar Todos</button>
-            <button id="btn-cancel-relatoria" class="btn-secondary">Cancelar</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- ---- TAB: INSTITUIÇÕES ---- -->
-      <section id="tab-institutions" class="tab-panel hidden">
-        <div class="tab-inner">
-          <div class="section-header-row">
-            <h3 class="section-title">Minhas Instituições</h3>
-            <button id="btn-new-inst" class="btn-icon-text">+ Nova</button>
-          </div>
-          <div id="inst-list" class="inst-list">
-            <p class="empty-state">Nenhuma instituição cadastrada.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- ---- TAB: PERFIL ---- -->
-      <section id="tab-profile" class="tab-panel hidden">
-        <div class="tab-inner">
-          <h3 class="section-title">Meu Perfil</h3>
-          <div class="field-group">
-            <label>Nome Completo</label>
-            <input type="text" id="prof-name" />
-          </div>
-          <div class="field-grid-2">
-            <div class="field-group">
-              <label>CPF / CNPJ</label>
-              <input type="text" id="prof-cpf" />
+        <!-- SEÇÃO: LISTAGEM DA AGENDA INTEGRADA -->
+        <section class="space-y-2">
+            <div class="flex justify-between items-center px-1">
+                <h2 class="text-xs font-bold text-[#1E463C] uppercase tracking-wider" id="titulo-agenda-campo">
+                    Compromissos Agendados
+                </h2>
+                <button onclick="limparAgendaCampo()" class="text-[10px] text-red-600 hover:underline">Limpar registros deste campo</button>
             </div>
-            <div class="field-group">
-              <label>Telefone</label>
-              <input type="tel" id="prof-tel" />
+            <div id="lista-agenda" class="space-y-3">
+                <!-- Cards de compromissos entram aqui dinamicamente -->
             </div>
-          </div>
-          <div class="field-group">
-            <label>Cargo / Função</label>
-            <input type="text" id="prof-role" />
-          </div>
-          <div class="section-label">Endereço</div>
-          <div class="field-group">
-            <label>Rua / Logradouro</label>
-            <input type="text" id="prof-street" />
-          </div>
-          <div class="field-grid-2">
-            <div class="field-group">
-              <label>Número</label>
-              <input type="text" id="prof-number" />
-            </div>
-            <div class="field-group">
-              <label>Bairro</label>
-              <input type="text" id="prof-neighborhood" />
-            </div>
-            <div class="field-group">
-              <label>Cidade</label>
-              <input type="text" id="prof-city" />
-            </div>
-            <div class="field-group">
-              <label>Estado</label>
-              <select id="prof-state">
-                <option value="">UF</option>
-                <option>AC</option><option>AL</option><option>AM</option><option>AP</option>
-                <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
-                <option>GO</option><option>MA</option><option>MG</option><option>MS</option>
-                <option>MT</option><option>PA</option><option>PB</option><option>PE</option>
-                <option>PI</option><option>PR</option><option>RJ</option><option>RN</option>
-                <option>RO</option><option>RR</option><option>RS</option><option>SC</option>
-                <option>SE</option><option>SP</option><option>TO</option>
-              </select>
-            </div>
-            <div class="field-group">
-              <label>CEP</label>
-              <input type="text" id="prof-cep" maxlength="9" />
-            </div>
-          </div>
-          <button id="btn-update-profile" class="btn-primary">Salvar Perfil</button>
-          <p id="profile-update-msg" class="form-success hidden"></p>
-        </div>
-      </section>
+        </section>
 
     </main>
 
-    <!-- BOTTOM NAV -->
-    <nav class="bottom-nav">
-      <button class="nav-item active" data-tab="agenda">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        <span>Agenda</span>
-      </button>
-      <button class="nav-item" data-tab="relatoria">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        <span>Relatoria</span>
-      </button>
-      <button class="nav-item" data-tab="institutions">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        <span>Institui...</span>
-      </button>
-      <button class="nav-item" data-tab="profile">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        <span>Perfil</span>
-      </button>
-    </nav>
-  </div>
+    <!-- SISTEMA DE INTELIGÊNCIA INTEGRADA (JAVASCRIPT LOCAL) -->
+    <script>
+        // Definição da lista oficial de campos e instituições fornecida no PRD
+        const instituicoesOficiais = [
+            "Instituto Coopera", "Projeto Mutirão Coordenação executiva", 
+            "Projeto Mutirão Ecocol", "Grupo Estudos Coopera", "Paul Singer", 
+            "Ecofeira da Rural", "Residuos sólidos", "Pesquisa", 
+            "Coletivo Sementes", "Bacharelado em agroecologia", "Agenda Pessoal"
+        ];
 
-  <!-- ===================== MODALS ===================== -->
+        let abaSelecionada = instituicoesOficiais[0];
+        let baseDeDadosAgendas = JSON.parse(localStorage.getItem('sigi_agendas')) || [];
 
-  <!-- Modal: Add/Edit Event -->
-  <div id="modal-event" class="modal-overlay hidden">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3 id="modal-event-title">Novo Evento</h3>
-        <button class="modal-close" data-close="modal-event">✕</button>
-      </div>
-      <div class="modal-body">
-        <div class="field-group">
-          <label>Título <span class="req">*</span></label>
-          <input type="text" id="ev-title" placeholder="Título do evento" />
-        </div>
-        <div class="field-grid-2">
-          <div class="field-group">
-            <label>Data <span class="req">*</span></label>
-            <input type="date" id="ev-date" />
-          </div>
-          <div class="field-group">
-            <label>Hora</label>
-            <input type="time" id="ev-time" />
-          </div>
-        </div>
-        <div class="field-group">
-          <label>Instituição</label>
-          <select id="ev-institution">
-            <option value="">— Sem vínculo —</option>
-          </select>
-        </div>
-        <div class="field-group">
-          <label>Local</label>
-          <input type="text" id="ev-location" placeholder="Local do evento" />
-        </div>
-        <div class="field-group">
-          <label>Observações</label>
-          <textarea id="ev-notes" rows="3" placeholder="Detalhes adicionais..."></textarea>
-        </div>
-        <div class="field-group">
-          <label>Prioridade</label>
-          <select id="ev-priority">
-            <option value="normal">Normal</option>
-            <option value="high">Alta</option>
-            <option value="critical">Crítica</option>
-          </select>
-        </div>
-        <input type="hidden" id="ev-id" />
-      </div>
-      <div class="modal-footer">
-        <button id="btn-delete-event" class="btn-danger hidden">Excluir</button>
-        <button id="btn-save-event" class="btn-primary">Salvar</button>
-      </div>
-    </div>
-  </div>
+        // Inicialização do aplicativo
+        window.onload = function() {
+            document.getElementById('data-atual').innerText = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'short' });
+            renderizarAbas();
+            atualizarSelectInstituicoes();
+            renderizarAgenda();
+            verificarSegundaFeira();
+        };
 
-  <!-- Modal: Add/Edit Institution -->
-  <div id="modal-inst" class="modal-overlay hidden">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3 id="modal-inst-title">Nova Instituição</h3>
-        <button class="modal-close" data-close="modal-inst">✕</button>
-      </div>
-      <div class="modal-body">
-        <div class="field-group">
-          <label>Nome da Instituição <span class="req">*</span></label>
-          <input type="text" id="inst-name" placeholder="Nome completo" />
-        </div>
-        <div class="field-grid-2">
-          <div class="field-group">
-            <label>Sigla</label>
-            <input type="text" id="inst-abbr" placeholder="Ex: CML" maxlength="10" />
-          </div>
-          <div class="field-group">
-            <label>CNPJ</label>
-            <input type="text" id="inst-cnpj" placeholder="00.000.000/0001-00" maxlength="18" />
-          </div>
-          <div class="field-group">
-            <label>Telefone</label>
-            <input type="tel" id="inst-phone" placeholder="(00) 0000-0000" />
-          </div>
-          <div class="field-group">
-            <label>Cor de Identificação</label>
-            <input type="color" id="inst-color" value="#2563EB" class="color-picker" />
-          </div>
-        </div>
-        <input type="hidden" id="inst-id" />
-      </div>
-      <div class="modal-footer">
-        <button id="btn-delete-inst" class="btn-danger hidden">Excluir</button>
-        <button id="btn-save-inst" class="btn-primary">Salvar</button>
-      </div>
-    </div>
-  </div>
+        // Renderiza o menu horizontal de abas institucionais
+        function renderizarAbas() {
+            const container = document.getElementById('container-abas');
+            container.innerHTML = '';
+            
+            instituicoesOficiais.forEach(inst => {
+                const button = document.createElement('button');
+                button.className = `snap-center shrink-0 px-4 py-2 text-xs font-semibold rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm transition-all whitespace-nowrap`;
+                button.innerText = inst;
+                if(inst === abaSelecionada) button.classList.add('aba-ativa');
+                button.onclick = () => alternarAba(inst);
+                container.appendChild(button);
+            });
 
-  <!-- Toast -->
-  <div id="toast" class="toast hidden"></div>
+            // Campo dinâmico de Criação de Novo Campo solicitado nas regras do PRD
+            const btnCriar = document.createElement('button');
+            btnCriar.className = "snap-center shrink-0 px-4 py-2 text-xs font-bold rounded-full bg-gray-100 text-gray-500 border border-dashed border-gray-300 whitespace-nowrap";
+            btnCriar.innerText = "➕ Criar Campo";
+            btnCriar.onclick = () => {
+                let novo = prompt("Digite o nome da nova instituição/campo:");
+                if(novo && !instituicoesOficiais.includes(novo)) {
+                    instituicoesOficiais.push(novo);
+                    renderizarAbas();
+                    atualizarSelectInstituicoes();
+                }
+            };
+            container.appendChild(btnCriar);
+        }
 
-  <!-- Firebase SDK (v9 compat) -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+        function alternarAba(nomeAba) {
+            abaSelecionada = nomeAba;
+            renderizarAbas();
+            renderizarAgenda();
+        }
 
-  <!-- App Scripts -->
-  <script src="js/config.js"></script>
-  <script src="js/db.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/profile.js"></script>
-  <script src="js/institutions.js"></script>
-  <script src="js/events.js"></script>
-  <script src="js/relatoria.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="js/app.js"></script>
+        function atualizarSelectInstituicoes() {
+            const select = document.getElementById('manual-institicao');
+            select.innerHTML = '';
+            instituicoesOficiais.forEach(inst => {
+                const opt = document.createElement('option');
+                opt.value = inst;
+                opt.innerText = inst;
+                select.appendChild(opt);
+            });
+        }
 
+        // MOTOR DE RELATORIAS (Extração inteligente local por mapeamento semântico)
+        function processarRelatoria() {
+            const texto = document.getElementById('texto-relatoria').value;
+            if(!texto.trim()) return alert("Por favor, cole um texto de relatoria válido.");
+
+            // Identificar qual instituição pertence o texto
+            let instituicaoIdentificada = abaSelecionada; // Padrão se não achar
+            for (let inst of instituicoesOficiais) {
+                if (texto.toLowerCase().includes(inst.toLowerCase()) || (inst.includes(" ") && texto.toLowerCase().includes(inst.split(" ")[0].toLowerCase()))) {
+                    instituicaoIdentificada = inst;
+                    break;
+                }
+            }
+
+            // Regex simples local para capturar padrões comuns de datas (dd/mm ou dd/mm/aaaa)
+            const regexData = /(\d{2}\/\d{2}(\/\d{4})?)/g;
+            const datasEncontradas = texto.match(regexData);
+
+            let dataEvento = new Date().toISOString().split('T')[0]; // Padrão hoje se não achar data
+            if (datasEncontradas && datasEncontradas.length > 0) {
+                // Converte dd/mm para o formato padrão do input date (aaaa-mm-dd) do ano corrente
+                const partes = datasEncontradas[0].split('/');
+                const anoAtual = new Date().getFullYear();
+                dataEvento = `${anoAtual}-${partes[1].padStart(2, '0')}-${partes[0].padStart(2, '0')}`;
+            }
+
+            // Criação do compromisso extraído
+            const novoCompromisso = {
+                id: Date.now(),
+                instituicao: instituicaoIdentificada,
+                data: dataEvento,
+                descricao: texto.length > 120 ? texto.substring(0, 117) + "..." : texto,
+                responsavel: "Extraído via Relatoria",
+                prioridade: texto.toLowerCase().includes("urgente") || texto.toLowerCase().includes("prioridade") ? "Alta" : "Normal"
+            };
+
+            baseDeDadosAgendas.push(novoCompromisso);
+            salvarDados();
+            document.getElementById('texto-relatoria').value = '';
+            alternarAba(instituicaoIdentificada);
+            alert(`Processado com sucesso! Vinculado ao campo: ${instituicaoIdentificada}`);
+        }
+
+        // Adicionar manualmente via formulário
+        function adicionarManual(e) {
+            e.preventDefault();
+            const novo = {
+                id: Date.now(),
+                data: document.getElementById('manual-data').value,
+                instituicao: document.getElementById('manual-institicao').value,
+                descricao: document.getElementById('manual-descricao').value,
+                responsavel: document.getElementById('manual-responsavel').value || "Não especificado",
+                prioridade: document.getElementById('manual-prioridade').value
+            };
+            baseDeDadosAgendas.push(novo);
+            salvarDados();
+            document.getElementById('form-manual').reset();
+            atualizarSelectInstituicoes();
+            alternarAba(novo.instituicao);
+        }
+
+        // Renderização e atualização dinâmica da Interface
+        function renderizarAgenda() {
+            document.getElementById('titulo-agenda-campo').innerText = `Agenda: ${abaSelecionada}`;
+            const lista = document.getElementById('lista-agenda');
+            const painelPrioridades = document.getElementById('painel-prioridades');
+            
+            lista.innerHTML = '';
+            painelPrioridades.innerHTML = '';
+
+            // Filtrar os dados pelo campo selecionado no menu superior
+            const itensFiltrados = baseDeDadosAgendas
+                .filter(item => item.instituicao === abaSelecionada)
+                .sort((a, b) => new Date(a.data) - new Date(b.data));
+
+            let contAlta = 0;
+
+            if(itensFiltrados.length === 0) {
+                lista.innerHTML = `<p class="text-xs text-gray-400 italic p-4 text-center bg-white rounded-xl border border-dashed border-gray-200">Nenhum compromisso agendado para este campo.</p>`;
+                painelPrioridades.innerHTML = `<p class="text-xs text-gray-400 italic">Nenhum item com prioridade máxima ativa.</p>`;
+                return;
+            }
+
+            itensFiltrados.forEach(item => {
+                const dataFormatada = new Date(item.data + 'T00:00:00').toLocaleDateString('pt-BR', {day: '2-digit', month: '2-digit'});
+                
+                // Estrutura Visual do Card baseada nos prints enviados
+                const card = document.createElement('div');
+                card.className = `bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-start gap-4 transition-all`;
+                
+                card.innerHTML = `
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <span class="text-lg font-bold text-[#1E463C]">${dataFormatada}</span>
+                            ${item.prioridade === 'Alta' ? '<span class="text-[10px] bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full font-medium">Prioridade</span>' : ''}
+                        </div>
+                        <p class="text-sm font-medium text-gray-800">${item.descricao}</p>
+                        <div class="text-[11px] text-gray-500 flex items-center gap-2">
+                            <span>👤 Responsável: ${item.responsavel}</span>
+                        </div>
+                    </div>
+                    <button onclick="removerItem(${item.id})" class="text-gray-300 hover:text-red-500 p-1 text-xs">✕</button>
+                `;
+                lista.appendChild(card);
+
+                // Se for prioridade Alta, duplica o destaque no painel superior de Missão do Dia
+                if(item.prioridade === 'Alta') {
+                    contAlta++;
+                    const cardPrioridade = document.createElement('div');
+                    cardPrioridade.className = "bg-orange-50 border border-orange-200 p-3 rounded-lg text-xs flex justify-between items-center";
+                    cardPrioridade.innerHTML = `
+                        <div>
+                            <span class="font-bold text-orange-800">[${dataFormatada}]</span> 
+                            <span class="text-gray-700 font-medium">${item.descricao}</span>
+                        </div>
+                        <span class="text-[10px] bg-orange-200 text-orange-800 px-2 py-0.5 rounded">${item.instituicao}</span>
+                    `;
+                    painelPrioridades.appendChild(cardPrioridade);
+                }
+            });
+
+            if(contAlta === 0) {
+                painelPrioridades.innerHTML = `<p class="text-xs text-gray-400 italic">Nenhum item com prioridade máxima ativa para este campo.</p>`;
+            }
+        }
+
+        // Funcionalidade de Geração de Mensagem para Grupos de WhatsApp (Segundas-feiras)
+        function verificarSegundaFeira() {
+            const diaSemana = new Date().getDay();
+            // 1 representa segunda-feira
+            if(diaSemana === 1) {
+                document.getElementById('secao-comunicacao').classList.remove('hidden');
+            }
+        }
+
+        function gerarRelatorioWhatsApp() {
+            const itensDaSemana = baseDeDadosAgendas.filter(item => item.instituicao === abaSelecionada);
+            if(itensDaSemana.length === 0) return alert("Não há registros agendados nesta instituição para formatar o relatório.");
+
+            let textoMensagem = `*PNEU DE AGENDAS - ${abaSelecionada.toUpperCase()}*\n`;
+            textoMensagem += `Segue cronograma e atividades organizadas para esta semana:\n\n`;
+
+            itensDaSemana.forEach(item => {
+                const dataFormatada = new Date(item.data + 'T00:00:00').toLocaleDateString('pt-BR', {day: '2-digit', month: '2-digit'});
+                textoMensagem += `📅 *${dataFormatada}* - ${item.descricao} (Resp: ${item.responsavel})\n`;
+            });
+
+            textoMensagem += `\n_Gerado automaticamente via SIGI - Memória Institucional_`;
+
+            navigator.clipboard.writeText(textoMensagem).then(() => {
+                alert("Texto formatado e copiado com sucesso! Só colar no grupo do seu WhatsApp.");
+            });
+        }
+
+        function removerItem(id) {
+            baseDeDadosAgendas = baseDeDadosAgendas.filter(item => item.id !== id);
+            salvarDados();
+            renderizarAgenda();
+        }
+
+        function limparAgendaCampo() {
+            if(confirm(`Deseja limpar todos os registros do campo ${abaSelecionada}?`)) {
+                baseDeDadosAgendas = baseDeDadosAgendas.filter(item => item.instituicao !== abaSelecionada);
+                salvarDados();
+                renderizarAgenda();
+            }
+        }
+
+        function salvarDados() {
+            localStorage.setItem('sigi_agendas', JSON.stringify(baseDeDadosAgendas));
+        }
+    </script>
 </body>
 </html>
