@@ -2,210 +2,227 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIGI - Gestão Inteligente de Agendas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SIGI - Sistema Integrado de Gestão Institucional</title>
     
-    <!-- PWA Meta Tags para estabilidade mobile -->
+    <!-- Vinculação nativa do PWA para ícone e comportamento de App no celular -->
+    <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#1E463C">
     
     <style>
-        /* ARQUITETURA VISUAL PROPRIETÁRIA DO SIGI (PRD) */
+        /* ARQUITETURA VISUAL EXECUTIVA DO SIGI (DIRETRIZES DO PRD) */
         :root {
             --cor-fundo: #F7F7F4;       /* Tom claro/areia muito suave */
             --cor-primaria: #1E463C;    /* Verde institucional profundo */
             --cor-secundaria: #E3EDE9;  /* Verde claro para elementos de apoio */
-            --cor-destaque: #E28743;    /* Laranja suave para prioridades */
-            --texto-escuro: #2D3748;
+            --cor-destaque: #E28743;    /* Laranja terroso para prioridades */
+            --texto-principal: #2D3748; /* Cinza escuro corporativo */
+            --branco-puro: #FFFFFF;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         
         body {
             background-color: var(--cor-fundo);
-            color: var(--texto-escuro);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            padding-bottom: 40px;
+            color: var(--texto-principal);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            padding-bottom: 50px;
+            line-height: 1.5;
         }
 
-        /* HEADER */
+        /* HEADER INSTITUCIONAL */
         header {
             background-color: var(--cor-primaria);
             color: white;
-            padding: 16px;
+            padding: 18px 16px;
             position: sticky;
             top: 0;
-            z-index: 50;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
         }
-        .header-content {
-            max-w: 800px;
+        .header-container {
+            max-w: 750px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .header-title h1 { font-size: 20px; font-weight: bold; letter-spacing: 0.5px; }
-        .header-title p { font-size: 11px; color: #A7F3D0; }
-        #data-atual { font-size: 11px; background-color: #064E3B; padding: 4px 12px; rounded-radius: 9999px; border-radius: 12px; border: 1px solid #047857; font-weight: 500; }
+        .header-title h1 { font-size: 22px; font-weight: 800; tracking-content: wide; letter-spacing: 0.5px; }
+        .header-title p { font-size: 11px; color: #A7F3D0; font-weight: 500; margin-top: 1px; }
+        #data-atual { font-size: 11px; background-color: #064E3B; padding: 5px 14px; border-radius: 9999px; border: 1px solid #047857; font-weight: 600; text-transform: capitalize; }
 
-        main { max-width: 800px; margin: 16px auto; padding: 0 16px; display: flex; flex-direction: column; gap: 16px; }
+        main { max-width: 750px; margin: 16px auto; padding: 0 14px; display: flex; flex-direction: column; gap: 16px; }
 
-        /* SEÇÃO DE ABAS HORIZONTAIS COM SCROLL FLUIDO */
+        /* SCROLL HORIZONTAL DE ABAS (FILTRO DE MULTI-INSTITUIÇÕES) */
+        .secao-abas { position: relative; width: 100%; }
         .scroll-abas {
             display: flex;
             overflow-x: auto;
             gap: 8px;
-            padding-bottom: 8px;
+            padding: 4px 2px 10px 2px;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
-            -ms-overflow-style: none;
         }
         .scroll-abas::-webkit-scrollbar { display: none; }
         
         .aba-btn {
             flex-shrink: 0;
-            padding: 8px 16px;
+            padding: 10px 18px;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             border-radius: 9999px;
             border: 1px solid #E2E8F0;
-            background-color: white;
+            background-color: var(--branco-puro);
             color: #4A5568;
             cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
             white-space: nowrap;
         }
         .aba-ativa {
             background-color: var(--cor-primaria) !important;
             color: white !important;
             border-color: var(--cor-primaria) !important;
+            box-shadow: 0 4px 8px rgba(30, 70, 60, 0.2) !important;
         }
         .btn-criar-campo {
             background-color: #EDF2F7;
-            color: #718096;
+            color: #4A5568;
             border: 1px dashed #CBD5E0;
-            font-weight: bold;
         }
 
-        /* CARDS E PAINÉIS */
+        /* PAINÉIS E CENTRAL OPERACIONAL (CARDS) */
         .card-sigi {
-            background-color: white;
-            padding: 16px;
-            border-radius: 12px;
-            border: 1px solid #EDF2F7;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            background-color: var(--branco-puro);
+            padding: 18px;
+            border-radius: 16px;
+            border: 1px solid #E8EFEF;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
         .card-title {
-            font-size: 11px;
-            font-weight: bold;
+            font-size: 12px;
+            font-weight: 800;
             color: var(--cor-primaria);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
             display: flex;
             align-items: center;
             gap: 6px;
+            border-bottom: 1px solid #F0F4F4;
+            padding-bottom: 6px;
         }
+        p.sub-info { font-size: 11px; color: #718096; line-height: 1.4; }
 
-        /* TEXTAREA & INPUTS */
-        p.sub-info { font-size: 11px; color: #718096; margin-top: -4px; }
+        /* INPUTS, TEXTAREA E FORMULÁRIOS */
         textarea.sigi-input {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             font-size: 14px;
-            background-color: #F7FAFC;
+            background-color: #F8FAFC;
             border: 1px solid #E2E8F0;
-            border-radius: 8px;
+            border-radius: 10px;
             resize: vertical;
             outline: none;
             font-family: inherit;
+            color: var(--texto-principal);
+            line-height: 1.5;
         }
-        textarea.sigi-input:focus, .form-grid input:focus, .form-grid select:focus { border-color: var(--cor-primaria); background-color: white; }
+        textarea.sigi-input:focus, .form-grid input:focus, .form-grid select:focus {
+            border-color: var(--cor-primaria);
+            background-color: var(--branco-puro);
+            box-shadow: 0 0 0 3px rgba(30, 70, 60, 0.05);
+        }
         
         .btn-sigi-block {
             width: 100%;
             background-color: var(--cor-primaria);
             color: white;
             font-size: 14px;
-            font-weight: 500;
-            padding: 10px;
+            font-weight: 600;
+            padding: 12px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(30, 70, 60, 0.1);
             transition: background 0.2s;
         }
-        .btn-sigi-block:hover { background-color: #16332c; }
+        .btn-sigi-block:hover { background-color: #143029; }
 
-        /* FORMULÁRIO MANUAL */
-        .form-grid { display: grid; grid-template-cols: 1fr; gap: 10px; }
+        .form-grid { display: grid; grid-template-cols: 1fr; gap: 12px; }
         @media (min-width: 600px) { .form-grid { grid-template-cols: 1fr 1fr; } .span-2 { grid-column: span 2; } }
+        
         .form-grid input, .form-grid select {
-            padding: 10px;
+            padding: 12px;
             font-size: 14px;
-            background-color: #F7FAFC;
+            background-color: #F8FAFC;
             border: 1px solid #E2E8F0;
-            border-radius: 8px;
+            border-radius: 10px;
             outline: none;
             width: 100%;
+            color: var(--texto-principal);
         }
         .btn-sigi-secondary {
             background-color: var(--cor-secundaria);
             color: var(--cor-primaria);
-            font-weight: 600;
+            font-weight: 700;
+            box-shadow: none;
         }
-        .btn-sigi-secondary:hover { background-color: #d1ded9; }
+        .btn-sigi-secondary:hover { background-color: #CBDED6; }
 
-        /* PRIORIDADES */
+        /* MISSÃO DO DIA E PRIORIDADES */
         .item-prioridade {
-            background-color: #FFFAF0;
-            border: 1px solid #FEEBC8;
-            padding: 10px;
-            border-radius: 8px;
+            background-color: #FFF8F2;
+            border: 1px solid #FBD38D;
+            padding: 12px;
+            border-radius: 10px;
             font-size: 13px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 1px 2px rgba(226, 135, 67, 0.05);
         }
-        .tag-prioridade-inst { font-size: 10px; background-color: #FEEBC8; color: #C05621; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+        .item-prioridade strong { color: #C05621; }
+        .tag-prioridade-inst { font-size: 10px; background-color: #FEEBC8; color: #C05621; padding: 3px 8px; border-radius: 6px; font-weight: 800; text-transform: uppercase; }
 
-        /* CARDS DA AGENDA */
-        .agenda-header-flex { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding: 0 4px; }
+        /* CARDS DE COMPROMISSOS DA AGENDA */
+        .agenda-header-flex { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding: 0 4px; }
         .agenda-card {
-            background-color: white;
+            background-color: var(--branco-puro);
             padding: 16px;
-            border-radius: 12px;
+            border-radius: 16px;
             border: 1px solid #EDF2F7;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             gap: 16px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.01);
         }
-        .agenda-date-badge { font-size: 16px; font-weight: bold; color: var(--cor-primaria); white-space: nowrap; }
-        .agenda-desc { font-size: 14px; color: #1A202C; font-weight: 500; line-height: 1.4; }
-        .agenda-meta { font-size: 11px; color: #A0AEC0; margin-top: 4px; font-weight: 500; }
-        .btn-del { background: none; border: none; color: #CBD5E0; cursor: pointer; font-size: 14px; padding: 0 4px; }
+        .agenda-date-container { display: flex; align-items: center; gap: 8px; }
+        .agenda-date-badge { font-size: 16px; font-weight: 800; color: var(--cor-primaria); letter-spacing: -0.5px; }
+        .tag-alta-inline { font-size: 9px; background-color: #FFF5F5; color: #E53E3E; border: 1px solid #FED7D7; padding: 2px 6px; border-radius: 9999px; font-weight: 800; letter-spacing: 0.3px; }
+        .agenda-desc { font-size: 14px; color: #1A202C; font-weight: 500; line-height: 1.5; margin-top: 4px; }
+        .agenda-meta { font-size: 11px; color: #718096; margin-top: 6px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+        
+        .btn-del { background: none; border: none; color: #CBD5E0; cursor: pointer; font-size: 16px; padding: 2px 6px; transition: color 0.2s; }
         .btn-del:hover { color: #E53E3E; }
-        .tag-alta-inline { font-size: 9px; background-color: #FFFAF0; color: #DD6B20; border: 1px solid #FBD38D; padding: 1px 6px; border-radius: 9999px; font-weight: bold; margin-left: 6px; }
 
-        /* WHATSAPP */
-        .btn-whatsapp { background-color: #38A169; color: white; border: none; font-size: 13px; font-weight: 500; padding: 10px; border-radius: 8px; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; }
-        .btn-whatsapp:hover { background-color: #2F855A; }
+        /* INTEGRAÇÃO WHATSAPP */
+        .btn-whatsapp { background-color: #25D366; color: white; border: none; font-size: 13px; font-weight: 700; padding: 12px; border-radius: 10px; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(37, 211, 102, 0.15); transition: background 0.2s; }
+        .btn-whatsapp:hover { background-color: #20BA5A; }
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="header-content">
+        <div class="header-container">
             <div class="header-title">
                 <h1>SIGI</h1>
                 <p>Sistema Integrado de Gestão Institucional</p>
@@ -215,56 +232,60 @@
     </header>
 
     <main>
-        <!-- ABAS DE NAVEGAÇÃO -->
-        <section class="scroll-abas" id="container-abas"></section>
+        <!-- ABAS DE NAVEGAÇÃO MULTI-INSTITUCIONAL -->
+        <section class="secao-abas">
+            <div class="scroll-abas" id="container-abas"></div>
+        </section>
 
-        <!-- MISSÃO DO DIA -->
+        <!-- MISSÃO DO DIA / PRIORIDADES DIÁRIAS -->
         <section class="card-sigi">
             <div class="card-title"><span>📌</span> Prioridades e Missão do Dia</div>
             <div id="painel-prioridades" style="display: flex; flex-direction: column; gap: 8px;"></div>
         </section>
 
-        <!-- MOTOR DE RELATORIAS -->
+        <!-- MOTOR DE RELATORIAS (SECRETARIADO INTELIGENTE) -->
         <section class="card-sigi">
-            <div class="card-title"><span>⚡</span> Motor de Relatorias (Processamento)</div>
-            <p class="sub-info">Cole a relatoria institucional. O sistema extrairá datas e alocará na aba correspondente.</p>
-            <textarea id="texto-relatoria" rows="3" class="sigi-input" placeholder="Ex: Na reunião do Instituto Coopera em 15/06 ficou pautada a oficina..."></textarea>
-            <button onclick="processarRelatoria()" class="btn-sigi-block">Processar Texto</button>
+            <div class="card-title"><span>⚡</span> Motor de Relatorias (Processamento Automático)</div>
+            <p class="sub-info">Cole atas, relatórios ou textos brutos organizacionais. O motor fará a varredura semântica, extrairá os prazos e distribuirá os compromissos no campo correto.</p>
+            <textarea id="texto-relatoria" rows="4" class="sigi-input" placeholder="Ex: Na reunião do Instituto Coopera pautada em 15/06 ficou acordado que Augusto entregará os relatórios até 26/06..."></textarea>
+            <button onclick="processarRelatoria()" class="btn-sigi-block">Processar e Alocar Dados</button>
         </section>
 
-        <!-- ENTRADA MANUAL -->
+        <!-- ENTRADA MANUAL COMPLEMENTAR -->
         <section class="card-sigi">
-            <div class="card-title"><span>➕</span> Inserção Manual</div>
+            <div class="card-title"><span>➕</span> Inserção Manual de Compromisso</div>
             <form id="form-manual" onsubmit="adicionarManual(event)" class="form-grid">
                 <input type="date" id="manual-data" required>
                 <select id="manual-institicao" required></select>
-                <input type="text" id="manual-descricao" placeholder="Descrição do evento" required class="span-2">
-                <input type="text" id="manual-responsavel" placeholder="Responsável (Ex: Augusto)">
+                <input type="text" id="manual-descricao" placeholder="Descrição do compromisso ou tarefa" required class="span-2">
+                <input type="text" id="manual-responsavel" placeholder="Responsável interno (Ex: Augusto)">
                 <select id="manual-prioridade">
                     <option value="Normal">Prioridade: Normal</option>
                     <option value="Alta">Prioridade: Alta ⭐</option>
                 </select>
-                <button type="submit" class="btn-sigi-block btn-sigi-secondary span-2">Salvar Registro</button>
+                <button type="submit" class="btn-sigi-block btn-sigi-secondary span-2">Salvar Registro na Agenda</button>
             </form>
         </section>
 
-        <!-- COMUNICAÇÃO WHATSAPP -->
+        <!-- COMUNICAÇÃO EXPEDIDA (WHATSAPP) -->
         <section id="secao-comunicacao" class="card-sigi hidden">
-            <div class="card-title"><span>📢</span> Despacho Semanal</div>
-            <button onclick="gerarRelatorioWhatsApp()" class="btn-whatsapp"><span>💬</span> Copiar Texto para o WhatsApp</button>
+            <div class="card-title"><span>📢</span> Despacho de Comunicação Semanal</div>
+            <p class="sub-info">Identificamos que hoje é segunda-feira. Clique abaixo para gerar a redação compilada da instituição e enviá-la formatada para o grupo.</p>
+            <button onclick="gerarRelatorioWhatsApp()" class="btn-whatsapp"><span>💬</span> Copiar Texto Formatado para WhatsApp</button>
         </section>
 
-        <!-- LISTAGEM DA AGENDA -->
+        <!-- PAINEL DA AGENDA CADASTRADA -->
         <section style="display: flex; flex-direction: column; gap: 8px;">
             <div class="agenda-header-flex">
                 <h2 class="card-title" id="titulo-agenda-campo">Compromissos</h2>
-                <button onclick="limparAgendaCampo()" style="background:none; border:none; color:#E53E3E; font-size:11px; cursor:pointer; font-weight:500;">Limpar Campo</button>
+                <button onclick="limparAgendaCampo()" style="background:none; border:none; color:#E53E3E; font-size:11px; cursor:pointer; font-weight:700; text-transform:uppercase; letter-spacing:0.3px;">Limpar Campo</button>
             </div>
             <div id="lista-agenda" style="display: flex; flex-direction: column; gap: 10px;"></div>
         </section>
     </main>
 
     <script>
+        // Mapeamento institucional completo extraído do PRD do SIGI
         const instituicoesOficiais = [
             "Instituto Coopera", "Projeto Mutirão Coordenação executiva", 
             "Projeto Mutirão Ecocol", "Grupo Estudos Coopera", "Paul Singer", 
@@ -276,11 +297,17 @@
         let baseDeDadosAgendas = JSON.parse(localStorage.getItem('sigi_agendas')) || [];
 
         window.onload = function() {
+            // Inicializa a data atual no header
             document.getElementById('data-atual').innerText = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'short' });
             renderizarAbas();
             atualizarSelectInstituicoes();
             renderizarAgenda();
             verificarSegundaFeira();
+            
+            // Registro automático do Service Worker para estabilização do PWA no celular
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('service-worker.js').catch(err => console.log("SW Registro Omitido", err));
+            }
         };
 
         function renderizarAbas() {
@@ -293,6 +320,8 @@
                 btn.onclick = () => { abaSelecionada = inst; renderizarAbas(); renderizarAgenda(); };
                 container.appendChild(btn);
             });
+            
+            // Botão Dinâmico de criação de novos campos conforme o PRD
             const btnCriar = document.createElement('button');
             btnCriar.className = "aba-btn btn-criar-campo";
             btnCriar.innerText = "➕ Criar Campo";
@@ -314,9 +343,10 @@
             });
         }
 
+        // MOTOR DE RELATORIAS (Mecânica inteligente purificada e estável)
         function processarRelatoria() {
             const texto = document.getElementById('texto-relatoria').value;
-            if(!texto.trim()) return alert("Insira o texto da relatoria.");
+            if(!texto.trim()) return alert("Insira o texto de uma relatoria.");
 
             let instIdentificada = abaSelecionada;
             for (let inst of instituicoesOficiais) {
@@ -335,8 +365,10 @@
             }
 
             baseDeDadosAgendas.push({
-                id: Date.now(), instituicao: instIdentificada, data: dataEvento,
-                descricao: texto.length > 130 ? texto.substring(0, 127) + "..." : texto,
+                id: Date.now(), 
+                instituicao: instIdentificada, 
+                data: dataEvento,
+                descricao: texto.length > 140 ? texto.substring(0, 137) + "..." : texto,
                 responsavel: "Extraído via Relatoria",
                 prioridade: texto.toLowerCase().includes("urgente") || texto.toLowerCase().includes("prioridade") ? "Alta" : "Normal"
             });
@@ -345,7 +377,7 @@
             document.getElementById('texto-relatoria').value = '';
             abaSelecionada = instIdentificada;
             renderizarAbas(); renderizarAgenda();
-            alert(`Sucesso! Vinculado ao campo: ${instIdentificada}`);
+            alert(`Processamento concluído! Vinculado ao campo: ${instIdentificada}`);
         }
 
         function adicionarManual(e) {
@@ -375,8 +407,8 @@
             let contAlta = 0;
 
             if(filtrados.length === 0) {
-                lista.innerHTML = `<p style="font-size:12px; color:#A0AEC0; text-align:center; padding:20px; background:white; border-radius:12px; border:1px dashed #E2E8F0;">Nenhum registro para esta instituição.</p>`;
-                painel.innerHTML = `<p style="font-size:12px; color:#A0AEC0; italic">Livre de prioridades críticas hoje.</p>`;
+                lista.innerHTML = `<p style="font-size:12px; color:#A0AEC0; text-align:center; padding:24px; background:white; border-radius:14px; border:1px dashed #E2E8F0; font-weight:500;">Nenhum compromisso agendado para esta instituição.</p>`;
+                painel.innerHTML = `<p style="font-size:12px; color:#A0AEC0; font-style:italic;">Livre de prioridades críticas para este campo hoje.</p>`;
                 return;
             }
 
@@ -385,10 +417,10 @@
                 const div = document.createElement('div');
                 div.className = 'agenda-card';
                 div.innerHTML = `
-                    <div style="display:flex; flex-direction:column; gap:4px;">
-                        <div style="display:flex; items-center: center;">
+                    <div style="display:flex; flex-direction:column; gap:2px; flex:1;">
+                        <div class="agenda-date-container">
                             <span class="agenda-date-badge">${dt}</span>
-                            ${item.prioridade === 'Alta' ? '<span class="tag-alta-inline">ALTA</span>' : ''}
+                            ${item.prioridade === 'Alta' ? '<span class="tag-alta-inline">ALTA PRIORIDADE</span>' : ''}
                         </div>
                         <p class="agenda-desc">${item.descricao}</p>
                         <p class="agenda-meta">👤 Resp: ${item.responsavel}</p>
@@ -406,7 +438,7 @@
                 }
             });
 
-            if(contAlta === 0) painel.innerHTML = `<p style="font-size:12px; color:#A0AEC0;">Livre de prioridades críticas hoje.</p>`;
+            if(contAlta === 0) painel.innerHTML = `<p style="font-size:12px; color:#A0AEC0; font-style:italic;">Livre de prioridades críticas para este campo hoje.</p>`;
         }
 
         function verificarSegundaFeira() {
@@ -415,14 +447,14 @@
 
         function gerarRelatorioWhatsApp() {
             const itens = baseDeDadosAgendas.filter(i => i.instituicao === abaSelecionada);
-            if(itens.length === 0) return alert("Sem registros para compilar.");
+            if(itens.length === 0) return alert("Sem registros para compilar nesta instituição.");
             let txt = `*CRONOGRAMA INSTITUCIONAL - ${abaSelecionada.toUpperCase()}*\nPrezados, seguem as atividades coordenadas para esta semana:\n\n`;
             itens.forEach(i => {
                 const d = new Date(i.data + 'T00:00:00').toLocaleDateString('pt-BR', {day: '2-digit', month: '2-digit'});
                 txt += `📅 *${d}* - ${i.descricao} (_Resp: ${i.responsavel}_)\n`;
             });
             txt += `\n_Emitido via SIGI - Central de Memória Viva_`;
-            navigator.clipboard.writeText(txt).then(() => alert("Texto copiado para a área de transferência! Só colar no WhatsApp."));
+            navigator.clipboard.writeText(txt).then(() => alert("Redação executiva copiada! Só abrir o grupo do WhatsApp e colar."));
         }
 
         function removerItem(id) {
@@ -432,7 +464,7 @@
         }
 
         function limparAgendaCampo() {
-            if(confirm(`Limpar todos os dados da aba ${abaSelecionada}?`)) {
+            if(confirm(`Deseja expurgar todos os dados da aba ${abaSelecionada}?`)) {
                 baseDeDadosAgendas = baseDeDadosAgendas.filter(i => i.instituicao !== abaSelecionada);
                 localStorage.setItem('sigi_agendas', JSON.stringify(baseDeDadosAgendas));
                 renderizarAgenda();
