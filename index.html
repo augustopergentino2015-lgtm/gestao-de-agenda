@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1A2B4A" />
+  <meta name="description" content="Gestão de Agenda — controle privado de compromissos e instituições" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Gestão de Agenda" />
+
+  <title>Gestão de Agenda</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Apple Icons -->
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+
+  <!-- Google Fonts: Inter + Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ===================== SPLASH / LOADING ===================== -->
+  <div id="splash" class="splash">
+    <div class="splash-inner">
+      <div class="splash-logo">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="48" height="48" rx="14" fill="#2563EB"/>
+          <rect x="10" y="14" width="28" height="24" rx="3" stroke="white" stroke-width="2.2" fill="none"/>
+          <line x1="10" y1="20" x2="38" y2="20" stroke="white" stroke-width="2.2"/>
+          <line x1="17" y1="10" x2="17" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+          <line x1="31" y1="10" x2="31" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+          <rect x="15" y="24" width="5" height="4" rx="1" fill="white"/>
+          <rect x="22" y="24" width="5" height="4" rx="1" fill="#93C5FD"/>
+          <rect x="29" y="24" width="5" height="4" rx="1" fill="white"/>
+          <rect x="15" y="30" width="5" height="4" rx="1" fill="#93C5FD"/>
+          <rect x="22" y="30" width="5" height="4" rx="1" fill="white"/>
+        </svg>
+      </div>
+      <p class="splash-title">Gestão de Agenda</p>
+      <div class="splash-spinner"></div>
+    </div>
+  </div>
+
+  <!-- ===================== AUTH SCREEN ===================== -->
+  <div id="screen-auth" class="screen hidden">
+    <div class="auth-container">
+      <div class="auth-brand">
+        <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
+          <rect width="48" height="48" rx="14" fill="#2563EB"/>
+          <rect x="10" y="14" width="28" height="24" rx="3" stroke="white" stroke-width="2.2" fill="none"/>
+          <line x1="10" y1="20" x2="38" y2="20" stroke="white" stroke-width="2.2"/>
+          <line x1="17" y1="10" x2="17" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+          <line x1="31" y1="10" x2="31" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+          <rect x="15" y="24" width="5" height="4" rx="1" fill="white"/>
+          <rect x="22" y="24" width="5" height="4" rx="1" fill="#93C5FD"/>
+          <rect x="29" y="24" width="5" height="4" rx="1" fill="white"/>
+          <rect x="15" y="30" width="5" height="4" rx="1" fill="#93C5FD"/>
+          <rect x="22" y="30" width="5" height="4" rx="1" fill="white"/>
+        </svg>
+        <h1>Gestão de Agenda</h1>
+        <p>Sua agenda. Seus dados. Sua privacidade.</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login">Entrar</button>
+        <button class="auth-tab" data-tab="register">Criar conta</button>
+      </div>
+
+      <!-- Login -->
+      <div id="auth-login" class="auth-form">
+        <div class="field-group">
+          <label>E-mail ou Telefone</label>
+          <input type="text" id="login-identifier" placeholder="seuemail@exemplo.com" autocomplete="username" />
+        </div>
+        <div class="field-group">
+          <label>Senha</label>
+          <div class="input-eye">
+            <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" />
+            <button type="button" class="eye-btn" data-target="login-password">👁</button>
+          </div>
+        </div>
+        <button id="btn-login" class="btn-primary">Entrar</button>
+        <p id="login-error" class="form-error hidden"></p>
+      </div>
+
+      <!-- Register -->
+      <div id="auth-register" class="auth-form hidden">
+        <div class="field-group">
+          <label>E-mail</label>
+          <input type="email" id="reg-email" placeholder="seuemail@exemplo.com" autocomplete="email" />
+        </div>
+        <div class="field-group">
+          <label>Telefone (opcional)</label>
+          <input type="tel" id="reg-phone" placeholder="(00) 00000-0000" />
+        </div>
+        <div class="field-group">
+          <label>Senha</label>
+          <div class="input-eye">
+            <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" autocomplete="new-password" />
+            <button type="button" class="eye-btn" data-target="reg-password">👁</button>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Confirmar Senha</label>
+          <div class="input-eye">
+            <input type="password" id="reg-confirm" placeholder="Repita a senha" autocomplete="new-password" />
+            <button type="button" class="eye-btn" data-target="reg-confirm">👁</button>
+          </div>
+        </div>
+        <button id="btn-register" class="btn-primary">Criar conta</button>
+        <p id="register-error" class="form-error hidden"></p>
+      </div>
+
+      <p class="auth-note">🔒 Seus dados são isolados por conta e nunca compartilhados.</p>
+    </div>
+  </div>
+
+  <!-- ===================== PERFIL OBRIGATÓRIO ===================== -->
+  <div id="screen-profile-setup" class="screen hidden">
+    <div class="setup-header">
+      <h2>Complete seu Perfil</h2>
+      <p>Necessário para usar o app</p>
+    </div>
+    <div class="setup-body">
+      <div class="field-group">
+        <label>Nome Completo <span class="req">*</span></label>
+        <input type="text" id="p-name" placeholder="Seu nome completo" />
+      </div>
+      <div class="field-grid-2">
+        <div class="field-group">
+          <label>CPF / CNPJ <span class="req">*</span></label>
+          <input type="text" id="p-cpf" placeholder="000.000.000-00" maxlength="18" />
+        </div>
+        <div class="field-group">
+          <label>Telefone <span class="req">*</span></label>
+          <input type="tel" id="p-tel" placeholder="(00) 00000-0000" />
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Cargo / Função</label>
+        <input type="text" id="p-role" placeholder="Ex: Vereador, Assessor, Diretor..." />
+      </div>
+      <div class="section-label">Endereço</div>
+      <div class="field-grid-2">
+        <div class="field-group" style="grid-column: span 2;">
+          <label>Rua / Logradouro</label>
+          <input type="text" id="p-street" placeholder="Rua, Avenida..." />
+        </div>
+        <div class="field-group">
+          <label>Número</label>
+          <input type="text" id="p-number" placeholder="Nº" />
+        </div>
+        <div class="field-group">
+          <label>Bairro</label>
+          <input type="text" id="p-neighborhood" placeholder="Bairro" />
+        </div>
+        <div class="field-group">
+          <label>Cidade</label>
+          <input type="text" id="p-city" placeholder="Cidade" />
+        </div>
+        <div class="field-group">
+          <label>Estado</label>
+          <select id="p-state">
+            <option value="">UF</option>
+            <option>AC</option><option>AL</option><option>AM</option><option>AP</option>
+            <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+            <option>GO</option><option>MA</option><option>MG</option><option>MS</option>
+            <option>MT</option><option>PA</option><option>PB</option><option>PE</option>
+            <option>PI</option><option>PR</option><option>RJ</option><option>RN</option>
+            <option>RO</option><option>RR</option><option>RS</option><option>SC</option>
+            <option>SE</option><option>SP</option><option>TO</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>CEP</label>
+          <input type="text" id="p-cep" placeholder="00000-000" maxlength="9" />
+        </div>
+      </div>
+      <button id="btn-save-profile" class="btn-primary">Salvar e Continuar →</button>
+      <p id="profile-error" class="form-error hidden"></p>
+    </div>
+  </div>
+
+  <!-- ===================== APP PRINCIPAL ===================== -->
+  <div id="screen-app" class="screen hidden">
+
+    <!-- TOP HEADER -->
+    <header class="app-header">
+      <div class="header-left">
+        <div class="header-avatar" id="header-avatar">?</div>
+        <div>
+          <div class="header-greeting" id="header-greeting">Olá!</div>
+          <div class="header-role" id="header-role"></div>
+        </div>
+      </div>
+      <div class="header-right">
+        <button class="icon-btn" id="btn-sync" title="Sincronizar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+          </svg>
+        </button>
+        <button class="icon-btn" id="btn-logout" title="Sair">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- CRITICAL REMINDERS PANEL (D-1) -->
+    <div id="panel-d1" class="panel-d1">
+      <div class="d1-header">
+        <span class="d1-badge">⚡ Amanhã</span>
+        <span class="d1-date" id="d1-date"></span>
+      </div>
+      <div id="d1-list" class="d1-list">
+        <p class="d1-empty">Nenhum compromisso para amanhã.</p>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT (tab panels) -->
+    <main class="app-main">
+
+      <!-- ---- TAB: AGENDA ---- -->
+      <section id="tab-agenda" class="tab-panel active">
+        <div class="agenda-toolbar">
+          <div class="agenda-date-nav">
+            <button class="nav-btn" id="btn-prev-day">‹</button>
+            <div>
+              <div class="agenda-day-label" id="agenda-day-label">Hoje</div>
+              <div class="agenda-full-date" id="agenda-full-date"></div>
+            </div>
+            <button class="nav-btn" id="btn-next-day">›</button>
+          </div>
+          <button class="btn-add-event" id="btn-add-event">+ Evento</button>
+        </div>
+
+        <!-- Institution Filter -->
+        <div class="inst-filter-row" id="inst-filter-row">
+          <button class="inst-chip active" data-inst="all">Todos</button>
+        </div>
+
+        <!-- Events List -->
+        <div id="events-list" class="events-list">
+          <div class="events-empty">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#CBD5E1" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <p>Sem eventos neste dia.</p>
+            <button class="btn-link" id="btn-add-first">Adicionar evento</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---- TAB: RELATORIA ---- -->
+      <section id="tab-relatoria" class="tab-panel hidden">
+        <div class="tab-inner">
+          <h3 class="section-title">Lançamento Inteligente</h3>
+          <p class="section-sub">Cole ou digita o texto. O sistema extrai datas e vincula suas instituições automaticamente.</p>
+          <textarea id="relatoria-input" class="relatoria-textarea"
+            placeholder="Ex: Reunião com a CÂMARA MUNICIPAL no dia 15/07/2025 às 14h para discutir o orçamento. Sessão plenária na ASSEMBLEIA em 18/07/2025..."></textarea>
+          <button id="btn-process-relatoria" class="btn-primary">⚡ Processar e Lançar</button>
+
+          <!-- Preview -->
+          <div id="relatoria-preview" class="relatoria-preview hidden">
+            <h4>Eventos Identificados</h4>
+            <div id="relatoria-results"></div>
+            <button id="btn-confirm-relatoria" class="btn-primary">✔ Confirmar Todos</button>
+            <button id="btn-cancel-relatoria" class="btn-secondary">Cancelar</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---- TAB: INSTITUIÇÕES ---- -->
+      <section id="tab-institutions" class="tab-panel hidden">
+        <div class="tab-inner">
+          <div class="section-header-row">
+            <h3 class="section-title">Minhas Instituições</h3>
+            <button id="btn-new-inst" class="btn-icon-text">+ Nova</button>
+          </div>
+          <div id="inst-list" class="inst-list">
+            <p class="empty-state">Nenhuma instituição cadastrada.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---- TAB: PERFIL ---- -->
+      <section id="tab-profile" class="tab-panel hidden">
+        <div class="tab-inner">
+          <h3 class="section-title">Meu Perfil</h3>
+          <div class="field-group">
+            <label>Nome Completo</label>
+            <input type="text" id="prof-name" />
+          </div>
+          <div class="field-grid-2">
+            <div class="field-group">
+              <label>CPF / CNPJ</label>
+              <input type="text" id="prof-cpf" />
+            </div>
+            <div class="field-group">
+              <label>Telefone</label>
+              <input type="tel" id="prof-tel" />
+            </div>
+          </div>
+          <div class="field-group">
+            <label>Cargo / Função</label>
+            <input type="text" id="prof-role" />
+          </div>
+          <div class="section-label">Endereço</div>
+          <div class="field-group">
+            <label>Rua / Logradouro</label>
+            <input type="text" id="prof-street" />
+          </div>
+          <div class="field-grid-2">
+            <div class="field-group">
+              <label>Número</label>
+              <input type="text" id="prof-number" />
+            </div>
+            <div class="field-group">
+              <label>Bairro</label>
+              <input type="text" id="prof-neighborhood" />
+            </div>
+            <div class="field-group">
+              <label>Cidade</label>
+              <input type="text" id="prof-city" />
+            </div>
+            <div class="field-group">
+              <label>Estado</label>
+              <select id="prof-state">
+                <option value="">UF</option>
+                <option>AC</option><option>AL</option><option>AM</option><option>AP</option>
+                <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+                <option>GO</option><option>MA</option><option>MG</option><option>MS</option>
+                <option>MT</option><option>PA</option><option>PB</option><option>PE</option>
+                <option>PI</option><option>PR</option><option>RJ</option><option>RN</option>
+                <option>RO</option><option>RR</option><option>RS</option><option>SC</option>
+                <option>SE</option><option>SP</option><option>TO</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label>CEP</label>
+              <input type="text" id="prof-cep" maxlength="9" />
+            </div>
+          </div>
+          <button id="btn-update-profile" class="btn-primary">Salvar Perfil</button>
+          <p id="profile-update-msg" class="form-success hidden"></p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-tab="agenda">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Agenda</span>
+      </button>
+      <button class="nav-item" data-tab="relatoria">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <span>Relatoria</span>
+      </button>
+      <button class="nav-item" data-tab="institutions">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Institui...</span>
+      </button>
+      <button class="nav-item" data-tab="profile">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Perfil</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ===================== MODALS ===================== -->
+
+  <!-- Modal: Add/Edit Event -->
+  <div id="modal-event" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modal-event-title">Novo Evento</h3>
+        <button class="modal-close" data-close="modal-event">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="field-group">
+          <label>Título <span class="req">*</span></label>
+          <input type="text" id="ev-title" placeholder="Título do evento" />
+        </div>
+        <div class="field-grid-2">
+          <div class="field-group">
+            <label>Data <span class="req">*</span></label>
+            <input type="date" id="ev-date" />
+          </div>
+          <div class="field-group">
+            <label>Hora</label>
+            <input type="time" id="ev-time" />
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Instituição</label>
+          <select id="ev-institution">
+            <option value="">— Sem vínculo —</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Local</label>
+          <input type="text" id="ev-location" placeholder="Local do evento" />
+        </div>
+        <div class="field-group">
+          <label>Observações</label>
+          <textarea id="ev-notes" rows="3" placeholder="Detalhes adicionais..."></textarea>
+        </div>
+        <div class="field-group">
+          <label>Prioridade</label>
+          <select id="ev-priority">
+            <option value="normal">Normal</option>
+            <option value="high">Alta</option>
+            <option value="critical">Crítica</option>
+          </select>
+        </div>
+        <input type="hidden" id="ev-id" />
+      </div>
+      <div class="modal-footer">
+        <button id="btn-delete-event" class="btn-danger hidden">Excluir</button>
+        <button id="btn-save-event" class="btn-primary">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Add/Edit Institution -->
+  <div id="modal-inst" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modal-inst-title">Nova Instituição</h3>
+        <button class="modal-close" data-close="modal-inst">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="field-group">
+          <label>Nome da Instituição <span class="req">*</span></label>
+          <input type="text" id="inst-name" placeholder="Nome completo" />
+        </div>
+        <div class="field-grid-2">
+          <div class="field-group">
+            <label>Sigla</label>
+            <input type="text" id="inst-abbr" placeholder="Ex: CML" maxlength="10" />
+          </div>
+          <div class="field-group">
+            <label>CNPJ</label>
+            <input type="text" id="inst-cnpj" placeholder="00.000.000/0001-00" maxlength="18" />
+          </div>
+          <div class="field-group">
+            <label>Telefone</label>
+            <input type="tel" id="inst-phone" placeholder="(00) 0000-0000" />
+          </div>
+          <div class="field-group">
+            <label>Cor de Identificação</label>
+            <input type="color" id="inst-color" value="#2563EB" class="color-picker" />
+          </div>
+        </div>
+        <input type="hidden" id="inst-id" />
+      </div>
+      <div class="modal-footer">
+        <button id="btn-delete-inst" class="btn-danger hidden">Excluir</button>
+        <button id="btn-save-inst" class="btn-primary">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
+
+  <!-- Firebase SDK (v9 compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <!-- App Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/profile.js"></script>
+  <script src="js/institutions.js"></script>
+  <script src="js/events.js"></script>
+  <script src="js/relatoria.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

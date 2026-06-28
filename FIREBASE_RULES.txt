@@ -1,0 +1,62 @@
+// ============================================================
+// REGRAS DE SEGURANÇA DO FIRESTORE
+// Arquivo: FIREBASE_RULES.txt
+//
+// COMO APLICAR:
+//   1. Acesse https://console.firebase.google.com
+//   2. Selecione seu projeto → Firestore Database
+//   3. Clique na aba "Regras"
+//   4. Cole TODO o conteúdo abaixo (entre as linhas ===)
+//   5. Clique em "Publicar"
+//
+// GARANTIA: Cada usuário lê e escreve APENAS dentro de
+//           users/{seu_próprio_userId}/...
+// ============================================================
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─── Bloqueia tudo por padrão ───────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // ─── Cada usuário acessa APENAS seus próprios dados ─────
+    match /users/{userId}/{document=**} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == userId;
+    }
+
+    // ─── Validações adicionais por coleção ──────────────────
+
+    // Perfil
+    match /users/{userId}/profile/{docId} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == userId
+                         && docId == "data";
+    }
+
+    // Instituições
+    match /users/{userId}/institutions/{instId} {
+      allow read:   if request.auth.uid == userId;
+      allow create: if request.auth.uid == userId
+                    && request.resource.data.name is string
+                    && request.resource.data.name.size() > 0
+                    && request.resource.data.name.size() <= 200;
+      allow update: if request.auth.uid == userId;
+      allow delete: if request.auth.uid == userId;
+    }
+
+    // Eventos
+    match /users/{userId}/events/{eventId} {
+      allow read:   if request.auth.uid == userId;
+      allow create: if request.auth.uid == userId
+                    && request.resource.data.title is string
+                    && request.resource.data.title.size() > 0
+                    && request.resource.data.date is string;
+      allow update: if request.auth.uid == userId;
+      allow delete: if request.auth.uid == userId;
+    }
+  }
+}
