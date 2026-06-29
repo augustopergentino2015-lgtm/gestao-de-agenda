@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sistema SIGMA - Gestão Modular Assistida</title>
     
-    <!-- Configurações PWA e Metatags de Aplicativo Executivo -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="SIGMA">
     <meta name="theme-color" content="#1E463C">
     
-    <!-- AJUSTE MÁXIMO DO ÍCONE: SIGMA EXPANDIDO E EM ALTA VISIBILIDADE -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%231E463C'/><text x='50%' y='40%' font-family='sans-serif' font-weight='900' font-size='160' fill='%23E28743' text-anchor='middle' dominant-baseline='central'>⚡</text><text x='50%' y='76%' font-family='sans-serif' font-weight='900' font-size='95' fill='%23FFFFFF' text-anchor='middle' letter-spacing='2'>SIGMA</text></svg>">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%231E463C'/><text x='50%' y='40%' font-family='sans-serif' font-weight='900' font-size='160' fill='%23E28743' text-anchor='middle' dominant-baseline='central'>⚡</text><text x='50%' y='76%' font-family='sans-serif' font-weight='900' font-size='95' fill='%23FFFFFF' text-anchor='middle' letter-spacing='2'>SIGMA</text></svg>">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     
     <style>
         :root {
@@ -23,8 +23,8 @@
             --cor-primaria: #1E463C;
             --cor-secundaria: #E3EDE9;
             --cor-destaque: #E28743;
-            --texto-principal: #2D3748; /* Cor escura para máxima nitidez */
-            --texto-mutado: #718096;
+            --texto-principal: #1A202C; /* Ajustado para máxima nitidez */
+            --texto-mutado: #4A5568;    /* Escurecido para legibilidade mobile */
             --branco-puro: #FFFFFF;
             --borda: #E2E8F0;
         }
@@ -55,13 +55,12 @@
             gap: 10px;
         }
         
-        /* CABEÇALHO COM DESTAQUE MAXIMIZADO PARA A MARCA */
         .link-institucional-sigma {
             background-color: #14352B;
             color: var(--branco-puro);
             padding: 8px 18px;
             border-radius: 10px;
-            font-size: 20px; /* Aumentado para marcar presença */
+            font-size: 20px;
             font-weight: 900;
             letter-spacing: 1.5px;
             text-decoration: none;
@@ -72,7 +71,7 @@
             border: 1px solid rgba(255,255,255,0.15);
         }
         
-        .header-title-sub p { font-size: 10px; color: #A7F3D0; text-transform: uppercase; font-weight: 600; margin-top: 2px; letter-spacing: 0.3px; }
+        .header-title-sub p { font-size: 10px; color: #A7F3D0; text-transform: uppercase; font-weight: 600; margin-top: 2px; }
         #data-atual { font-size: 11px; background-color: var(--cor-destaque); color: white; padding: 6px 12px; border-radius: 12px; font-weight: 600; white-space: nowrap; }
 
         main { max-width: 600px; margin: 0 auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
@@ -91,7 +90,7 @@
             border-radius: 10px;
             padding: 8px 12px;
             font-size: 12px;
-            font-weight: 600; /* Tipografia mais nítida conforme solicitado */
+            font-weight: 700; /* Tipografia mais nítida conforme solicitado */
             color: #C05621;
             display: flex;
             justify-content: space-between;
@@ -148,27 +147,27 @@
 
         .motor-box-operacional { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; width: 100%; }
         .linha-lupa-input { display: flex; gap: 8px; align-items: center; }
-        .btn-lupa { background-color: var(--cor-primaria); color: white; border: none; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-        textarea.sigi-input { width: 100%; padding: 12px; font-size: 13px; border: 1px solid var(--borda); border-radius: 12px; outline: none; font-family: inherit; resize: none; color: var(--texto-principal); }
+        .btn-lupa { background-color: var(--cor-primaria); color: white; border: none; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; cursor: pointer; }
+        textarea.sigi-input { width: 100%; padding: 12px; font-size: 13px; border: 1px solid var(--borda); border-radius: 12px; outline: none; font-family: inherit; resize: none; color: var(--texto-principal); font-weight: 600; }
         .btn-submit-agenda { background-color: var(--cor-primaria); color: white; width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; margin-top: 12px; cursor: pointer; }
 
         .container-previa-temporaria { background-color: #F7FAFC; border: 1px dashed #CBD5E0; border-radius: 12px; padding: 12px; margin-top: 10px; }
-        .item-previa-linha { background-color: white; border: 1px solid #E2E8F0; padding: 8px 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 12px; }
+        .item-previa-linha { background-color: white; border: 1px solid #E2E8F0; padding: 8px 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 12px; font-weight: 600; }
 
         .agenda-meta-header { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; margin-bottom: 8px; }
         .search-container { position: relative; width: 100%; margin-bottom: 12px; }
-        .search-container input { width: 100%; padding: 10px 12px 10px 36px; border-radius: 10px; border: 1px solid var(--borda); font-size: 13px; outline: none; }
+        .search-container input { width: 100%; padding: 10px 12px 10px 36px; border-radius: 10px; border: 1px solid var(--borda); font-size: 13px; outline: none; color: var(--texto-principal); font-weight: 600; }
         .search-container span { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--texto-mutado); font-size: 14px; }
 
         .bloco-data-grupo { margin-bottom: 12px; }
         .badge-data-separador { font-size: 11px; font-weight: 700; background-color: #E2E8F0; padding: 2px 8px; border-radius: 6px; color: #4A5568; display: inline-block; margin-bottom: 6px; }
         
         .agenda-card-item { background-color: var(--branco-puro); border-left: 4px solid var(--cor-destaque); padding: 12px; border-radius: 8px; border: 1px solid var(--borda); border-left-width: 4px; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; cursor: pointer; }
-        .item-info-flex { display: flex; flex-direction: column; gap: 4px; }
-        .item-titulo { font-size: 14px; font-weight: 700; color: #1A202C; }
-        .item-tags-row { display: flex; gap: 6px; align-items: center; font-size: 11px; margin-top: 2px; }
+        .item-info-flex { display: flex; flex-direction: column; gap: 4px; width: 100%; min-width: 0; }
+        .item-titulo { font-size: 14px; font-weight: 700; color: #1A202C; word-wrap: break-word; }
+        .item-tags-row { display: flex; gap: 6px; align-items: center; font-size: 11px; margin-top: 2px; font-weight: 600; color: var(--texto-mutado); }
         .tag-inst { background-color: #FEEBC8; color: #C05621; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
-        .btn-lixeira { background: none; border: none; color: #E53E3E; font-size: 16px; cursor: pointer; padding: 4px; }
+        .btn-lixeira { background: none; border: none; color: #E53E3E; font-size: 16px; cursor: pointer; padding: 4px; flex-shrink: 0; }
 
         /* MODAL DE VISUALIZAÇÃO DETALHADA */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); padding: 20px; }
@@ -178,7 +177,7 @@
         .modal-detail-line { display: flex; flex-direction: column; gap: 2px; }
         .modal-label { font-size: 10px; font-weight: 700; color: var(--texto-mutado); text-transform: uppercase; }
 
-        footer { text-align: center; padding: 20px; margin-top: 30px; font-size: 12px; color: var(--texto-mutado); border-top: 1px solid var(--borda); }
+        footer { text-align: center; padding: 20px; margin-top: 30px; font-size: 12px; color: var(--texto-mutado); border-top: 1px solid var(--borda); font-weight: 600; }
         .colapsado { display: none !important; }
     </style>
 </head>
@@ -197,7 +196,6 @@
     </header>
 
     <main>
-        <!-- IDENTIFICADOR DO OPERADOR -->
         <section class="card-sigi">
             <div class="topo-dobravel" onclick="toggleSecao('box-usuario-identificador')">
                 <div>
@@ -218,17 +216,14 @@
             </div>
         </section>
 
-        <!-- MOSAICO DE MÓDULOS INSTITUCIONAIS -->
         <section class="grid-modulos-fluxo" id="container-modulos-mosaico"></section>
 
-        <!-- MENU INTERNO DE RECURSOS (NÍVEL 4) -->
         <nav class="menu-interno-modulo">
             <button id="btn-sub-agenda" class="menu-interno-btn menu-interno-btn-ativo" onclick="alternarSubAbasModulo('agenda')">📌 Painel / Agenda</button>
             <button id="btn-sub-cadastro" class="menu-interno-btn" onclick="alternarSubAbasModulo('cadastro')">📋 Ficha de Cadastro</button>
             <button id="btn-sub-documentos" class="menu-interno-btn" onclick="alternarSubAbasModulo('documentos')">📂 Documentos</button>
         </nav>
 
-        <!-- SUB-ABA: FICHA DE CADASTRO COLETIVO -->
         <section class="card-sigi colapsado" id="sub-bloco-cadastro">
             <p class="secao-titulo">Cadastro Institucional do Âmbito</p>
             <h2 class="card-titulo-h2" id="sigma-txt-nome-modulo">Todos</h2>
@@ -302,9 +297,7 @@
             </div>
         </section>
 
-        <!-- SUB-ABA: AGENDA OPERACIONAL (COMPROMISSOS) -->
         <div id="sub-bloco-agenda">
-            <!-- MOTOR DE INTELIGÊNCIA TOTALMENTE FUNCIONAL E CORRIGIDO -->
             <section class="card-sigi" style="margin-bottom: 12px;">
                 <div class="topo-dobravel" onclick="toggleSecao('motor-conteudo')">
                     <div>
@@ -347,7 +340,6 @@
                 </div>
             </section>
 
-            <!-- INSERÇÃO MANUAL -->
             <section class="card-sigi" style="margin-bottom: 12px;">
                 <div class="topo-dobravel" onclick="toggleSecao('form-manual')">
                     <div>
@@ -389,7 +381,6 @@
                 </form>
             </section>
 
-            <!-- MESA OPERACIONAL DE VALIDAÇÃO (VISUALIZAÇÃO ANTES DO LANÇAMENTO) -->
             <section class="card-sigi colapsado" id="card-mesa-validacao">
                 <p class="secao-titulo">Mesa de Validação Humana</p>
                 <h2 class="card-titulo-h2">Compromissos Aguardando Lançamento</h2>
@@ -397,7 +388,6 @@
                 <button onclick="consolidarEMandarParaAgendaDefinitiva()" class="btn-submit-agenda" style="background-color:#2B6CB0; font-weight:700;">💾 Confirmar e Registrar na Agenda do SIGMA</button>
             </section>
 
-            <!-- AGENDA FILTRADA DEFINITIVA COM VISUALIZAÇÃO GARANTIDA -->
             <section style="margin-top: 4px;">
                 <div class="agenda-meta-header">
                     <div>
@@ -419,21 +409,20 @@
             </section>
         </div>
 
-        <!-- SUB-ABA: DOCUMENTOS (PROCESSO DE CATALOGAÇÃO COMPLETO) -->
         <section class="card-sigi colapsado" id="sub-bloco-documentos">
             <p class="secao-titulo">Repositório Documental</p>
-            <h2 class="card-titulo-h2">Acervo e Links de Referência</h2>
+            <h2 class="card-titulo-h2">Biblioteca e Acervo Digital</h2>
             
             <form id="form-documentos-sigma" onsubmit="adicionarDocumentoAoModulo(event)" class="sigi-grid-inputs">
                 <div class="sigi-field-container span-full">
                     <span class="sigi-label">Título do Documento / Ata *</span>
-                    <input type="text" id="doc-titulo" placeholder="Ex: Relatório de Imersão Zona da Mata" required>
+                    <input type="text" id="doc-titulo" placeholder="Ex: Relatório Zona da Mata" required>
                 </div>
                 <div class="sigi-field-container span-full">
                     <span class="sigi-label">Link de Acesso (Google Drive / GitHub) *</span>
                     <input type="url" id="doc-link" placeholder="https://drive.google.com/..." required>
                 </div>
-                <button type="submit" class="btn-submit-agenda span-full" style="background-color: var(--cor-destaque);">📂 Catalogar Documentação</button>
+                <button type="submit" class="btn-submit-agenda span-full" style="background-color: var(--cor-destaque);">📂 Anexar Documentação</button>
             </form>
 
             <div style="margin-top: 16px;">
@@ -443,7 +432,6 @@
         </section>
     </main>
 
-    <!-- MODAL DE VISUALIZAÇÃO DETALHADA DO COMPROMISSO -->
     <div id="modal-sigma-detalhe" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -458,6 +446,10 @@
                 <div class="modal-detail-line">
                     <span class="modal-label">Data e Horário</span>
                     <strong id="modal-data-hora"></strong>
+                </div>
+                <div class="modal-detail-line">
+                    <span class="modal-label">Responsável</span>
+                    <span id="modal-responsavel"></span>
                 </div>
                 <div class="modal-detail-line">
                     <span class="modal-label">Prioridade</span>
@@ -671,7 +663,7 @@
             });
         }
 
-        function dispararSeletorDeArquivo() { document.getElementById('input-arquivo-real').click(); }
+        function dispararSeletor DeArquivo() { document.getElementById('input-arquivo-real').click(); }
         function processarUploadELeituraReal(event) {
             const arquivo = event.target.files[0];
             if (!arquivo) return;
@@ -933,6 +925,7 @@
             
             const partes = item.data.split('-');
             document.getElementById('modal-data-hora').innerText = `${partes[2]}/${partes[ Mes]}/${partes[0]} às ${item.horario}`;
+            document.getElementById('modal-responsavel').innerText = item.responsavel;
             document.getElementById('modal-prioridade').innerText = item.prioridade;
             document.getElementById('modal-lembrete').innerText = item.lembrete || "Sem pauta cadastrada.";
             document.getElementById('modal-observacao').innerText = item.observacao || "Cadastro sem metadados.";
