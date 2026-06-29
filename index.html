@@ -48,20 +48,26 @@
             align-items: center;
             gap: 10px;
         }
-        .header-brand { display: flex; align-items: center; gap: 8px; min-width: 0; }
-        .header-title h1 { font-size: 16px; font-weight: 700; letter-spacing: 0.5px; }
-        .header-title p { font-size: 10px; color: #A7F3D0; text-transform: uppercase; white-space: nowrap; }
         
-        #data-atual { 
-            font-size: 11px; 
-            background-color: var(--cor-destaque); 
-            color: white; 
-            padding: 6px 12px; 
-            border-radius: 12px; 
-            font-weight: 600; 
-            white-space: nowrap; 
-            flex-shrink: 0;
+        /* ÍCONE INSTITUCIONAL SIGMA EM VERDE COM TEXTO BRANCO */
+        .link-institucional-sigma {
+            background-color: #14352B;
+            color: var(--branco-puro);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
         }
+        
+        .header-title-sub p { font-size: 10px; color: #A7F3D0; text-transform: uppercase; font-weight: 500; margin-top: 2px; }
+        #data-atual { font-size: 11px; background-color: var(--cor-destaque); color: white; padding: 6px 12px; border-radius: 12px; font-weight: 600; white-space: nowrap; }
 
         main { max-width: 600px; margin: 0 auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
 
@@ -88,127 +94,9 @@
             cursor: pointer;
             width: 100%;
         }
-        .modulo-card-ativa {
-            background-color: var(--cor-destaque) !important;
-            color: white !important;
-        }
-        .btn-deletar-modulo-x {
-            background: rgba(0,0,0,0.05);
-            border: none;
-            color: inherit;
-            font-size: 14px;
-            font-weight: bold;
-            padding: 2px 6px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .btn-criar-modulo-trigger {
-            grid-column: span 2;
-            background-color: var(--cor-primaria);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 10px;
-            font-size: 12px;
-            font-weight: 700;
-            text-align: center;
-            cursor: pointer;
-            margin-top: 4px;
-        }
-
-        .secao-titulo { font-size: 10px; font-weight: 700; color: #319795; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
-        .card-titulo-h2 { font-size: 15px; font-weight: 700; color: var(--cor-primaria); margin-bottom: 12px; }
-        .card-sigi {
-            background-color: var(--branco-puro);
-            padding: 16px;
-            border-radius: 16px;
-            border: 1px solid var(--borda);
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
-            margin-bottom: 4px;
-        }
-
-        .motor-box-operacional { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; width: 100%; }
-        .linha-lupa-input { display: flex; gap: 8px; align-items: center; }
-
-        .btn-lupa {
-            background-color: var(--cor-primaria);
-            color: white;
-            border: none;
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-
-        textarea.sigi-input {
-            width: 100%;
-            padding: 12px;
-            font-size: 13px;
-            border: 1px solid var(--borda);
-            border-radius: 12px;
-            outline: none;
-            font-family: inherit;
-            resize: none;
-            color: var(--texto-principal);
-        }
-
-        .sigi-grid-inputs {
-            display: grid;
-            grid-template-cols: 1fr 1fr;
-            gap: 8px;
-            margin-top: 8px;
-        }
-        .sigi-field-container { display: flex; flex-direction: column; gap: 4px; }
-        .sigi-label { font-size: 11px; font-weight: 600; color: var(--texto-principal); }
-        .sigi-field-container input, .sigi-field-container select {
-            padding: 10px;
-            font-size: 13px;
-            border: 1px solid var(--borda);
-            border-radius: 8px;
-            background-color: var(--branco-puro);
-            outline: none;
-            width: 100%;
-        }
-        .span-full { grid-column: span 2; }
-
-        .btn-submit-agenda {
-            background-color: var(--cor-primaria);
-            color: white;
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 12px;
-        }
-
-        /* ESTILOS PARA A MESA DE PRÉVIA TEMPORÁRIA */
-        .container-previa-temporaria {
-            background-color: #F7FAFC;
-            border: 1px dashed #CBD5E0;
-            border-radius: 12px;
-            padding: 12px;
-            margin-top: 10px;
-        }
-        .item-previa-linha {
-            background-color: white;
-            border: 1px solid #E2E8F0;
-            padding: 8px 12px;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 6px;
-            font-size: 12px;
-        }
+        .modulo-card-ativa { background-color: var(--cor-destaque) !important; color: white !important; }
+        .btn-deletar-modulo-x { background: rgba(0,0,0,0.05); border: none; color: inherit; font-size: 14px; font-weight: bold; padding: 2px 6px; border-radius: 4px; }
+        .btn-criar-modulo-trigger { grid-column: span 2; background-color: var(--cor-primaria); color: white; border: none; border-radius: 10px; padding: 10px; font-size: 12px; font-weight: 700; text-align: center; cursor: pointer; margin-top: 4px; }
 
         .menu-interno-modulo {
             display: flex;
@@ -230,11 +118,36 @@
             cursor: pointer;
             text-align: center;
         }
-        .menu-interno-btn-ativo {
-            background-color: var(--branco-puro) !important;
-            color: var(--cor-primaria) !important;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        .menu-interno-btn-ativo { background-color: var(--branco-puro) !important; color: var(--cor-primaria) !important; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+
+        .secao-titulo { font-size: 10px; font-weight: 700; color: #319795; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+        .card-titulo-h2 { font-size: 15px; font-weight: 700; color: var(--cor-primaria); margin-bottom: 12px; }
+        .card-sigi { background-color: var(--branco-puro); padding: 16px; border-radius: 16px; border: 1px solid var(--borda); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); margin-bottom: 4px; }
+
+        .sigi-grid-inputs { display: grid; grid-template-cols: 1fr 1fr; gap: 8px; margin-top: 8px; }
+        .sigi-field-container { display: flex; flex-direction: column; gap: 4px; }
+        .sigi-label { font-size: 11px; font-weight: 600; color: var(--texto-principal); }
+        .sigi-field-container input, .sigi-field-container select { padding: 10px; font-size: 13px; border: 1px solid var(--borda); border-radius: 8px; background-color: var(--branco-puro); outline: none; width: 100%; }
+        .span-full { grid-column: span 2; }
+        
+        .bloco-linha-responsavel {
+            grid-column: span 2;
+            display: grid;
+            grid-template-cols: 1fr 1fr;
+            gap: 8px;
+            border-bottom: 1px dashed var(--borda);
+            padding-bottom: 8px;
+            margin-bottom: 4px;
         }
+
+        .motor-box-operacional { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; width: 100%; }
+        .linha-lupa-input { display: flex; gap: 8px; align-items: center; }
+        .btn-lupa { background-color: var(--cor-primaria); color: white; border: none; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        textarea.sigi-input { width: 100%; padding: 12px; font-size: 13px; border: 1px solid var(--borda); border-radius: 12px; outline: none; font-family: inherit; resize: none; color: var(--texto-principal); }
+        .btn-submit-agenda { background-color: var(--cor-primaria); color: white; width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; margin-top: 12px; cursor: pointer; }
+
+        .container-previa-temporaria { background-color: #F7FAFC; border: 1px dashed #CBD5E0; border-radius: 12px; padding: 12px; margin-top: 10px; }
+        .item-previa-linha { background-color: white; border: 1px solid #E2E8F0; padding: 8px 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 12px; }
 
         .agenda-meta-header { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; margin-bottom: 8px; }
         .search-container { position: relative; width: 100%; margin-bottom: 12px; }
@@ -244,23 +157,11 @@
         .bloco-data-grupo { margin-bottom: 12px; }
         .badge-data-separador { font-size: 11px; font-weight: 700; background-color: #E2E8F0; padding: 2px 8px; border-radius: 6px; color: #4A5568; display: inline-block; margin-bottom: 6px; }
         
-        .agenda-card-item {
-            background-color: var(--branco-puro);
-            border-left: 4px solid var(--cor-destaque);
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid var(--borda);
-            border-left-width: 4px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 6px;
-        }
+        .agenda-card-item { background-color: var(--branco-puro); border-left: 4px solid var(--cor-destaque); padding: 12px; border-radius: 8px; border: 1px solid var(--borda); border-left-width: 4px; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
         .item-info-flex { display: flex; flex-direction: column; gap: 4px; }
         .item-titulo { font-size: 14px; font-weight: 700; color: #1A202C; }
         .item-tags-row { display: flex; gap: 6px; align-items: center; font-size: 11px; margin-top: 2px; }
         .tag-inst { background-color: #FEEBC8; color: #C05621; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
-        
         .btn-lixeira { background: none; border: none; color: #E53E3E; font-size: 16px; cursor: pointer; padding: 4px; }
 
         footer { text-align: center; padding: 20px; margin-top: 30px; font-size: 12px; color: var(--texto-mutado); border-top: 1px solid var(--borda); }
@@ -272,9 +173,9 @@
     <header>
         <div class="header-container">
             <div class="header-brand">
-                <span>⚡</span>
-                <div class="header-title">
-                    <h1>SIGMA</h1>
+                <!-- BOTÃO DE IDENTIDADE VISUAL COM ÍCONE INSTITUCIONAL -->
+                <a href="#" class="link-institucional-sigma" onclick="location.reload();">⚡ SIGMA</a>
+                <div class="header-title-sub">
                     <p>Gestão Modular Assistida</p>
                 </div>
             </div>
@@ -307,14 +208,14 @@
         <!-- MOSAICO RECONFIGURADO DE MÓDULOS -->
         <section class="grid-modulos-fluxo" id="container-modulos-mosaico"></section>
 
-        <!-- MENU INTERNO EXCLUSIVO DO MÓDULO SELECIONADO -->
+        <!-- MENU INTERNE EXCLUSIVO DO MÓDULO -->
         <nav class="menu-interno-modulo">
             <button id="btn-sub-agenda" class="menu-interno-btn menu-interno-btn-ativo" onclick="alternarSubAbasModulo('agenda')">📌 Painel / Agenda</button>
             <button id="btn-sub-cadastro" class="menu-interno-btn" onclick="alternarSubAbasModulo('cadastro')">📋 Ficha de Cadastro</button>
             <button id="btn-sub-documentos" class="menu-interno-btn" onclick="alternarSubAbasModulo('documentos')">📂 Documentos</button>
         </nav>
 
-        <!-- SUB-ABA: FICHA DE CADASTRO -->
+        <!-- SUB-ABA: FICHA DE CADASTRO COM QUATRO OPÇÕES DE PREENCHIMENTO MANUAIS (NOME / FUNÇÃO) -->
         <section class="card-sigi colapsado" id="sub-bloco-cadastro">
             <p class="secao-titulo">Cadastro Institucional do Âmbito</p>
             <h2 class="card-titulo-h2" id="sigma-txt-nome-modulo">Todos</h2>
@@ -329,15 +230,61 @@
                     <input type="text" id="cadastro-mod-cnpj" onchange="salvarFichaDeCadastroAtual()" placeholder="00.000.000/0001-00">
                 </div>
                 <div class="sigi-field-container">
-                    <span class="sigi-label">Responsável Titular</span>
-                    <input type="text" id="cadastro-mod-proprietario" onchange="salvarFichaDeCadastroAtual()" placeholder="Nome do gestor">
-                </div>
-                <div class="sigi-field-container span-full">
                     <span class="sigi-label">Endereço / Localidade</span>
                     <input type="text" id="cadastro-mod-endereco" onchange="salvarFichaDeCadastroAtual()" placeholder="Rua, Cidade - Estado">
                 </div>
-                <div class="sigi-field-container span-full">
-                    <span class="sigi-label">Diretriz Estratégica / Meta do Módulo</span>
+
+                <!-- QUATRO ESTRUTURAS DE CAMPOS DE PREENCHIMENTO EXCLUSIVOS (NOME / FUNÇÃO) -->
+                <div class="span-full" style="margin-top: 10px; border-top: 1px solid var(--borda); padding-top: 8px;">
+                    <p class="secao-titulo" style="color: var(--cor-destaque);">Corpo de Responsáveis e Lideranças</p>
+                </div>
+
+                <div class="bloco-linha-responsavel">
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Nome (Opção 1)</span>
+                        <input type="text" id="resp-nome-1" onchange="salvarFichaDeCadastroAtual()" placeholder="Nome">
+                    </div>
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Função (Opção 1)</span>
+                        <input type="text" id="resp-funcao-1" onchange="salvarFichaDeCadastroAtual()" placeholder="Função">
+                    </div>
+                </div>
+
+                <div class="bloco-linha-responsavel">
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Nome (Opção 2)</span>
+                        <input type="text" id="resp-nome-2" onchange="salvarFichaDeCadastroAtual()" placeholder="Nome">
+                    </div>
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Função (Opção 2)</span>
+                        <input type="text" id="resp-funcao-2" onchange="salvarFichaDeCadastroAtual()" placeholder="Função">
+                    </div>
+                </div>
+
+                <div class="bloco-linha-responsavel">
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Nome (Opção 3)</span>
+                        <input type="text" id="resp-nome-3" onchange="salvarFichaDeCadastroAtual()" placeholder="Nome">
+                    </div>
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Função (Opção 3)</span>
+                        <input type="text" id="resp-funcao-3" onchange="salvarFichaDeCadastroAtual()" placeholder="Função">
+                    </div>
+                </div>
+
+                <div class="bloco-linha-responsavel">
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Nome (Opção 4)</span>
+                        <input type="text" id="resp-nome-4" onchange="salvarFichaDeCadastroAtual()" placeholder="Nome">
+                    </div>
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Função (Opção 4)</span>
+                        <input type="text" id="resp-funcao-4" onchange="salvarFichaDeCadastroAtual()" placeholder="Função">
+                    </div>
+                </div>
+
+                <div class="sigi-field-container span-full" style="margin-top:4px;">
+                    <span class="sigi-label">Diretriz Estratégica / Meta Geral do Módulo</span>
                     <input type="text" id="cadastro-mod-descricao" onchange="salvarFichaDeCadastroAtual()">
                 </div>
             </div>
@@ -388,7 +335,7 @@
                 </div>
             </section>
 
-            <!-- INSERÇÃO MANUAL ADAPTADA COM LISTA DE PRÉVIA -->
+            <!-- INSERÇÃO MANUAL -->
             <section class="card-sigi" style="margin-bottom: 12px;">
                 <div class="topo-dobravel" onclick="toggleSecao('form-manual')">
                     <div>
@@ -430,7 +377,7 @@
                 </form>
             </section>
 
-            <!-- MESA OPERACIONAL DE VALIDAÇÃO (IMPEÇE O SALVAMENTO AUTOMÁTICO CEGO) -->
+            <!-- MESA OPERACIONAL -->
             <section class="card-sigi colapsado" id="card-mesa-validacao">
                 <p class="secao-titulo">Mesa de Validação Humana</p>
                 <h2 class="card-titulo-h2">Compromissos Aguardando Lançamento</h2>
@@ -438,7 +385,7 @@
                 <button onclick="consolidarEMandarParaAgendaDefinitiva()" class="btn-submit-agenda" style="background-color:#2B6CB0; font-weight:700;">💾 Confirmar e Registrar na Agenda do SIGMA</button>
             </section>
 
-            <!-- AGENDA FILTRADA DEFINITIVA -->
+            <!-- AGENDA FILTRADA -->
             <section style="margin-top: 4px;">
                 <div class="agenda-meta-header">
                     <div>
@@ -469,7 +416,7 @@
     </main>
 
     <footer>
-        <p>Plataforma SIGMA v2.6 | Engenharia de Redes Colaborativas</p>
+        <p>Plataforma SIGMA v2.7 | Gestão Modular e Técnica</p>
     </footer>
 
     <script>
@@ -483,7 +430,6 @@
         let moduloSelecionadoAtivo = "Todos";
         let subAbaAtiva = "agenda";
         
-        // Arrays de Controle (Banco Definitivo vs Mesa Temporária de Rascunhos)
         let mesaTemporariaRascunhos = [];
         let dbCompromissosSigma = JSON.parse(localStorage.getItem('sigma_db_compromissos_v6')) || [];
 
@@ -492,9 +438,7 @@
             email: "augusto@sigma.org"
         };
 
-        let dbCadastroModulos = JSON.parse(localStorage.getItem('sigma_db_cadastro_modulos_v5')) || {
-            "Todos": { nomeCompleto: "Sistema SIGMA - Geral", cnpj: "Interno", proprietario: "Augusto Cesar P. da Silva", endereco: "Recife - PE", descricao: "Visão unificada das pautas operacionais." }
-        };
+        let dbCadastroModulos = JSON.parse(localStorage.getItem('sigma_db_cadastro_modulos_v6')) || {};
 
         window.onload = function() {
             carregarDadosUsuarioIdentificador();
@@ -587,12 +531,21 @@
 
         function carregarFichaDeCadastroDoModulo(nomeMod) {
             if(!dbCadastroModulos[nomeMod]) {
-                dbCadastroModulos[nomeMod] = { nomeCompleto: nomeMod, cnpj: "", proprietario: "Augusto Cesar P. da Silva", endereco: "", descricao: `Planejamento estratégico do âmbito: ${nomeMod}.` };
+                dbCadastroModulos[nomeMod] = { nomeCompleto: nomeMod, cnpj: "", endereco: "", n1: "", f1: "", n2: "", f2: "", n3: "", f3: "", n4: "", f4: "", descricao: "" };
             }
             document.getElementById('cadastro-mod-nome-completo').value = dbCadastroModulos[nomeMod].nomeCompleto || "";
             document.getElementById('cadastro-mod-cnpj').value = dbCadastroModulos[nomeMod].cnpj || "";
-            document.getElementById('cadastro-mod-proprietario').value = dbCadastroModulos[nomeMod].proprietario || "";
             document.getElementById('cadastro-mod-endereco').value = dbCadastroModulos[nomeMod].endereco || "";
+            
+            document.getElementById('resp-nome-1').value = dbCadastroModulos[nomeMod].n1 || "";
+            document.getElementById('resp-funcao-1').value = dbCadastroModulos[nomeMod].f1 || "";
+            document.getElementById('resp-nome-2').value = dbCadastroModulos[nomeMod].n2 || "";
+            document.getElementById('resp-funcao-2').value = dbCadastroModulos[nomeMod].f2 || "";
+            document.getElementById('resp-nome-3').value = dbCadastroModulos[nomeMod].n3 || "";
+            document.getElementById('resp-funcao-3').value = dbCadastroModulos[nomeMod].f3 || "";
+            document.getElementById('resp-nome-4').value = dbCadastroModulos[nomeMod].n4 || "";
+            document.getElementById('resp-funcao-4').value = dbCadastroModulos[nomeMod].f4 || "";
+            
             document.getElementById('cadastro-mod-descricao').value = dbCadastroModulos[nomeMod].descricao || "";
         }
 
@@ -600,11 +553,18 @@
             dbCadastroModulos[moduloSelecionadoAtivo] = {
                 nomeCompleto: document.getElementById('cadastro-mod-nome-completo').value,
                 cnpj: document.getElementById('cadastro-mod-cnpj').value,
-                proprietario: document.getElementById('cadastro-mod-proprietario').value,
                 endereco: document.getElementById('cadastro-mod-endereco').value,
+                n1: document.getElementById('resp-nome-1').value,
+                f1: document.getElementById('resp-funcao-1').value,
+                n2: document.getElementById('resp-nome-2').value,
+                f2: document.getElementById('resp-funcao-2').value,
+                n3: document.getElementById('resp-nome-3').value,
+                f3: document.getElementById('resp-funcao-3').value,
+                n4: document.getElementById('resp-nome-4').value,
+                f4: document.getElementById('resp-funcao-4').value,
                 descricao: document.getElementById('cadastro-mod-descricao').value
             };
-            localStorage.setItem('sigma_db_cadastro_modulos_v5', JSON.stringify(dbCadastroModulos));
+            localStorage.setItem('sigma_db_cadastro_modulos_v6', JSON.stringify(dbCadastroModulos));
         }
 
         function abrirPromptCriacaoModulo() {
@@ -629,7 +589,7 @@
                 listaModulosMestres = listaModulosMestres.filter(m => m !== nomeMod);
                 localStorage.setItem('sigma_modulos_list_v4', JSON.stringify(listaModulosMestres));
                 if(dbCadastroModulos[nomeMod]) delete dbCadastroModulos[nomeMod];
-                localStorage.setItem('sigma_db_cadastro_modulos_v5', JSON.stringify(dbCadastroModulos));
+                localStorage.setItem('sigma_db_cadastro_modulos_v6', JSON.stringify(dbCadastroModulos));
                 if(moduloSelecionadoAtivo === nomeMod) moduloSelecionadoAtivo = "Todos";
                 renderizarMosaicoModulos();
                 atualizarListaOpcoesSelectForm();
@@ -687,7 +647,7 @@
                 document.getElementById('motor-campo-data').value = `${new Date().getFullYear()}-${mes}-${dia}`;
             }
             let lembreteExtraido = "Ata processada sem notas críticas.";
-            const frases = text = texto.split(/[.\n]/);
+            const frases = texto.split(/[.\n]/);
             for(let frase of frases) {
                 if(frase.toLowerCase().includes("lembrar") || frase.toLowerCase().includes("nota") || frase.toLowerCase().includes("importante")) {
                     lembreteExtraido = frase.trim();
@@ -698,7 +658,6 @@
             document.getElementById('motor-campo-observacao').value = texto.length > 10 ? texto.substring(0, 60) + "..." : "Processado.";
         }
 
-        /* INSERÇÃO NA MESA TEMPORÁRIA VIA MOTOR */
         function adicionarMotorAMesaTemporaria() {
             const textoBox = document.getElementById('texto-caixa-entrada').value;
             const titulo = document.getElementById('motor-campo-titulo').value || "Pauta Extraída";
@@ -727,7 +686,6 @@
             atualizarVisualizacaoMesaMestre();
         }
 
-        /* INSERÇÃO NA MESA TEMPORÁRIA VIA FORMULÁRIO MANUAL */
         function adicionarManualAMesaTemporaria(e) {
             e.preventDefault();
             const itemRascunho = {
@@ -748,7 +706,6 @@
             atualizarVisualizacaoMesaMestre();
         }
 
-        /* ATUALIZA A TELA DA MESA DE VALIDAÇÃO */
         function atualizarVisualizacaoMesaMestre() {
             const cardMesa = document.getElementById('card-mesa-validacao');
             const listaRascunhos = document.getElementById('lista-mesa-temporaria-rascunhos');
@@ -779,10 +736,9 @@
             atualizarVisualizacaoMesaMestre();
         }
 
-        /* CONSOLIDAÇÃO FINAL E SALVAMENTO EM LOTE (RN-001) */
         function consolidarEMandarParaAgendaDefinitiva() {
             mesaTemporariaRascunhos.forEach(item => {
-                item.userOwner = usuarioMasterAtivo.nome; // Carimba a posse do dado privadamente
+                item.userOwner = usuarioMasterAtivo.nome;
                 dbCompromissosSigma.push(item);
             });
 
@@ -790,7 +746,7 @@
             mesaTemporariaRascunhos = [];
             atualizarVisualizacaoMesaMestre();
             renderizarPainelAgendaCompleta();
-            alert("Sucesso! Todos os compromissos foram validados e lançados na agenda do SIGMA.");
+            alert("Sucesso! Todos os compromissos foram lançados de forma coletiva na agenda.");
         }
 
         function renderizarPainelAgendaCompleta() {
@@ -821,7 +777,6 @@
                     <div class="item-info-flex">
                         <p class="item-titulo">${item.descricao}</p>
                         <div class="item-tags-row"><span>${item.horario}</span><span class="tag-inst">${item.instituicao}</span></div>
-                        ${item.lembrete ? `<p style="font-size:11px; color:var(--cor-destaque);">📌 Lembrete: ${item.lembrete}</p>` : ''}
                     </div>
                     <button onclick="removerCompromissoIndividual(${item.id})" class="btn-lixeira">🗑️</button>
                 `;
