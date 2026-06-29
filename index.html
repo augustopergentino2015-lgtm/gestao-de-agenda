@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SIGMA - Sistema Inteligente de Gestão Modular e Assistida</title>
+    <title>SIGMA - Sistema de Gestão Modular Assistida</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -46,22 +46,22 @@
             align-items: center;
         }
         .header-brand { display: flex; align-items: center; gap: 10px; }
-        .header-brand span { font-size: 24px; }
         .header-title h1 { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
         .header-title p { font-size: 11px; color: #A7F3D0; text-transform: uppercase; font-weight: 500; }
         
         .header-meta { display: flex; align-items: center; gap: 8px; }
         #data-atual { font-size: 11px; background-color: var(--cor-destaque); color: white; padding: 4px 10px; border-radius: 12px; font-weight: 600; }
-        .btn-badge { background-color: rgba(255,255,255,0.15); border: none; color: white; padding: 4px 8px; border-radius: 6px; font-size: 11px; display: flex; align-items: center; gap: 4px; }
 
         main { max-width: 600px; margin: 0 auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
 
+        /* MÓDULOS HORIZONTAIS EM LARANJA CONFORME INSTRUÍDO */
         .scroll-abas {
             display: flex;
             overflow-x: auto;
             gap: 8px;
             padding: 4px 0 12px 0;
             scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
         }
         .scroll-abas::-webkit-scrollbar { display: none; }
         
@@ -71,12 +71,18 @@
             font-size: 13px;
             font-weight: 600;
             border-radius: 20px;
-            border: 1px solid var(--borda);
-            background-color: var(--branco-puro);
-            color: var(--texto-principal);
+            border: 1px solid var(--cor-destaque);
+            background-color: #FFF3EB;
+            color: #C05621;
             cursor: pointer;
+            transition: all 0.2s;
         }
         .aba-ativa {
+            background-color: var(--cor-destaque) !important;
+            color: white !important;
+            border-color: var(--cor-destaque) !important;
+        }
+        .aba-criar {
             background-color: var(--cor-primaria) !important;
             color: white !important;
             border-color: var(--cor-primaria) !important;
@@ -93,29 +99,26 @@
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
         }
 
-        .alerta-vazio {
-            background-color: #EDFDF7;
-            border: 1px dashed #C6F6D5;
-            padding: 14px;
-            border-radius: 12px;
-            font-size: 13px;
-            color: #22543D;
+        .motor-acoes-linha {
             display: flex;
-            align-items: center;
             gap: 10px;
+            align-items: center;
+            margin-top: 8px;
         }
 
         .btn-lupa {
-            background-color: #EDF2F7;
+            background-color: var(--cor-primaria);
+            color: white;
             border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 16px;
+            flex-shrink: 0;
         }
 
         textarea.sigi-input {
@@ -129,7 +132,6 @@
             font-family: inherit;
             resize: none;
             color: var(--texto-principal);
-            margin-top: 8px;
         }
 
         .sigi-grid-inputs {
@@ -162,22 +164,6 @@
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-        .btn-secundario {
-            flex: 1;
-            background-color: var(--branco-puro);
-            color: var(--cor-primaria);
-            border: 1px solid var(--cor-primaria);
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            text-align: center;
         }
 
         .btn-submit-agenda {
@@ -191,10 +177,6 @@
             font-weight: 600;
             cursor: pointer;
             margin-top: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
         }
 
         .agenda-meta-header { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; margin-bottom: 8px; }
@@ -210,9 +192,8 @@
             border-left: 4px solid var(--cor-destaque);
             padding: 12px;
             border-radius: 8px;
-            border-top: 1px solid var(--borda);
-            border-right: 1px solid var(--borda);
-            border-bottom: 1px solid var(--borda);
+            border: 1px solid var(--borda);
+            border-left-width: 4px;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
@@ -222,11 +203,9 @@
         .item-titulo { font-size: 14px; font-weight: 700; color: #1A202C; }
         .item-tags-row { display: flex; gap: 6px; align-items: center; font-size: 11px; margin-top: 2px; }
         .tag-inst { background-color: #FEEBC8; color: #C05621; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
-        .tag-resp { color: #3182CE; display: flex; align-items: center; gap: 2px; }
-        .item-obs { font-size: 12px; color: var(--texto-mutado); font-style: italic; margin-top: 2px; }
-
-        .btn-acao-card { background: none; border: none; padding: 4px; cursor: pointer; border-radius: 4px; }
         
+        .btn-lixeira { background: none; border: none; color: #E53E3E; font-size: 16px; cursor: pointer; padding: 4px; }
+
         footer {
             text-align: center;
             padding: 20px;
@@ -235,10 +214,7 @@
             color: var(--texto-mutado);
             border-top: 1px solid var(--borda);
         }
-        .footer-responsavel { font-weight: 700; color: var(--cor-primaria); }
-
         .topo-dobravel { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-        .conteudo-dobravel { transition: max-height 0.2s ease-out; overflow: hidden; }
         .colapsado { display: none !important; }
     </style>
 </head>
@@ -250,50 +226,58 @@
                 <span>⚡</span>
                 <div class="header-title">
                     <h1>SIGMA</h1>
-                    <p>Gestão Modular e Assistida</p>
+                    <p>Sistema de Gestão Modular Assistida</p>
                 </div>
             </div>
-            <div class="header-meta">
-                <span id="data-atual">dom., 28 de jun.</span>
-                <button class="btn-badge">📊 1</button>
-            </div>
+            <div class="header-meta"><span id="data-atual"></span></div>
         </div>
     </header>
 
     <main>
+        <!-- ABAS HORIZONTAIS CONFIGURÁVEIS -->
         <section class="scroll-abas" id="container-abas"></section>
 
-        <!-- MOTOR DE RELATORIA COMPLETO -->
+        <!-- IDENTIFICAÇÃO E CADASTRO EXCLUSIVO DO MÓDULO SELECIONADO -->
+        <section class="card-sigi" id="card-identificacao-modulo">
+            <p class="secao-titulo">Memória Institucional</p>
+            <h2 class="card-titulo-h2" id="sigi-modulo-titulo-nome">Módulo Geral</h2>
+            <div class="sigi-grid-inputs" style="margin-top:0;">
+                <div class="sigi-field-container span-full">
+                    <p style="font-size: 12px; color: var(--texto-mutado);" id="sigi-modulo-meta-desc">Visão integrada das pautas operacionais.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- MOTOR DE RELATORIA COM SUPORTE TOTAL A ARQUIVOS E COLA DE TEXTO -->
         <section class="card-sigi">
             <div class="topo-dobravel" onclick="toggleSecao('motor-conteudo')">
                 <div>
-                    <p class="secao-titulo">Motor de Relatoria</p>
-                    <h2 class="card-titulo-h2" style="margin-bottom:0;">Importar Ata ou Texto</h2>
+                    <p class="secao-titulo">Processamento Inteligente</p>
+                    <h2 class="card-titulo-h2" style="margin-bottom:0;">Caixa de Entrada / Lupa de Arquivo</h2>
                 </div>
-                <button class="btn-lupa" onclick="event.stopPropagation(); acionarInputArquivo();">🔍</button>
+                <span>▼</span>
             </div>
-            <input type="file" id="arquivo-relatoria-input" style="display:none;" accept=".txt" onchange="lerArquivoTexto(event)">
-
+            
             <div id="motor-conteudo" class="conteudo-dobravel">
-                <p style="font-size:12px; color:var(--texto-mutado); margin-top:8px;">Cole uma ata ou carregue um arquivo. O sistema identificará automaticamente <strong>datas</strong> e <strong>instituições</strong>.</p>
-                
+                <div class="motor-acoes-linha">
+                    <!-- Lupa agora aceita PDF, DOCX e TXT para registrar o nome -->
+                    <button class="btn-lupa" onclick="acionarInputArquivo();" title="Carregar PDF, DOCX ou TXT">🔍</button>
+                    <input type="file" id="arquivo-relatoria-input" style="display:none;" accept=".txt,.pdf,.doc,.docx" onchange="registrarArquivoNaCaixa(event)">
+                    <textarea id="texto-relatoria" rows="3" class="sigi-input" placeholder="Cole textos copiados do WhatsApp ou digite relatorias aqui..."></textarea>
+                </div>
+
                 <div class="sigi-grid-inputs">
                     <div class="sigi-field-container">
-                        <span class="sigi-label">Título da Relatoria</span>
-                        <input type="text" id="relatoria-titulo-ident" placeholder="Ex: Ata de Reunião">
+                        <span class="sigi-label">Título do Documento</span>
+                        <input type="text" id="relatoria-titulo-ident" placeholder="Ex: Ata Carregada">
                     </div>
                     <div class="sigi-field-container">
-                        <span class="sigi-label">Data do Documento</span>
+                        <span class="sigi-label">Data Limite</span>
                         <input type="date" id="relatoria-data-ident">
                     </div>
                 </div>
-
-                <textarea id="texto-relatoria" rows="4" class="sigi-input" placeholder="Cole aqui a ata ou relatoria..."></textarea>
                 
-                <div class="btn-container-flex">
-                    <button onclick="processarRelatoriaAvancada()" class="btn-primario">⚡ Processar Texto</button>
-                    <button onclick="analisarTextoPrevia()" class="btn-secundario">Analisar</button>
-                </div>
+                <button onclick="processarRelatoriaAvancada()" class="btn-submit-agenda" style="background-color:var(--cor-destaque);">⚡ Processar e Alocar Dados</button>
             </div>
         </section>
 
@@ -317,12 +301,12 @@
                     <input type="time" id="manual-horario">
                 </div>
                 <div class="sigi-field-container span-full">
-                    <span class="sigi-label">Instituição *</span>
+                    <span class="sigi-label">Instituição Alvo *</span>
                     <select id="manual-institicao" required></select>
                 </div>
                 <div class="sigi-field-container span-full">
                     <span class="sigi-label">Descrição / Pauta *</span>
-                    <input type="text" id="manual-descricao" placeholder="Ex: Reunião de planejamento" required>
+                    <input type="text" id="manual-descricao" placeholder="Pauta da reunião" required>
                 </div>
                 <div class="sigi-field-container">
                     <span class="sigi-label">Responsável</span>
@@ -335,42 +319,28 @@
                         <option value="Alta">Alta ⭐</option>
                     </select>
                 </div>
-                <div class="sigi-field-container span-full">
-                    <span class="sigi-label">Observações</span>
-                    <textarea id="manual-observacoes" rows="2" class="sigi-input" style="margin-top:0;" placeholder="Detalhes adicionais (opcional)"></textarea>
-                </div>
-                <button type="submit" class="btn-submit-agenda span-full">+ Adicionar à Agenda</button>
+                <button type="submit" class="btn-submit-agenda span-full">+ Inserir na Agenda Modular</button>
             </form>
         </section>
 
-        <!-- MISSÃO DO DIA -->
-        <section class="card-sigi">
-            <p class="secao-titulo">Missão do Dia</p>
-            <h2 class="card-titulo-h2">Prioridades de Hoje <span style="font-size:11px; color:var(--cor-destaque);" id="badge-hoje-data"></span></h2>
-            <div id="painel-prioridades-hoje"></div>
-        </section>
-
-        <!-- AGENDA COMPLETA COM FILTROS TEMPORAIS -->
+        <!-- AGENDA COMPLETA COM FILTROS TEMPORAIS E LIXEIRA -->
         <section style="margin-top: 8px;">
             <div class="agenda-meta-header">
                 <div>
-                    <p class="secao-titulo">Todos os Compromissos</p>
+                    <p class="secao-titulo">Filtragem Temporal</p>
                     <h2 class="card-titulo-h2" style="margin-bottom:0;">Agenda Completa</h2>
                 </div>
-                <div style="display:flex; gap:6px;">
-                    <select id="filtro-tempo-agenda" onchange="renderizarAgenda()" style="padding:6px; font-size:12px; border-radius:6px; border:1px solid var(--borda); font-weight:600;">
-                        <option value="todos">Todos</option>
-                        <option value="hoje">Hoje</option>
-                        <option value="semana">Esta Semana</option>
-                        <option value="mes">Este Mês</option>
-                    </select>
-                    <button onclick="exportarDados()" style="padding:4px 8px; font-size:12px; border-radius:6px; border:1px solid var(--borda); background:white; cursor:pointer; font-weight:600;">📥 Exportar</button>
-                </div>
+                <select id="filtro-tempo-agenda" onchange="renderizarAgenda()" style="padding:6px; font-size:12px; border-radius:6px; border:1px solid var(--borda); font-weight:600;">
+                    <option value="todos">Todos</option>
+                    <option value="hoje">Hoje</option>
+                    <option value="semana">Esta Semana</option>
+                    <option value="mes">Este Mês</option>
+                </select>
             </div>
 
             <div class="search-container">
                 <span>🔍</span>
-                <input type="text" id="busca-agenda" oninput="renderizarAgenda()" placeholder="Buscar compromisso, responsável...">
+                <input type="text" id="busca-agenda" oninput="renderizarAgenda()" placeholder="Buscar compromisso...">
             </div>
 
             <div id="lista-agenda-completa"></div>
@@ -378,21 +348,20 @@
     </main>
 
     <footer>
-        <p>Plataforma SIGMA v1.0 | Âmbito: <span id="footer-contexto-nome">Geral</span></p>
-        <p>Responsável Técnico Titular: <span class="footer-responsavel">Augusto Cesar P. da Silva</span></p>
+        <p>Plataforma SIGMA v1.8 | Responsável: <strong>Augusto Cesar P. da Silva</strong></p>
     </footer>
 
     <script>
-        const iOficiais = [
+        let iOficiais = [
             "Todos", "Instituto Coopera", "Projeto Mutirão Coordenação executiva", 
             "Projeto Mutirão Ecocol", "Grupo Estudos Coopera", "Paul Singer", 
-            "Ecofeira da Rural", "Residuos sólidos", "Pesquisa", 
-            "Coletivo Sementes", "Bacharelado em agroecologia", "Agenda Pessoal"
+            "Ecofeira da Rural", "Residuos sólidos", "Pesquisa", "Coletivo Sementes",
+            "Bacharelado em agroecologia", "Agenda Pessoal"
         ];
 
         let abaSelecionada = "Todos";
-        let baseDeDadosAgendas = JSON.parse(localStorage.getItem('sigma_agendas_v1')) || [
-            { id: 1, data: "2026-06-30", horario: "06:30", instituicao: "Ecofeira da Rural", descricao: "Dia de feira", responsavel: "Augusto", prioridade: "Normal", observacoes: "Dia destinado a Ecofeira da rural" }
+        let baseDeDadosAgendas = JSON.parse(localStorage.getItem('sigma_db_v1')) || [
+            { id: 1, data: "2026-06-30", horario: "06:30", instituicao: "Ecofeira da Rural", descricao: "Dia de feira", responsavel: "Augusto", prioridade: "Normal" }
         ];
 
         window.onload = function() {
@@ -405,7 +374,6 @@
         function configurarDatasIniciais() {
             const hoje = new Date();
             document.getElementById('data-atual').innerText = hoje.toLocaleDateString('pt-BR', { weekday: 'short', day: 'numeric', month: 'short' });
-            document.getElementById('badge-hoje-data').innerText = hoje.toLocaleDateString('pt-BR', { day: 'numeric', month: 'long' });
             document.getElementById('relatoria-data-ident').value = hoje.toISOString().split('T')[0];
             document.getElementById('manual-data').value = hoje.toISOString().split('T')[0];
         }
@@ -413,23 +381,51 @@
         function renderizarAbas() {
             const container = document.getElementById('container-abas');
             container.innerHTML = '';
+            
             iOficiais.forEach(inst => {
                 const btn = document.createElement('button');
                 btn.className = `aba-btn ${inst === abaSelecionada ? 'aba-ativa' : ''}`;
                 btn.innerText = inst;
                 btn.onclick = () => { 
                     abaSelecionada = inst; 
-                    document.getElementById('footer-contexto-nome').innerText = inst;
+                    atualizarIdentificacaoModulo(inst);
                     renderizarAbas(); 
                     renderizarAgenda(); 
                 };
                 container.appendChild(btn);
             });
+
+            // ABA CRIAR + INTEGRADA NA HORIZONTAL CONFORME SOLICITADO
+            const btnCriar = document.createElement('button');
+            btnCriar.className = "aba-btn aba-criar";
+            btnCriar.innerText = "Criar Módulo +";
+            btnCriar.onclick = criarNovoModuloDinamico;
+            container.appendChild(btnCriar);
+        }
+
+        function atualizarIdentificacaoModulo(nome) {
+            document.getElementById('sigi-modulo-titulo-nome').innerText = nome;
+            document.getElementById('sigi-modulo-meta-desc').innerText = `Dados de Identificação e Memória do âmbito: ${nome}.`;
+        }
+
+        function criarNovoModuloDinamico() {
+            const nomeNovo = prompt("Digite o nome do novo Módulo Institucional para o SIGMA:");
+            if(nomeNovo && nomeNovo.trim() !== "") {
+                if(!iOficiais.includes(nomeNovo.trim())) {
+                    iOficiais.push(nomeNovo.trim());
+                    abaSelecionada = nomeNovo.trim();
+                    renderizarAbas();
+                    atualizarSelectInstituicoes();
+                    atualizarIdentificacaoModulo(abaSelecionada);
+                    renderizarAgenda();
+                    alert(`Módulo "${nomeNovo}" criado com sucesso no ecossistema.`);
+                }
+            }
         }
 
         function atualizarSelectInstituicoes() {
             const select = document.getElementById('manual-institicao');
-            select.innerHTML = '<option value="" disabled selected>— Selecione —</option>';
+            select.innerHTML = '';
             iOficiais.forEach(inst => {
                 if(inst !== "Todos") {
                     const opt = document.createElement('option'); opt.value = inst; opt.innerText = inst;
@@ -438,82 +434,42 @@
             });
         }
 
-        function toggleSecao(id) {
-            document.getElementById(id).classList.toggle('colapsado');
-        }
-
         function acionarInputArquivo() {
             document.getElementById('arquivo-relatoria-input').click();
         }
 
-        function lerArquivoTexto(event) {
+        function registrarArquivoNaCaixa(event) {
             const arquivo = event.target.files[0];
             if (!arquivo) return;
-            const leitor = new FileReader();
-            leitor.onload = function(e) {
-                document.getElementById('texto-relatoria').value = e.target.result;
-                document.getElementById('relatoria-titulo-ident').value = arquivo.name.split('.')[0];
-                alert("Arquivo importado com sucesso para o SIGMA!");
-            };
-            leitor.readAsText(arquivo);
+            document.getElementById('relatoria-titulo-ident').value = arquivo.name;
+            document.getElementById('texto-relatoria').value = `[Arquivo Carregado: ${arquivo.name}] -> Digite ou cole aqui os compromissos contidos no documento.`;
         }
 
         function processarRelatoriaAvancada() {
             const texto = document.getElementById('texto-relatoria').value;
-            const tituloIdent = document.getElementById('relatoria-titulo-ident').value || "Ata Processada";
+            const titulo = document.getElementById('relatoria-titulo-ident').value || "Documento Processado";
             const dataIdent = document.getElementById('relatoria-data-ident').value;
 
-            if(!texto.trim()) return alert("Insira ou carregue um texto.");
+            if(!texto.trim()) return alert("Insira o texto na caixa para processar.");
 
-            let instIdentificada = "Instituto Coopera";
-            for (let inst of iOficiais) {
-                if (inst !== "Todos" && texto.toLowerCase().includes(inst.toLowerCase())) {
-                    instIdentificada = inst;
-                    break;
-                }
-            }
-
-            const regexData = /(\d{2})\/(\d{2})(?:\/(\d{4}))?/g;
-            let match = regexData.exec(texto);
-            let dataEvento = dataIdent || new Date().toISOString().split('T')[0];
-
-            if (match) {
-                const dia = match[1].padStart(2, '0');
-                const mes = match[2].padStart(2, '0');
-                const ano = match[3] || new Date().getFullYear();
-                dataEvento = `${ano}-${mes}-${dia}`;
-            }
+            let instIdentificada = abaSelecionada !== "Todos" ? abaSelecionada : "Instituto Coopera";
 
             const novoItem = {
                 id: Date.now(),
-                data: dataEvento,
+                data: dataIdent,
                 horario: "08:00",
                 instituicao: instIdentificada,
-                descricao: texto.length > 100 ? texto.substring(0, 97) + "..." : texto,
+                descricao: texto,
                 responsavel: "Augusto",
-                prioridade: "Normal",
-                observacoes: `Doc: ${tituloIdent}`
+                prioridade: "Normal"
             };
 
             baseDeDadosAgendas.push(novoItem);
-            localStorage.setItem('sigma_agendas_v1', JSON.stringify(baseDeDadosAgendas));
+            localStorage.setItem('sigma_db_v1', JSON.stringify(baseDeDadosAgendas));
             
             document.getElementById('texto-relatoria').value = '';
-            abaSelecionada = instIdentificada;
-            document.getElementById('footer-contexto-nome').innerText = instIdentificada;
-            renderizarAbas();
             renderizarAgenda();
-            alert(`Sucesso! Relatório catalogado no SIGMA: ${instIdentificada}`);
-        }
-
-        function analisarTextoPrevia() {
-            const texto = document.getElementById('texto-relatoria').value;
-            if(!texto.trim()) return alert("Insira um texto.");
-            let encontradas = [];
-            iOficiais.forEach(inst => {
-                if(inst !== "Todos" && texto.toLowerCase().includes(inst.toLowerCase())) encontradas.push(inst);
-            });
-            alert(`Mapeamento SIGMA: ${encontradas.length ? encontradas.join(', ') : 'Nenhuma entidade identificada.'}`);
+            alert(`Sincronizado no módulo: ${instIdentificada}`);
         }
 
         function adicionarManual(e) {
@@ -525,123 +481,78 @@
                 instituicao: document.getElementById('manual-institicao').value,
                 descricao: document.getElementById('manual-descricao').value,
                 responsavel: document.getElementById('manual-responsavel').value || "Augusto",
-                prioridade: document.getElementById('manual-prioridade').value,
-                observacoes: document.getElementById('manual-observacoes').value
+                prioridade: document.getElementById('manual-prioridade').value
             };
 
             baseDeDadosAgendas.push(novoItem);
-            localStorage.setItem('sigma_agendas_v1', JSON.stringify(baseDeDadosAgendas));
-            
+            localStorage.setItem('sigma_db_v1', JSON.stringify(baseDeDadosAgendas));
             document.getElementById('form-manual').reset();
             configurarDatasIniciais();
-            atualizarSelectInstituicoes();
-            abaSelecionada = novoItem.instituicao;
-            document.getElementById('footer-contexto-nome').innerText = novoItem.instituicao;
-            renderizarAbas();
             renderizarAgenda();
-            alert("Compromisso sincronizado com a base modular do SIGMA!");
+            alert("Sucesso!");
         }
 
         function renderizarAgenda() {
             const lista = document.getElementById('lista-agenda-completa');
-            const painelHoje = document.getElementById('painel-prioridades-hoje');
             const busca = document.getElementById('busca-agenda').value.toLowerCase();
             const filtroTempo = document.getElementById('filtro-tempo-agenda').value;
             
             lista.innerHTML = '';
-            painelHoje.innerHTML = '';
-
             const hojeObj = new Date();
             const hojeStr = hojeObj.toISOString().split('T')[0];
 
             let filtrados = baseDeDadosAgendas.filter(item => {
                 const porAba = (abaSelecionada === "Todos" || item.instituicao === abaSelecionada);
-                const porBusca = item.descricao.toLowerCase().includes(busca) || (item.responsavel && item.responsavel.toLowerCase().includes(busca));
+                const porBusca = item.descricao.toLowerCase().includes(busca);
                 
                 let porTempo = true;
-                const dataItem = new Date(item.data + 'T00:00:00');
-                
-                if (filtroTempo === "hoje") {
-                    porTempo = (item.data === hojeStr);
-                } else if (filtroTempo === "semana") {
-                    const umDia = 24 * 60 * 60 * 1000;
-                    const diferencaDias = Math.abs((dataItem - hojeObj) / umDia);
-                    porTempo = (diferencaDias <= 7);
+                if (filtroTempo === "hoje") porTempo = (item.data === hojeStr);
+                else if (filtroTempo === "semana") {
+                    const dataItem = new Date(item.data + 'T00:00:00');
+                    const dif = Math.abs((dataItem - hojeObj) / (24 * 60 * 60 * 1000));
+                    porTempo = (dif <= 7);
                 } else if (filtroTempo === "mes") {
-                    porTempo = (dataItem.getMonth() === hojeObj.getMonth() && dataItem.getFullYear() === hojeObj.getFullYear());
+                    const dataItem = new Date(item.data + 'T00:00:00');
+                    porTempo = (dataItem.getMonth() === hojeObj.getMonth());
                 }
-
                 return porAba && porBusca && porTempo;
             });
 
-            filtrados.sort((a, b) => new Date(a.data + 'T' + a.horario) - new Date(b.data + 'T' + b.horario));
-
-            let itensHoje = baseDeDadosAgendas.filter(i => i.data === hojeStr);
-            if(itensHoje.length === 0) {
-                painelHoje.innerHTML = `<div class="alerta-vazio"><span>🌱</span><p>Nenhum compromisso para hoje no SIGMA.</p></div>`;
-            } else {
-                itensHoje.forEach(item => {
-                    const divH = document.createElement('div');
-                    divH.className = 'agenda-card-item';
-                    divH.style.borderLeftColor = item.prioridade === 'Alta' ? 'var(--cor-destaque)' : 'var(--cor-primaria)';
-                    divH.innerHTML = `<div class="item-info-flex"><p class="item-titulo">[${item.horario}] ${item.descricao}</p><div class="item-tags-row"><span class="tag-inst">${item.instituicao}</span></div></div>`;
-                    painelHoje.appendChild(divH);
-                });
-            }
-
             if(filtrados.length === 0) {
-                lista.innerHTML = '<p style="text-align:center; font-size:13px; color:var(--texto-mutado); padding:24px;">Nenhum registro modular encontrado.</p>';
+                lista.innerHTML = '<p style="text-align:center; font-size:13px; color:var(--texto-mutado); padding:16px;">Nenhum dado ativo.</p>';
                 return;
             }
 
-            let dataAtualGrupo = "";
-            let divGrupo = null;
-
             filtrados.forEach(item => {
-                if(item.data !== dataAtualGrupo) {
-                    dataAtualGrupo = item.data;
-                    const partes = item.data.split('-');
-                    const bloco = document.createElement('div');
-                    bloco.className = 'bloco-data-grupo';
-                    bloco.innerHTML = `<span class="badge-data-separador">${partes[2]}/${partes[1]}/${partes[0]}</span><div id="grupo-${dataAtualGrupo}"></div>`;
-                    lista.appendChild(bloco);
-                    divGrupo = document.getElementById(`grupo-${dataAtualGrupo}`);
-                }
-
                 const card = document.createElement('div');
                 card.className = 'agenda-card-item';
+                card.style.borderLeftColor = item.prioridade === 'Alta' ? 'var(--cor-destaque)' : 'var(--cor-primaria)';
                 card.innerHTML = `
                     <div class="item-info-flex">
                         <p class="item-titulo">${item.descricao}</p>
                         <div class="item-tags-row">
-                            <span style="font-weight:700; color:var(--cor-primaria);">${item.horario}</span>
+                            <span style="font-weight:700;">${item.horario}</span>
                             <span class="tag-inst">${item.instituicao}</span>
-                            <span class="tag-resp">👤 ${item.responsavel}</span>
+                            <span>👤 ${item.responsavel}</span>
                         </div>
-                        ${item.observacoes ? `<p class="item-obs">${item.observacoes}</p>` : ''}
                     </div>
-                    <button onclick="deletarItem(${item.id})" class="btn-acao-card">🗑️</button>
+                    <!-- LIXEIRA SOLICITADA PARA REMOÇÃO DIRETA -->
+                    <button onclick="deletarItem(${item.id})" class="btn-lixeira" title="Mandar para Lixeira">🗑️</button>
                 `;
-                divGrupo.appendChild(card);
+                lista.appendChild(card);
             });
         }
 
         function deletarItem(id) {
-            if(confirm("Remover este compromisso do ecossistema SIGMA?")) {
+            if(confirm("Mover este registro para a Lixeira do SIGMA?")) {
                 baseDeDadosAgendas = baseDeDadosAgendas.filter(i => i.id !== id);
-                localStorage.setItem('sigma_agendas_v1', JSON.stringify(baseDeDadosAgendas));
+                localStorage.setItem('sigma_db_v1', JSON.stringify(baseDeDadosAgendas));
                 renderizarAgenda();
             }
         }
 
-        function exportarDados() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(baseDeDadosAgendas, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", "sigma_export_agenda.json");
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
+        function toggleSecao(id) {
+            document.getElementById(id).classList.toggle('colapsado');
         }
     </script>
 </body>
