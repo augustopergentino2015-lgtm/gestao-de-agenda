@@ -801,4 +801,36 @@
         function toggleSecao(id) { document.getElementById(id).classList.toggle('colapsado'); }
     </script>
 </body>
+    <!-- DIAGNÓSTICO INTELIGENTE SIGMA -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const inputArquivo = document.querySelector('input[type="file"]');
+    
+    if (inputArquivo) {
+        inputArquivo.addEventListener('change', function(e) {
+            const file = e.target.files;
+            if (!file) return;
+
+            const todosInputs = Array.from(document.querySelectorAll('input'));
+            const todosBotoes = Array.from(document.querySelectorAll('button, input[type="submit"]'));
+            
+            let mapaInputs = todosInputs.map(i => `Tipo: ${i.type} | ID: ${i.id} | Class: ${i.className} | Placeholder: ${i.placeholder}`).join('\n');
+            let mapaBotoes = todosBotoes.map(b => `Texto: ${b.innerText || b.value} | ID: ${b.id} | Class: ${b.className}`).join('\n');
+
+            const painelInfo = document.createElement('textarea');
+            painelInfo.style.width = '100%';
+            painelInfo.style.height = '200px';
+            painelInfo.style.marginTop = '20px';
+            painelInfo.style.padding = '10px';
+            painelInfo.style.fontSize = '12px';
+            painelInfo.style.fontFamily = 'monospace';
+            painelInfo.value = `=== COPIE O TEXTO ABAIXO E ME ENVIE ===\n\n[INPUTS ENCONTRADOS]:\n${mapaInputs}\n\n[BOTÕES ENCONTRADOS]:\n${mapaBotoes}`;
+            
+            inputArquivo.parentElement.appendChild(painelInfo);
+            alert("Mapeamento concluído! Copie o texto da caixa cinza que apareceu na tela e me envie.");
+        });
+    }
+});
+</script>
+
 </html>
