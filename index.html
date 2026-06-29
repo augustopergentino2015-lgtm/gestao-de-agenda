@@ -17,6 +17,8 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     <script src="https://jsdelivr.net"></script>
+    <script src="https://cloudflare.com"></script>
+
 
     
     <style>
@@ -832,88 +834,137 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
-<!-- MOTOR DE DISTRIBUIÇÃO AUTOMÁTICA SIGMA (DEFINITIVO) -->
-<script src="https://jsdelivr.net"></script>
+<!-- MOTOR HÍBRIDO SIGMA: EXCEL, WORD E PDF -->
 <script>
+// Configuração inicial obrigatória do leitor de PDF
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cloudflare.com';
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Alvo correto do botão de arquivo do SIGMA mapeado pelo diagnóstico
     const inputArquivoSigma = document.getElementById('input-arquivo-real');
 
     if (inputArquivoSigma) {
-        inputArquivoSigma.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
+        inputArquivoSigma.addEventListener('change', async function(e) {
+            const arquivo = e.target.files[0];
+            if (!arquivo) return;
 
-            const leitorMecanico = new FileReader();
+            const nomeArquivo = arquivo.name.toLowerCase();
             
-            leitorMecanico.onload = function(evt) {
-                try {
-                    const dadosBinarios = evt.target.result;
-                    const livroTrabalho = XLSX.read(dadosBinarios, { type: 'binary' });
-                    const primeiraAba = livroTrabalho.SheetNames[0];
-                    const linhasDoRelatorio = XLSX.utils.sheet_to_json(livroTrabalho.Sheets[primeiraAba]);
-                    
-                    let totalAlocados = 0;
+            // Elementos reais do seu painel SIGMA mapeados no diagnóstico
+            const campoTitulo = document.getElementById('motor-campo-titulo');
+            const campoData = document.getElementById('motor-campo-data');
+            const campoHora = document.getElementById('motor-campo-hora');
+            const botoesSalvar = Array.from(document.querySelectorAll('.btn-submit-agenda'));
+            const botaoConfirmarFinal = botoesSalvar.find(b => b.innerText.includes('Confirmar e Registrar'));
 
-                    // Mapeamento dos Inputs reais do painel SIGMA descobertos no mapa
-                    const campoTitulo = document.getElementById('motor-campo-titulo');
-                    const campoData = document.getElementById('motor-campo-data');
-                    const campoHora = document.getElementById('motor-campo-hora');
-                    const campoObservacao = document.getElementById('motor-campo-observacao');
-                    
-                    // Localiza o botão final de salvar pela classe exata e pelo texto do emoji de disquete
-                    const botoesSalvar = Array.from(document.querySelectorAll('.btn-submit-agenda'));
-                    const botaoConfirmarFinal = botoesSalvar.find(b => b.innerText.includes('Confirmar e Registrar'));
+            if (!campoTitulo || !campoData || !botaoConfirmarFinal) {
+                alert("Erro Estrutural: Os campos da agenda não estão visíveis na tela ativa.");
+                return;
+            }
 
-                    if (!campoTitulo || !campoData || !botaoConfirmarFinal) {
-                        alert("Erro Estrutural: Os campos da agenda não estão visíveis na tela ativa do celular.");
-                        return;
-                    }
+            try {
+                // ================= COMENTÁRIO TÉCNICO: SE FOR EXCEL =================
+                if (nomeArquivo.endsWith('.xlsx') || nomeArquivo.endsWith('.xls') || nomeArquivo.endsWith('.csv')) {
+                    const leitor = new FileReader();
+                    leitor.onload = function(evt) {
+                        const livro = XLSX.read(evt.target.result, { type: 'binary' });
+                        const linhas = XLSX.utils.sheet_to_json(livro.Sheets[livro.SheetNames[0]]);
+                        
+                        linhas.forEach(linha => {
+                            let titulo = linha.Titulo || linha.titulo || linha.Compromisso || linha.evento || linha.Descricao;
+                            let data = linha.Data || linha.data || linha.Dia;
+                            let hora = linha.Hora || linha.hora || "08:00";
 
-                    // Processa linha por linha do relatório Excel/CSV
-                    linhasDoRelatorio.forEach(linha => {
-                        const titulo = linha.Titulo || linha.titulo || linha.Compromisso || linha.evento || linha.Descricao || linha.Descrição;
-                        let data = linha.Data || linha.data || linha.Dia || linha.dia;
-                        const hora = linha.Hora || linha.hora || "08:00";
-                        const obs = linha.Observacao || linha.observacao || linha.Diretrizes || "";
-
-                        if (data && titulo) {
-                            // Tratamento para o formato de data serial nativo do Excel
-                            if (typeof data === 'number') {
-                                const dataFormatada = new Date((data - 25569) * 86400 * 1000);
-                                data = dataFormatada.toISOString().split('T')[0];
+                            if (data && titulo) {
+                                if (typeof data === 'number') {
+                                    data = new Date((data - 25569) * 86400 * 1000).toISOString().split('T')[0];
+                                }
+                                salvarNoSigma(titulo, data, hora, campoTitulo, campoData, campoHora, botaoConfirmarFinal);
                             }
-
-                            // Injeta os dados do relatório diretamente nos campos nativos do SIGMA
-                            campoTitulo.value = titulo;
-                            campoData.value = data;
-                            if (campoHora) campoHora.value = hora;
-                            if (campoObservacao && obs) campoObservacao.value = obs;
-
-                            // Simula o clique físico no botão de confirmação do SIGMA para registrar no banco de dados
-                            botaoConfirmarFinal.click();
-                            totalAlocados++;
-                        }
-                    });
-
-                    if (totalAlocados > 0) {
-                        alert(`Mecanismo SIGMA: ${totalAlocados} compromissos do relatório foram processados, distribuídos e registrados com sucesso!`);
-                    } else {
-                        alert("O arquivo foi lido, mas nenhum compromisso foi inserido. Verifique se os cabeçalhos das colunas no Excel são 'Data' e 'Titulo'.");
-                    }
-
-                } catch (erro) {
-                    console.error("Falha no motor SIGMA:", erro);
-                    alert("Erro crítico ao processar planilha no celular. Use o formato padrão .xlsx ou .csv");
-                }
+                        });
+                        alert("Relatório de Excel processado com sucesso!");
+                    };
+                    leitor.readAsBinaryString(arquivo);
+                } 
                 
-                inputArquivoSigma.value = ""; // Reseta o campo para novas leituras
-            };
+                // ================= COMENTÁRIO TÉCNICO: SE FOR WORD (DOCX) =================
+                else if (nomeArquivo.endsWith('.docx')) {
+                    const leitor = new FileReader();
+                    leitor.onload = function(evt) {
+                        mammoth.extractRawText({ arrayBuffer: evt.target.result })
+                            .then(function(resultado) {
+                                varrerTextoEAlocar(resultado.value, campoTitulo, campoData, campoHora, botaoConfirmarFinal);
+                            });
+                    };
+                    leitor.readAsArrayBuffer(arquivo);
+                } 
+                
+                // ================= COMENTÁRIO TÉCNICO: SE FOR PDF =================
+                else if (nomeArquivo.endsWith('.pdf')) {
+                    const leitor = new FileReader();
+                    leitor.onload = async function(evt) {
+                        const dados = new Uint8Array(evt.target.result);
+                        const carregandoPdf = pdfjsLib.getDocument({ data: dados });
+                        const pdf = await carregandoPdf.promise;
+                        let textoCompleto = "";
 
-            leitorMecanico.readAsBinaryString(file);
+                        for (let i = 1; i <= pdf.numPages; i++) {
+                            const pagina = await pdf.getPage(i);
+                            const conteudoTexto = await pagina.getTextContent();
+                            const stringsTexto = conteudoTexto.items.map(item => item.str);
+                            textoCompleto += stringsTexto.join(" ") + "\n";
+                        }
+                        varrerTextoEAlocar(textoCompleto, campoTitulo, campoData, campoHora, botaoConfirmarFinal);
+                    };
+                    leitor.readAsArrayBuffer(arquivo);
+                } else {
+                    alert("Formato não suportado. Envie Excel, Word ou PDF.");
+                }
+
+            } catch (erro) {
+                console.error(erro);
+                alert("Falha mecânica ao interpretar a estrutura deste relatório.");
+            }
+            
+            inputArquivoSigma.value = ""; // Reseta o botão
         });
     }
 });
+
+// Mecanismo inteligente de busca de padrões de Data e Título dentro de arquivos de texto (PDF/Word)
+function varrerTextoEAlocar(textoBruto, campoT, campoD, campoH, btnSalvar) {
+    // Procura por formatos de data padrão no Brasil (DD/MM/AAAA ou DD-MM-AAAA)
+    const regexData = /(\d{2})[\/\-](\d{2})[\/\-](\d{4})/;
+    const linhas = textoBruto.split('\n');
+    let contador = 0;
+
+    linhas.forEach(linha => {
+        const achouData = linha.match(regexData);
+        // Se a linha contiver uma data e tiver algum texto longo (o compromisso)
+        if (achouData && linha.trim().length > 15) {
+            const dataFormatadaISO = `${achouData[3]}-${achouData[2]}-${achouData[1]}`; // Converte para AAAA-MM-DD
+            
+            // Limpa o texto da linha removendo a data para usar o resto como título do compromisso
+            const tituloLimpo = linha.replace(regexData, '').replace(/[:\-–—]/g, '').trim();
+            
+            salvarNoSigma(tituloLimpo.substring(0, 60), dataFormatadaISO, "08:00", campoT, campoD, campoH, btnSalvar);
+            contador++;
+        }
+    });
+
+    if (contador > 0) {
+        alert(`Mecanismo SIGMA: Identificamos padrões de texto e alocamos ${contador} compromissos na agenda!`);
+    } else {
+        alert("O documento foi lido, mas não encontramos nenhuma linha contendo Data (ex: 29/06/2026) junto com a descrição da tarefa.");
+    }
+}
+
+// Executa a automação física de preenchimento e clique
+function salvarNoSigma(titulo, data, hora, cT, cD, cH, btn) {
+    cT.value = titulo;
+    cD.value = data;
+    if (cH) cH.value = hora;
+    btn.click();
+}
 </script>
 
 </html>
