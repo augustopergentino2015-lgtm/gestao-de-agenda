@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sistema SIGMA - Gestão Modular Assistida</title>
     
-    <!-- Configurações PWA e Metatags de Aplicativo Executivo -->
+    <!-- Configurações PWA e Metatags de Aplicativo Executivo Mobile-First -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="SIGMA">
@@ -15,7 +15,7 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%231E463C'/><text x='50%' y='40%' font-family='sans-serif' font-weight='900' font-size='160' fill='%23E28743' text-anchor='middle' dominant-baseline='central'>⚡</text><text x='50%' y='76%' font-family='sans-serif' font-weight='900' font-size='95' fill='%23FFFFFF' text-anchor='middle' letter-spacing='2'>SIGMA</text></svg>">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%231E463C'/><text x='50%' y='40%' font-family='sans-serif' font-weight='900' font-size='160' fill='%23E28743' text-anchor='middle' dominant-baseline='central'>⚡</text><text x='50%' y='76%' font-family='sans-serif' font-weight='900' font-size='95' fill='%23FFFFFF' text-anchor='middle' letter-spacing='2'>SIGMA</text></svg>">
     
-    <!-- Bibliotecas Oficiais para Processamento Real e Síncrono de Arquivos no Celular -->
+    <!-- Bibliotecas Oficiais para Processamento Síncrono e Real de Arquivos no Celular -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
@@ -29,7 +29,7 @@
             --texto-principal: #111827; /* Preto puro para máxima nitidez */
             --texto-mutado: #374151;    /* Cinza escuro denso para fácil leitura no campo */
             --branco-puro: #FFFFFF;
-            --borda: #E2E8F0;
+            --borda: #A0AEC0;           /* Borda nitidamente marcada */
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -58,7 +58,7 @@
             gap: 10px;
         }
         
-        /* NOME ATUALIZADO: SISTEMA SIGMA */
+        /* CABEÇALHO ATUALIZADO: Sistema SIGMA */
         .link-institucional-sigma {
             background-color: #14352B;
             color: var(--branco-puro);
@@ -75,7 +75,7 @@
             border: 1px solid rgba(255,255,255,0.15);
         }
         
-        .header-title-sub p { font-size: 10px; color: #A7F3D0; text-transform: uppercase; font-weight: 600; margin-top: 2px; letter-spacing: 0.3px; }
+        .header-title-sub p { font-size: 10px; color: #A7F3D0; text-transform: uppercase; font-weight: 600; margin-top: 2px; }
         #data-atual { font-size: 11px; background-color: var(--cor-destaque); color: white; padding: 6px 12px; border-radius: 12px; font-weight: 600; white-space: nowrap; }
 
         main { max-width: 600px; margin: 0 auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
@@ -92,9 +92,9 @@
             background-color: #FFF3EB;
             border: 1px solid var(--cor-destaque);
             border-radius: 10px;
-            padding: 8px 12px;
+            padding: 10px 12px;
             font-size: 12px;
-            font-weight: 700; /* Tipografia mais nítida conforme solicitado */
+            font-weight: 800; /* Tipografia mais densa e nítida */
             color: #C05621;
             display: flex;
             justify-content: space-between;
@@ -104,12 +104,12 @@
             width: 100%;
         }
         .modulo-card-ativa { background-color: var(--cor-destaque) !important; color: white !important; }
-        .btn-deletar-modulo-x { background: rgba(0,0,0,0.05); border: none; color: inherit; font-size: 14px; font-weight: bold; padding: 2px 6px; border-radius: 4px; cursor: pointer; }
-        .btn-criar-modulo-trigger { grid-column: span 2; background-color: var(--cor-primaria); color: white; border: none; border-radius: 10px; padding: 10px; font-size: 12px; font-weight: 700; text-align: center; cursor: pointer; margin-top: 4px; }
+        .btn-deletar-modulo-x { background: rgba(0,0,0,0.15); border: none; color: inherit; font-size: 14px; font-weight: 900; padding: 2px 6px; border-radius: 4px; cursor: pointer; }
+        .btn-criar-modulo-trigger { grid-column: span 2; background-color: var(--cor-primaria); color: white; border: none; border-radius: 10px; padding: 12px; font-size: 12px; font-weight: 800; text-align: center; cursor: pointer; margin-top: 4px; }
 
         .menu-interno-modulo {
             display: flex;
-            background-color: #E2E8F0;
+            background-color: #CBD5E0; /* Escurecido para melhor visualização */
             padding: 4px;
             border-radius: 12px;
             gap: 4px;
@@ -119,25 +119,35 @@
             flex: 1;
             border: none;
             background: none;
-            padding: 8px;
+            padding: 10px;
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--texto-principal);
             border-radius: 8px;
             cursor: pointer;
             text-align: center;
         }
-        .menu-interno-btn-ativo { background-color: var(--branco-puro) !important; color: var(--cor-primaria) !important; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .menu-interno-btn-ativo { background-color: var(--branco-puro) !important; color: var(--cor-primaria) !important; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 
-        .secao-titulo { font-size: 10px; font-weight: 700; color: #319795; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
-        .card-titulo-h2 { font-size: 15px; font-weight: 700; color: var(--cor-primaria); margin-bottom: 12px; }
-        .card-sigi { background-color: var(--branco-puro); padding: 16px; border-radius: 16px; border: 1px solid var(--borda); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); margin-bottom: 4px; }
+        .secao-titulo { font-size: 11px; font-weight: 900; color: #2C7A7B; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+        .card-titulo-h2 { font-size: 16px; font-weight: 900; color: var(--cor-primaria); margin-bottom: 12px; }
+        .card-sigi { background-color: var(--branco-puro); padding: 16px; border-radius: 16px; border: 1.5px solid var(--borda); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 4px; }
 
         .sigi-grid-inputs { display: grid; grid-template-cols: 1fr 1fr; gap: 8px; margin-top: 8px; }
         .sigi-field-container { display: flex; flex-direction: column; gap: 4px; }
-        .sigi-label { font-size: 11px; font-weight: 700; color: var(--texto-principal); } /* Ajuste de Nitidez */
-        .sigi-field-container input, .sigi-field-container select { padding: 10px; font-size: 13px; border: 1px solid var(--borda); border-radius: 8px; background-color: var(--branco-puro); outline: none; width: 100%; color: var(--texto-principal); font-weight: 600; }
-        .sigi-field-container input::placeholder { color: var(--texto-mutado); }
+        .sigi-label { font-size: 12px; font-weight: 800; color: var(--texto-principal); } /* Ajuste de Nitidez */
+        .sigi-field-container input, .sigi-field-container select { 
+            padding: 12px; 
+            font-size: 14px; 
+            border: 1.5px solid var(--borda); 
+            border-radius: 8px; 
+            background-color: var(--branco-puro); 
+            outline: none; 
+            width: 100%;
+            color: var(--texto-principal);
+            font-weight: 700;
+        }
+        .sigi-field-container input::placeholder { color: var(--texto-mutado); font-weight: 600; }
         .span-full { grid-column: span 2; }
         
         .bloco-linha-responsavel {
@@ -145,44 +155,44 @@
             display: grid;
             grid-template-cols: 1fr 1fr;
             gap: 8px;
-            border-bottom: 1px dashed var(--borda);
+            border-bottom: 1.5px dashed var(--borda);
             padding-bottom: 8px;
             margin-bottom: 4px;
         }
 
         .motor-box-operacional { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; width: 100%; }
-        .linha-lupa-input { display: flex; gap: 8px; align-items: center; }
-        .btn-lupa { background-color: var(--cor-primaria); color: white; border: none; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; cursor: pointer; }
-        textarea.sigi-input { width: 100%; padding: 12px; font-size: 13px; border: 1px solid var(--borda); border-radius: 12px; outline: none; font-family: inherit; resize: none; color: var(--texto-principal); font-weight: 600; }
-        .btn-submit-agenda { background-color: var(--cor-primaria); color: white; width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; margin-top: 12px; cursor: pointer; }
+        .linha-lupa-input { display: flex; gap: 8px; align-items: center; width: 100%; }
+        .btn-lupa { background-color: var(--cor-primaria); color: white; border: none; width: 48px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; cursor: pointer; }
+        textarea.sigi-input { width: 100%; padding: 12px; font-size: 14px; border: 1.5px solid var(--borda); border-radius: 12px; outline: none; font-family: inherit; resize: none; color: var(--texto-principal); font-weight: 700; }
+        .btn-submit-agenda { background-color: var(--cor-primaria); color: white; width: 100%; padding: 14px; border: none; border-radius: 10px; font-size: 14px; font-weight: 800; margin-top: 12px; cursor: pointer; }
 
-        .container-previa-temporaria { background-color: #F7FAFC; border: 1px dashed #CBD5E0; border-radius: 12px; padding: 12px; margin-top: 10px; }
-        .item-previa-linha { background-color: white; border: 1px solid #E2E8F0; padding: 8px 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 12px; font-weight: 600; }
+        .container-previa-temporaria { background-color: #F7FAFC; border: 1.5px dashed var(--borda); border-radius: 12px; padding: 12px; margin-top: 10px; }
+        .item-previa-linha { background-color: white; border: 1px solid var(--borda); padding: 10px 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 13px; font-weight: 700; color: var(--texto-principal); }
 
         .agenda-meta-header { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; margin-bottom: 8px; }
         .search-container { position: relative; width: 100%; margin-bottom: 12px; }
-        .search-container input { width: 100%; padding: 10px 12px 10px 36px; border-radius: 10px; border: 1px solid var(--borda); font-size: 13px; outline: none; color: var(--texto-principal); font-weight: 600; }
-        .search-container span { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--texto-mutado); font-size: 14px; }
+        .search-container input { width: 100%; padding: 12px 12px 12px 40px; border-radius: 10px; border: 1.5px solid var(--borda); font-size: 14px; outline: none; color: var(--texto-principal); font-weight: 700; }
+        .search-container span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--texto-principal); font-size: 16px; }
 
         .bloco-data-grupo { margin-bottom: 12px; }
-        .badge-data-separador { font-size: 11px; font-weight: 700; background-color: #E2E8F0; padding: 2px 8px; border-radius: 6px; color: #4A5568; display: inline-block; margin-bottom: 6px; }
+        .badge-data-separador { font-size: 12px; font-weight: 900; background-color: #E2E8F0; padding: 4px 10px; border-radius: 6px; color: #111827; display: inline-block; margin-bottom: 6px; }
         
-        .agenda-card-item { background-color: var(--branco-puro); border-left: 4px solid var(--cor-destaque); padding: 12px; border-radius: 8px; border: 1px solid var(--borda); border-left-width: 4px; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; cursor: pointer; }
+        .agenda-card-item { background-color: var(--branco-puro); border-left: 5px solid var(--cor-destaque); padding: 14px; border-radius: 8px; border: 1px solid var(--borda); border-left-width: 5px; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; cursor: pointer; }
         .item-info-flex { display: flex; flex-direction: column; gap: 4px; width: 100%; min-width: 0; }
-        .item-titulo { font-size: 14px; font-weight: 700; color: #1A202C; word-wrap: break-word; }
-        .item-tags-row { display: flex; gap: 6px; align-items: center; font-size: 11px; margin-top: 2px; font-weight: 600; color: var(--texto-mutado); }
-        .tag-inst { background-color: #FEEBC8; color: #C05621; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
-        .btn-lixeira { background: none; border: none; color: #E53E3E; font-size: 16px; cursor: pointer; padding: 4px; flex-shrink: 0; }
+        .item-titulo { font-size: 15px; font-weight: 900; color: var(--texto-principal); word-wrap: break-word; }
+        .item-tags-row { display: flex; gap: 8px; align-items: center; font-size: 12px; margin-top: 4px; font-weight: 800; color: var(--texto-principal); }
+        .tag-inst { background-color: #FEEBC8; color: #C05621; padding: 2px 8px; border-radius: 4px; font-weight: 900; }
+        .btn-lixeira { background: none; border: none; color: #E53E3E; font-size: 18px; cursor: pointer; padding: 4px; flex-shrink: 0; }
 
-        /* MODAL DE VISUALIZAÇÃO DETALHADA DO COMPROMISSO */
+        /* MODAL DE VISUALIZAÇÃO DETALHADA SÍNCRONA */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); padding: 20px; }
         .modal-content { background-color: var(--branco-puro); max-width: 600px; margin: 0 auto; border-radius: 16px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--borda); padding-bottom: 8px; }
         .modal-body { display: flex; flex-direction: column; gap: 10px; font-size: 13px; color: var(--texto-principal); }
         .modal-detail-line { display: flex; flex-direction: column; gap: 2px; }
-        .modal-label { font-size: 10px; font-weight: 700; color: var(--texto-mutado); text-transform: uppercase; }
+        .modal-label { font-size: 10px; font-weight: 900; color: var(--texto-mutado); text-transform: uppercase; }
 
-        footer { text-align: center; padding: 20px; margin-top: 30px; font-size: 12px; color: var(--texto-mutado); border-top: 1px solid var(--borda); font-weight: 600; }
+        footer { text-align: center; padding: 25px 20px; margin-top: 4px; font-size: 12px; color: var(--texto-principal); border-top: 1.5px solid var(--borda); font-weight: 800; }
         .colapsado { display: none !important; }
     </style>
 </head>
@@ -295,7 +305,7 @@
                     </div>
                     <div class="sigi-field-container">
                         <span class="sigi-label">Função (Opção 4)</span>
-                        <input type="text" id="resp-funcao-4" onchange="salvarFicha DeCadastroAtual()" placeholder="Função">
+                        <input type="text" id="resp-funcao-4" onchange="salvarFichaDeCadastroAtual()" placeholder="Função">
                     </div>
                 </div>
 
@@ -308,11 +318,11 @@
 
         <!-- SUB-ABA: AGENDA OPERACIONAL (COMPROMISSOS) -->
         <div id="sub-bloco-agenda">
-            <!-- MOTOR DE INTELIGÊNCIA TOTALMENTE FUNCIONAL E CORRIGIDO -->
+            <!-- MOTOR DE INTELIGÊNCIA TOTALMENTE FUNCIONAL E CORRIGIDO (LUPA SÍNCRONA REAL) -->
             <section class="card-sigi" style="margin-bottom: 12px;">
                 <div class="topo-dobravel" onclick="toggleSecao('motor-conteudo')">
                     <div>
-                        <p class="secao-titulo">Motor de Inteligência (SIGMA AI)</p>
+                        <p class="secao-titulo">Motor de Inteligência Síncrono (SIGMA AI)</p>
                         <h2 class="card-titulo-h2" style="margin-bottom:0;">Caixa de Entrada / Lupa de Arquivos</h2>
                     </div>
                     <span>▼</span>
@@ -408,7 +418,7 @@
                         <p class="secao-titulo">Visualização da Memória</p>
                         <h2 class="card-titulo-h2" style="margin-bottom:0;">Agenda Completa</h2>
                     </div>
-                    <select id="filtro-tempo-agenda" onchange="renderizarPainelAgendaCompleta()" style="padding:6px; font-size:12px; border-radius:6px; border:1px solid var(--borda); font-weight:700;">
+                    <select id="filtro-tempo-agenda" onchange="renderizarPainelAgendaCompleta()" style="padding:6px; font-size:12px; border-radius:6px; border:1.5px solid var(--borda); font-weight:800;">
                         <option value="todos">Todos</option>
                         <option value="hoje">Hoje</option>
                         <option value="semana">Esta Semana</option>
@@ -423,7 +433,7 @@
             </section>
         </div>
 
-        <!-- SUB-ABA: DOCUMENTOS (REPOSITÓRIO DIGITAL) -->
+        <!-- SUB-ABA: DOCUMENTOS (REPOSITÓRIO DIGITAL ATIVO) -->
         <section class="card-sigi colapsado" id="sub-bloco-documentos">
             <p class="secao-titulo">Repositório Documental</p>
             <h2 class="card-titulo-h2">Biblioteca e Acervo Digital</h2>
@@ -447,7 +457,7 @@
         </section>
     </main>
 
-    <!-- MODAL DE VISUALIZAÇÃO DETALHADA DO COMPROMISSO -->
+    <!-- MODAL DE VISUALIZAÇÃO DETALHADA SÍNCRONA -->
     <div id="modal-sigma-detalhe" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -484,11 +494,11 @@
     </div>
 
     <footer>
-        <p>Plataforma SIGMA v3.1 | Sistema Inteligente de Gestão Modular Assistida</p>
+        <p>Plataforma SIGMA v3.0 | Sistema Inteligente de Gestão Modular Assistida</p>
     </footer>
 
     <script>
-        // Configuração do Worker do PDF.js para rodar de forma síncrona no celular
+        // Configuração síncrona do leitor de PDF para evitar travamentos no celular
         if (typeof pdfjsLib !== 'undefined') {
             pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
         }
@@ -504,15 +514,16 @@
         let subAbaAtiva = "agenda";
         
         let mesaTemporariaRascunhos = [];
-        let dbCompromissosSigma = JSON.parse(localStorage.getItem('sigma_db_compromissos_v7')) || [];
+        
+        // Bancos de Dados Isolados por Operador (LocalStorage v7 Blindado)
+        let dbCompromissosSigma = JSON.parse(localStorage.getItem('sigma_db_compromissos_v8')) || [];
+        let dbCadastroModulos = JSON.parse(localStorage.getItem('sigma_db_cadastro_modulos_v8')) || {};
+        let dbDocumentosSigma = JSON.parse(localStorage.getItem('sigma_db_documentos_v8')) || [];
 
         let usuarioMasterAtivo = JSON.parse(localStorage.getItem('sigma_user_master_v5')) || {
             nome: "Augusto Cesar P. da Silva",
             email: "augusto@sigma.org"
         };
-
-        let dbCadastroModulos = JSON.parse(localStorage.getItem('sigma_db_cadastro_modulos_v7')) || {};
-        let dbDocumentosSigma = JSON.parse(localStorage.getItem('sigma_db_documentos_v7')) || [];
 
         window.onload = function() {
             carregarDadosUsuarioIdentificador();
@@ -640,7 +651,7 @@
                 f4: document.getElementById('resp-funcao-4').value,
                 descricao: document.getElementById('cadastro-mod-descricao').value
             };
-            localStorage.setItem('sigma_db_cadastro_modulos_v7', JSON.stringify(dbCadastroModulos));
+            localStorage.setItem('sigma_db_cadastro_modulos_v8', JSON.stringify(dbCadastroModulos));
         }
 
         function abrirPromptCriacaoModulo() {
@@ -649,7 +660,7 @@
                 const limpo = nome.trim();
                 if(!listaModulosMestres.includes(limpo)) {
                     listaModulosMestres.push(limpo);
-                    localStorage.setItem('sigma_modulos_list_v5', JSON.stringify(listaModulosMestres));
+                    localStorage.setItem('sigma_modulos_list_v6', JSON.stringify(listaModulosMestres));
                     moduloSelecionadoAtivo = limpo;
                     renderizarMosaicoModulos();
                     atualizarListaOpcoesSelectForm();
@@ -663,9 +674,9 @@
         function deletarModuloDinamicoDoSistema(nomeMod) {
             if(confirm(`Deseja remover o módulo "${nomeMod}"?`)) {
                 listaModulosMestres = listaModulosMestres.filter(m => m !== nomeMod);
-                localStorage.setItem('sigma_modulos_list_v5', JSON.stringify(listaModulosMestres));
+                localStorage.setItem('sigma_modulos_list_v6', JSON.stringify(listaModulosMestres));
                 if(dbCadastroModulos[nomeMod]) delete dbCadastroModulos[nomeMod];
-                localStorage.setItem('sigma_db_cadastro_modulos_v7', JSON.stringify(dbCadastroModulos));
+                localStorage.setItem('sigma_db_cadastro_modulos_v8', JSON.stringify(dbCadastroModulos));
                 if(moduloSelecionadoAtivo === nomeMod) moduloSelecionadoAtivo = "Todos";
                 renderizarMosaicoModulos();
                 atualizarListaOpcoesSelectForm();
@@ -686,7 +697,7 @@
 
         function dispararSeletorDeArquivo() { document.getElementById('input-arquivo-real').click(); }
         
-        // MOTOR HÍBRIDO DE LEITURA SÍNCRONA REAL (A LUPA LÊ DE VERDADE NO CELULAR)
+        // MOTOR SÍNCRONO REAL DE LEITURA BLINDADO CONTRA TRAVAMENTOS MOBILE
         function processarUploadELeituraReal(event) {
             const arquivo = event.target.files[0];
             if (!arquivo) return;
@@ -695,7 +706,7 @@
             const ext = arquivo.name.split('.').pop().toLowerCase();
             const leitor = new FileReader();
             
-            // 1. Processamento Síncrono de DOCX (Word)
+            // 1. Decodificação Síncrona de DOCX (Mammoth)
             if (ext === "docx") {
                 leitor.onload = function(e) {
                     mammoth.extractRawText({ arrayBuffer: e.target.result })
@@ -705,7 +716,7 @@
                         });
                 }; leitor.readAsArrayBuffer(arquivo);
             } 
-            // 2. Processamento Síncrono de Planilhas (Excel/CSV)
+            // 2. Decodificação Síncrona de Planilhas (SheetJS)
             else if (ext === "xlsx" || ext === "xls" || ext === "csv") {
                 leitor.onload = function(e) {
                     const data = new Uint8Array(e.target.result);
@@ -716,7 +727,7 @@
                     extrairDadosDoRelatorioAutomatizado(text);
                 }; leitor.readAsArrayBuffer(arquivo);
             } 
-            // 3. Processamento Síncrono de PDF
+            // 3. Decodificação Síncrona de PDF (pdf.js)
             else if (ext === "pdf") {
                 leitor.onload = async function(e) {
                     const doc = await pdfjsLib.getDocument({ data: e.target.result }).promise;
@@ -730,20 +741,20 @@
                     extrairDadosDoRelatorioAutomatizado(text);
                 }; leitor.readAsArrayBuffer(arquivo);
             } 
-            // 4. Arquivos de Texto Liso (.txt)
+            // 4. Arquivos de Texto Comum
             else { leitor.onload = function(e) {
                 document.getElementById('texto-caixa-entrada').value = e.target.result;
                 extrairDadosDoRelatorioAutomatizado(e.target.result);
             }; leitor.readAsText(arquivo); }
         }
 
-        // MOTOR DE INTELIGÊNCIA RESILIENTE (NÃO TRAVA E MAPEIA DATAS E PAUTAS REAIS)
+        // MOTOR DE INTELIGÊNCIA SÍNCRONO (NÃO TRAVA E ALOCA DATAS REAIS)
         function extrairDadosDoRelatorioAutomatizado(texto) {
             if(!texto) return;
             
             // Mineração flexível mapeando datas contidas no texto brasileiro (DD/MM/AAAA)
-            const regexDataBrasileira = /(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{2,4}))?/g;
-            let matchData = regexDataBrasileira.exec(texto);
+            const regexDataFlexivel = /(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{2,4}))?/g;
+            let matchData = regexDataFlexivel.exec(texto);
             
             if (matchData) {
                 const dia = matchData[1].padStart(2, '0');
@@ -756,13 +767,13 @@
                 document.getElementById('motor-campo-data').value = new Date().toISOString().split('T')[0];
             }
 
-            // Mapeia a pauta crítica e lembretes baseados nas primeiras linhas
+            // Mapeia os compromissos baseados na primeira linha
             const linhas = texto.split(/[.\n]/);
-            const tituloProvavel = linhas[0].substring(0, 50).trim() + "...";
+            const tituloProvavel = linhas[0].substring(0, 50);
             
-            document.getElementById('motor-campo-titulo').value = tituloProvavel || "Pauta Extraída SIGMA AI";
+            document.getElementById('motor-campo-titulo').value = tituloProvavel || "Pauta Operacional SIGMA AI";
             document.getElementById('motor-campo-lembrete').value = texto.substring(0, 100).trim() + "...";
-            document.getElementById('motor-campo-observacao').value = texto.length > 50 ? texto.substring(0, 50) + "..." : "Texto extraído.";
+            document.getElementById('motor-campo-observacao').value = texto.substring(0, 60) + "...";
         }
 
         function adicionarMotorAMesaTemporaria() {
@@ -785,7 +796,7 @@
 
             const itemRascunho = {
                 id: Date.now(),
-                data: data || new Date().toISOString().split('T')[0],
+                data: data,
                 horario: hora,
                 instituicao: moduloAlvo,
                 descricao: titulo,
@@ -854,7 +865,7 @@
             });
             // Ordenação por data síncrona
             dbCompromissosSigma.sort((a,b) => new Date(a.data) - new Date(b.data));
-            localStorage.setItem('sigma_db_compromissos_v7', JSON.stringify(dbCompromissosSigma));
+            localStorage.setItem('sigma_db_compromissos_v8', JSON.stringify(dbCompromissosSigma));
             mesaTemporariaRascunhos = [];
             atualizarVisualizacaoMesaMestre();
             renderizarPainelAgendaCompleta();
@@ -878,7 +889,7 @@
             });
 
             if(filtrados.length === 0) {
-                lista.innerHTML = '<p style="text-align:center; font-size:12px; color:var(--texto-mutado); padding:12px;">Nenhum registro para este âmbito.</p>';
+                lista.innerHTML = '<p style="text-align:center; font-size:12px; color:var(--texto-principal); padding:12px; font-weight:700;">Nenhum registro para este âmbito.</p>';
                 return;
             }
 
@@ -917,7 +928,7 @@
         function removerCompromissoIndividual(id) {
             if(confirm("Excluir permanentemente este compromisso?")) {
                 dbCompromissosSigma = dbCompromissosSigma.filter(i => i.id !== id);
-                localStorage.setItem('sigma_db_compromissos_v7', JSON.stringify(dbCompromissosSigma));
+                localStorage.setItem('sigma_db_compromissos_v8', JSON.stringify(dbCompromissosSigma));
                 renderizarPainelAgendaCompleta();
             }
         }
@@ -933,7 +944,7 @@
                 link: document.getElementById('doc-link').value
             };
             dbDocumentosSigma.push(novoDoc);
-            localStorage.setItem('sigma_db_documentos_v7', JSON.stringify(dbDocumentosSigma));
+            localStorage.setItem('sigma_db_documentos_v8', JSON.stringify(dbDocumentosSigma));
             document.getElementById('form-documentos-sigma').reset();
             renderizarDocumentosCatalogadosDoModulo();
             alert("Documento catalogado com sucesso!");
@@ -946,7 +957,7 @@
             let filtrados = dbDocumentosSigma.filter(d => d.userOwner === usuarioMasterAtivo.nome && (moduloSelecionadoAtivo === "Todos" || d.modulo === moduloSelecionadoAtivo));
             
             if(filtrados.length === 0) {
-                container.innerHTML = '<p style="font-size:12px; color:var(--texto-mutado); font-style:italic;">Nenhum documento anexado.</p>';
+                container.innerHTML = '<p style="font-size:12px; color:var(--texto-principal); font-style:italic; font-weight:700;">Nenhum documento anexado.</p>';
                 return;
             }
 
@@ -954,8 +965,8 @@
                 const item = document.createElement('div');
                 item.className = 'item-previa-linha';
                 item.innerHTML = `
-                    <div><strong>[${d.modulo}]</strong> <a href="${d.link}" target="_blank" style="color: var(--cor-primaria); font-weight:700;">${d.titulo}</a></div>
-                    <button onclick="removerDocumentoDoAcervo(${d.id})" style="background:none; border:none; color:#E53E3E; font-weight:bold; font-size:14px;">✕</button>
+                    <div><strong>[${d.modulo}]</strong> <a href="${d.link}" target="_blank" style="color: var(--cor-primaria); font-weight:800;">${d.titulo}</a></div>
+                    <button onclick="removerDocumentoDoAcervo(${d.id})" style="background:none; border:none; color:#E53E3E; font-weight:900;">✕</button>
                 `;
                 container.appendChild(item);
             });
@@ -963,7 +974,7 @@
 
         function removerDocumentoDoAcervo(id) {
             dbDocumentosSigma = dbDocumentosSigma.filter(d => d.id !== id);
-            localStorage.setItem('sigma_db_documentos_v7', JSON.stringify(dbDocumentosSigma));
+            localStorage.setItem('sigma_db_documentos_v8', JSON.stringify(dbDocumentosSigma));
             renderizarDocumentosCatalogadosDoModulo();
         }
 
