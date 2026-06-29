@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SIG - Sistema Integrado de Gestão Institucional</title>.
+    <title>SIGMA - Sistema Inteligente de Gestão Modular e Assistida</title>
     
-    <!-- Configurações nativas de PWA para o celular -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#1E463C">
     
     <style>
-        /* ARQUITETURA VISUAL EXECUTIVA DO SIGI (DIRETRIZES DO PRD) */
         :root {
-            --cor-fundo: #F7F7F4;       /* Tom claro/areia muito suave */
-            --cor-primaria: #1E463C;    /* Verde institucional profundo */
-            --cor-secundaria: #E3EDE9;  /* Verde claro para elementos de apoio */
-            --cor-destaque: #E28743;    /* Laranja terroso para prioridades */
-            --texto-principal: #2D3748; /* Cinza escuro corporativo */
+            --cor-fundo: #F9F9F6;
+            --cor-primaria: #1E463C;
+            --cor-secundaria: #E3EDE9;
+            --cor-destaque: #E28743;
+            --texto-principal: #2D3748;
+            --texto-mutado: #718096;
             --branco-puro: #FFFFFF;
+            --borda: #E2E8F0;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -27,7 +27,7 @@
             background-color: var(--cor-fundo);
             color: var(--texto-principal);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            padding-bottom: 50px;
+            padding-bottom: 80px;
         }
 
         header {
@@ -37,28 +37,30 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
         }
         .header-container {
-            max-w: 750px;
+            max-width: 600px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .header-title h1 { font-size: 20px; font-weight: bold; }
-        .header-title p { font-size: 11px; color: #A7F3D0; }
-        #data-atual { font-size: 11px; background-color: #064E3B; padding: 4px 12px; border-radius: 12px; border: 1px solid #047857; font-weight: 500; }
+        .header-brand { display: flex; align-items: center; gap: 10px; }
+        .header-brand span { font-size: 24px; }
+        .header-title h1 { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
+        .header-title p { font-size: 11px; color: #A7F3D0; text-transform: uppercase; font-weight: 500; }
+        
+        .header-meta { display: flex; align-items: center; gap: 8px; }
+        #data-atual { font-size: 11px; background-color: var(--cor-destaque); color: white; padding: 4px 10px; border-radius: 12px; font-weight: 600; }
+        .btn-badge { background-color: rgba(255,255,255,0.15); border: none; color: white; padding: 4px 8px; border-radius: 6px; font-size: 11px; display: flex; align-items: center; gap: 4px; }
 
-        main { max-width: 750px; margin: 16px auto; padding: 0 16px; display: flex; flex-direction: column; gap: 16px; }
+        main { max-width: 600px; margin: 0 auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
 
         .scroll-abas {
             display: flex;
             overflow-x: auto;
             gap: 8px;
-            padding-bottom: 8px;
+            padding: 4px 0 12px 0;
             scrollbar-width: none;
         }
         .scroll-abas::-webkit-scrollbar { display: none; }
@@ -66,14 +68,13 @@
         .aba-btn {
             flex-shrink: 0;
             padding: 8px 16px;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
-            border-radius: 9999px;
-            border: 1px solid #E2E8F0;
+            border-radius: 20px;
+            border: 1px solid var(--borda);
             background-color: var(--branco-puro);
-            color: #4A5568;
+            color: var(--texto-principal);
             cursor: pointer;
-            white-space: nowrap;
         }
         .aba-ativa {
             background-color: var(--cor-primaria) !important;
@@ -81,172 +82,333 @@
             border-color: var(--cor-primaria) !important;
         }
 
+        .secao-titulo { font-size: 10px; font-weight: 700; color: #319795; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+        .card-titulo-h2 { font-size: 16px; font-weight: 700; color: var(--cor-primaria); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+
         .card-sigi {
             background-color: var(--branco-puro);
             padding: 16px;
-            border-radius: 12px;
-            border: 1px solid #EDF2F7;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+            border-radius: 16px;
+            border: 1px solid var(--borda);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
         }
-        .card-title {
-            font-size: 11px;
-            font-weight: bold;
-            color: var(--cor-primaria);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+
+        .alerta-vazio {
+            background-color: #EDFDF7;
+            border: 1px dashed #C6F6D5;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            color: #22543D;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 10px;
         }
-        p.sub-info { font-size: 11px; color: #718096; }
+
+        .btn-lupa {
+            background-color: #EDF2F7;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+        }
 
         textarea.sigi-input {
             width: 100%;
             padding: 12px;
-            font-size: 14px;
-            background-color: #F7FAFC;
-            border: 1px solid #E2E8F0;
-            border-radius: 8px;
+            font-size: 13px;
+            background-color: #FFFFFF;
+            border: 1px solid var(--borda);
+            border-radius: 12px;
             outline: none;
             font-family: inherit;
+            resize: none;
+            color: var(--texto-principal);
+            margin-top: 8px;
         }
-        
-        .btn-sigi-block {
+
+        .sigi-grid-inputs {
+            display: grid;
+            grid-template-cols: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .sigi-field-container { display: flex; flex-direction: column; gap: 4px; }
+        .sigi-label { font-size: 11px; font-weight: 600; color: var(--texto-principal); }
+        .sigi-field-container input, .sigi-field-container select {
+            padding: 10px;
+            font-size: 13px;
+            border: 1px solid var(--borda);
+            border-radius: 8px;
+            background-color: var(--branco-puro);
+            outline: none;
             width: 100%;
-            background-color: var(--cor-primaria);
+        }
+        .span-full { grid-column: span 2; }
+
+        .btn-container-flex { display: flex; gap: 8px; margin-top: 12px; }
+        .btn-primario {
+            flex: 1;
+            background-color: var(--cor-destaque);
             color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
             font-size: 14px;
             font-weight: 600;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
             cursor: pointer;
-        }
-
-        .form-grid { display: grid; grid-template-cols: 1fr; gap: 10px; }
-        @media (min-width: 600px) { .form-grid { grid-template-cols: 1fr 1fr; } .span-2 { grid-column: span 2; } }
-        
-        .form-grid input, .form-grid select {
-            padding: 10px;
-            font-size: 14px;
-            background-color: #F7FAFC;
-            border: 1px solid #E2E8F0;
-            border-radius: 8px;
-            outline: none;
-        }
-        .btn-sigi-secondary { background-color: var(--cor-secundaria); color: var(--cor-primaria); font-weight: bold; }
-
-        .item-prioridade {
-            background-color: #FFFFAF;
-            border: 1px solid #FBD38D;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 13px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
-        .tag-prioridade-inst { font-size: 10px; background-color: #FEEBC8; color: #C05621; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
-
-        .agenda-header-flex { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
-        .agenda-card {
+        .btn-secundario {
+            flex: 1;
             background-color: var(--branco-puro);
-            padding: 16px;
-            border-radius: 12px;
-            border: 1px solid #EDF2F7;
+            color: var(--cor-primaria);
+            border: 1px solid var(--cor-primaria);
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn-submit-agenda {
+            background-color: var(--cor-primaria);
+            color: white;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .agenda-meta-header { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; margin-bottom: 8px; }
+        .search-container { position: relative; width: 100%; margin-bottom: 12px; }
+        .search-container input { width: 100%; padding: 10px 12px 10px 36px; border-radius: 10px; border: 1px solid var(--borda); font-size: 13px; outline: none; }
+        .search-container span { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--texto-mutado); font-size: 14px; }
+
+        .bloco-data-grupo { margin-bottom: 12px; }
+        .badge-data-separador { font-size: 11px; font-weight: 700; background-color: #E2E8F0; padding: 2px 8px; border-radius: 6px; color: #4A5568; display: inline-block; margin-bottom: 6px; }
+        
+        .agenda-card-item {
+            background-color: var(--branco-puro);
+            border-left: 4px solid var(--cor-destaque);
+            padding: 12px;
+            border-radius: 8px;
+            border-top: 1px solid var(--borda);
+            border-right: 1px solid var(--borda);
+            border-bottom: 1px solid var(--borda);
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            gap: 16px;
+            margin-bottom: 6px;
         }
-        .agenda-date-badge { font-size: 16px; font-weight: bold; color: var(--cor-primaria); }
-        .agenda-desc { font-size: 14px; color: #1A202C; }
-        .agenda-meta { font-size: 11px; color: #A0AEC0; margin-top: 4px; }
-        .btn-del { background: none; border: none; color: #CBD5E0; cursor: pointer; font-size: 14px; }
-        .btn-del:hover { color: #E53E3E; }
-        .tag-alta-inline { font-size: 9px; background-color: #FFF5F5; color: #E53E3E; border: 1px solid #FED7D7; padding: 1px 5px; border-radius: 4px; font-weight: bold; margin-left: 6px; }
+        .item-info-flex { display: flex; flex-direction: column; gap: 4px; }
+        .item-titulo { font-size: 14px; font-weight: 700; color: #1A202C; }
+        .item-tags-row { display: flex; gap: 6px; align-items: center; font-size: 11px; margin-top: 2px; }
+        .tag-inst { background-color: #FEEBC8; color: #C05621; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+        .tag-resp { color: #3182CE; display: flex; align-items: center; gap: 2px; }
+        .item-obs { font-size: 12px; color: var(--texto-mutado); font-style: italic; margin-top: 2px; }
 
-        .btn-whatsapp { background-color: #25D366; color: white; border: none; font-size: 13px; font-weight: bold; padding: 10px; border-radius: 8px; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; }
-        .hidden { display: none !important; }
+        .btn-acao-card { background: none; border: none; padding: 4px; cursor: pointer; border-radius: 4px; }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            font-size: 12px;
+            color: var(--texto-mutado);
+            border-top: 1px solid var(--borda);
+        }
+        .footer-responsavel { font-weight: 700; color: var(--cor-primaria); }
+
+        .topo-dobravel { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .conteudo-dobravel { transition: max-height 0.2s ease-out; overflow: hidden; }
+        .colapsado { display: none !important; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="header-container">
-            <div class="header-title">
-                <h1>SIGI</h1>
-                <p>Sistema Integrado de Gestão Institucional</p>
+            <div class="header-brand">
+                <span>⚡</span>
+                <div class="header-title">
+                    <h1>SIGMA</h1>
+                    <p>Gestão Modular e Assistida</p>
+                </div>
             </div>
-            <span id="data-atual"></span>
+            <div class="header-meta">
+                <span id="data-atual">dom., 28 de jun.</span>
+                <button class="btn-badge">📊 1</button>
+            </div>
         </div>
     </header>
 
     <main>
         <section class="scroll-abas" id="container-abas"></section>
 
+        <!-- MOTOR DE RELATORIA COMPLETO -->
         <section class="card-sigi">
-            <div class="card-title"><span>📌</span> Prioridades e Missão do Dia</div>
-            <div id="painel-prioridades" style="display: flex; flex-direction: column; gap: 8px;"></div>
+            <div class="topo-dobravel" onclick="toggleSecao('motor-conteudo')">
+                <div>
+                    <p class="secao-titulo">Motor de Relatoria</p>
+                    <h2 class="card-titulo-h2" style="margin-bottom:0;">Importar Ata ou Texto</h2>
+                </div>
+                <button class="btn-lupa" onclick="event.stopPropagation(); acionarInputArquivo();">🔍</button>
+            </div>
+            <input type="file" id="arquivo-relatoria-input" style="display:none;" accept=".txt" onchange="lerArquivoTexto(event)">
+
+            <div id="motor-conteudo" class="conteudo-dobravel">
+                <p style="font-size:12px; color:var(--texto-mutado); margin-top:8px;">Cole uma ata ou carregue um arquivo. O sistema identificará automaticamente <strong>datas</strong> e <strong>instituições</strong>.</p>
+                
+                <div class="sigi-grid-inputs">
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Título da Relatoria</span>
+                        <input type="text" id="relatoria-titulo-ident" placeholder="Ex: Ata de Reunião">
+                    </div>
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Data do Documento</span>
+                        <input type="date" id="relatoria-data-ident">
+                    </div>
+                </div>
+
+                <textarea id="texto-relatoria" rows="4" class="sigi-input" placeholder="Cole aqui a ata ou relatoria..."></textarea>
+                
+                <div class="btn-container-flex">
+                    <button onclick="processarRelatoriaAvancada()" class="btn-primario">⚡ Processar Texto</button>
+                    <button onclick="analisarTextoPrevia()" class="btn-secundario">Analisar</button>
+                </div>
+            </div>
         </section>
 
+        <!-- INSERÇÃO MANUAL DE COMPROMISSOS -->
         <section class="card-sigi">
-            <div class="card-title"><span>⚡</span> Motor de Relatorias (Processamento Automático)</div>
-            <p class="sub-info">Cole atas ou textos organizacionais brutos. O motor extrairá prazos e alocará no campo correto.</p>
-            <textarea id="texto-relatoria" rows="3" class="sigi-input" placeholder="Ex: Na reunião do Instituto Coopera em 15/06 ficou pautada a oficina..."></textarea>
-            <button onclick="processarRelatoria()" class="btn-sigi-block">Processar e Alocar Dados</button>
-        </section>
-
-        <section class="card-sigi">
-            <div class="card-title"><span>➕</span> Inserção Manual</div>
-            <form id="form-manual" onsubmit="adicionarManual(event)" class="form-grid">
-                <input type="date" id="manual-data" required>
-                <select id="manual-institicao" required></select>
-                <input type="text" id="manual-descricao" placeholder="Descrição do compromisso" required class="span-2">
-                <input type="text" id="manual-responsavel" placeholder="Responsável (Ex: Augusto)">
-                <select id="manual-prioridade">
-                    <option value="Normal">Prioridade: Normal</option>
-                    <option value="Alta">Prioridade: Alta ⭐</option>
-                </select>
-                <button type="submit" class="btn-sigi-block btn-sigi-secondary span-2">Salvar Registro</button>
+            <div class="topo-dobravel" onclick="toggleSecao('form-manual')">
+                <div>
+                    <p class="secao-titulo">Inserção Manual</p>
+                    <h2 class="card-titulo-h2" style="margin-bottom:0;">Adicionar Compromisso</h2>
+                </div>
+                <span>▼</span>
+            </div>
+            
+            <form id="form-manual" onsubmit="adicionarManual(event)" class="conteudo-dobravel sigi-grid-inputs">
+                <div class="sigi-field-container">
+                    <span class="sigi-label">Data *</span>
+                    <input type="date" id="manual-data" required>
+                </div>
+                <div class="sigi-field-container">
+                    <span class="sigi-label">Horário</span>
+                    <input type="time" id="manual-horario">
+                </div>
+                <div class="sigi-field-container span-full">
+                    <span class="sigi-label">Instituição *</span>
+                    <select id="manual-institicao" required></select>
+                </div>
+                <div class="sigi-field-container span-full">
+                    <span class="sigi-label">Descrição / Pauta *</span>
+                    <input type="text" id="manual-descricao" placeholder="Ex: Reunião de planejamento" required>
+                </div>
+                <div class="sigi-field-container">
+                    <span class="sigi-label">Responsável</span>
+                    <input type="text" id="manual-responsavel" placeholder="Nome">
+                </div>
+                <div class="sigi-field-container">
+                    <span class="sigi-label">Prioridade</span>
+                    <select id="manual-prioridade">
+                        <option value="Normal">Normal</option>
+                        <option value="Alta">Alta ⭐</option>
+                    </select>
+                </div>
+                <div class="sigi-field-container span-full">
+                    <span class="sigi-label">Observações</span>
+                    <textarea id="manual-observacoes" rows="2" class="sigi-input" style="margin-top:0;" placeholder="Detalhes adicionais (opcional)"></textarea>
+                </div>
+                <button type="submit" class="btn-submit-agenda span-full">+ Adicionar à Agenda</button>
             </form>
         </section>
 
-        <section id="secao-comunicacao" class="card-sigi hidden">
-            <div class="card-title"><span>📢</span> Despacho Semanal</div>
-            <button onclick="gerarRelatorioWhatsApp()" class="btn-whatsapp"><span>💬</span> Copiar Texto para o WhatsApp</button>
+        <!-- MISSÃO DO DIA -->
+        <section class="card-sigi">
+            <p class="secao-titulo">Missão do Dia</p>
+            <h2 class="card-titulo-h2">Prioridades de Hoje <span style="font-size:11px; color:var(--cor-destaque);" id="badge-hoje-data"></span></h2>
+            <div id="painel-prioridades-hoje"></div>
         </section>
 
-        <section style="display: flex; flex-direction: column; gap: 8px;">
-            <div class="agenda-header-flex">
-                <h2 class="card-title" id="titulo-agenda-campo">Compromissos</h2>
-                <button onclick="limparAgendaCampo()" style="background:none; border:none; color:#E53E3E; font-size:11px; cursor:pointer; font-weight:bold;">Limpar Campo</button>
+        <!-- AGENDA COMPLETA COM FILTROS TEMPORAIS -->
+        <section style="margin-top: 8px;">
+            <div class="agenda-meta-header">
+                <div>
+                    <p class="secao-titulo">Todos os Compromissos</p>
+                    <h2 class="card-titulo-h2" style="margin-bottom:0;">Agenda Completa</h2>
+                </div>
+                <div style="display:flex; gap:6px;">
+                    <select id="filtro-tempo-agenda" onchange="renderizarAgenda()" style="padding:6px; font-size:12px; border-radius:6px; border:1px solid var(--borda); font-weight:600;">
+                        <option value="todos">Todos</option>
+                        <option value="hoje">Hoje</option>
+                        <option value="semana">Esta Semana</option>
+                        <option value="mes">Este Mês</option>
+                    </select>
+                    <button onclick="exportarDados()" style="padding:4px 8px; font-size:12px; border-radius:6px; border:1px solid var(--borda); background:white; cursor:pointer; font-weight:600;">📥 Exportar</button>
+                </div>
             </div>
-            <div id="lista-agenda" style="display: flex; flex-direction: column; gap: 10px;"></div>
+
+            <div class="search-container">
+                <span>🔍</span>
+                <input type="text" id="busca-agenda" oninput="renderizarAgenda()" placeholder="Buscar compromisso, responsável...">
+            </div>
+
+            <div id="lista-agenda-completa"></div>
         </section>
     </main>
 
+    <footer>
+        <p>Plataforma SIGMA v1.0 | Âmbito: <span id="footer-contexto-nome">Geral</span></p>
+        <p>Responsável Técnico Titular: <span class="footer-responsavel">Augusto Cesar P. da Silva</span></p>
+    </footer>
+
     <script>
         const iOficiais = [
-            "Instituto Coopera", "Projeto Mutirão Coordenação executiva", 
+            "Todos", "Instituto Coopera", "Projeto Mutirão Coordenação executiva", 
             "Projeto Mutirão Ecocol", "Grupo Estudos Coopera", "Paul Singer", 
             "Ecofeira da Rural", "Residuos sólidos", "Pesquisa", 
             "Coletivo Sementes", "Bacharelado em agroecologia", "Agenda Pessoal"
         ];
 
-        let abaSelecionada = iOficiais[0];
-        let baseDeDadosAgendas = JSON.parse(localStorage.getItem('sigi_agendas')) || [];
+        let abaSelecionada = "Todos";
+        let baseDeDadosAgendas = JSON.parse(localStorage.getItem('sigma_agendas_v1')) || [
+            { id: 1, data: "2026-06-30", horario: "06:30", instituicao: "Ecofeira da Rural", descricao: "Dia de feira", responsavel: "Augusto", prioridade: "Normal", observacoes: "Dia destinado a Ecofeira da rural" }
+        ];
 
         window.onload = function() {
-            document.getElementById('data-atual').innerText = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'short' });
+            configurarDatasIniciais();
             renderizarAbas();
             atualizarSelectInstituicoes();
             renderizarAgenda();
-            verificarSegundaFeira();
         };
+
+        function configurarDatasIniciais() {
+            const hoje = new Date();
+            document.getElementById('data-atual').innerText = hoje.toLocaleDateString('pt-BR', { weekday: 'short', day: 'numeric', month: 'short' });
+            document.getElementById('badge-hoje-data').innerText = hoje.toLocaleDateString('pt-BR', { day: 'numeric', month: 'long' });
+            document.getElementById('relatoria-data-ident').value = hoje.toISOString().split('T')[0];
+            document.getElementById('manual-data').value = hoje.toISOString().split('T')[0];
+        }
 
         function renderizarAbas() {
             const container = document.getElementById('container-abas');
@@ -255,154 +417,231 @@
                 const btn = document.createElement('button');
                 btn.className = `aba-btn ${inst === abaSelecionada ? 'aba-ativa' : ''}`;
                 btn.innerText = inst;
-                btn.onclick = () => { abaSelecionada = inst; renderizarAbas(); renderizarAgenda(); };
+                btn.onclick = () => { 
+                    abaSelecionada = inst; 
+                    document.getElementById('footer-contexto-nome').innerText = inst;
+                    renderizarAbas(); 
+                    renderizarAgenda(); 
+                };
                 container.appendChild(btn);
             });
-            const btnCriar = document.createElement('button');
-            btnCriar.className = "aba-btn";
-            btnCriar.style.borderStyle = "dashed";
-            btnCriar.innerText = "➕ Criar Campo";
-            btnCriar.onclick = () => {
-                let novo = prompt("Nome da nova instituição/campo:");
-                if(novo && !iOficiais.includes(novo)) {
-                    iOficiais.push(novo); renderizarAbas(); atualizarSelectInstituicoes();
-                }
-            };
-            container.appendChild(btnCriar);
         }
 
         function atualizarSelectInstituicoes() {
             const select = document.getElementById('manual-institicao');
-            select.innerHTML = '';
+            select.innerHTML = '<option value="" disabled selected>— Selecione —</option>';
             iOficiais.forEach(inst => {
-                const opt = document.createElement('option'); opt.value = inst; opt.innerText = inst;
-                select.appendChild(opt);
+                if(inst !== "Todos") {
+                    const opt = document.createElement('option'); opt.value = inst; opt.innerText = inst;
+                    select.appendChild(opt);
+                }
             });
         }
 
-        function processarRelatoria() {
-            const texto = document.getElementById('texto-relatoria').value;
-            if(!texto.trim()) return alert("Insira o texto da relatoria.");
+        function toggleSecao(id) {
+            document.getElementById(id).classList.toggle('colapsado');
+        }
 
-            let instIdentificada = abaSelecionada;
+        function acionarInputArquivo() {
+            document.getElementById('arquivo-relatoria-input').click();
+        }
+
+        function lerArquivoTexto(event) {
+            const arquivo = event.target.files[0];
+            if (!arquivo) return;
+            const leitor = new FileReader();
+            leitor.onload = function(e) {
+                document.getElementById('texto-relatoria').value = e.target.result;
+                document.getElementById('relatoria-titulo-ident').value = arquivo.name.split('.')[0];
+                alert("Arquivo importado com sucesso para o SIGMA!");
+            };
+            leitor.readAsText(arquivo);
+        }
+
+        function processarRelatoriaAvancada() {
+            const texto = document.getElementById('texto-relatoria').value;
+            const tituloIdent = document.getElementById('relatoria-titulo-ident').value || "Ata Processada";
+            const dataIdent = document.getElementById('relatoria-data-ident').value;
+
+            if(!texto.trim()) return alert("Insira ou carregue um texto.");
+
+            let instIdentificada = "Instituto Coopera";
             for (let inst of iOficiais) {
-                if (texto.toLowerCase().includes(inst.toLowerCase()) || (inst.includes(" ") && texto.toLowerCase().includes(inst.split(" ")[0].toLowerCase()))) {
-                    instIdentificada = inst; break;
+                if (inst !== "Todos" && texto.toLowerCase().includes(inst.toLowerCase())) {
+                    instIdentificada = inst;
+                    break;
                 }
             }
 
-            const regexData = /(\d{2}\/\d{2}(\/\d{4})?)/g;
-            const datas = texto.match(regexData);
-            let dataEvento = new Date().toISOString().split('T')[0];
+            const regexData = /(\d{2})\/(\d{2})(?:\/(\d{4}))?/g;
+            let match = regexData.exec(texto);
+            let dataEvento = dataIdent || new Date().toISOString().split('T')[0];
 
-            if (datas && datas.length > 0) {
-                const partes = datas[0].split('/');
-                dataEvento = `${new Date().getFullYear()}-${partes[1].padStart(2,'0')}-${partes[0].padStart(2,'0')}`;
+            if (match) {
+                const dia = match[1].padStart(2, '0');
+                const mes = match[2].padStart(2, '0');
+                const ano = match[3] || new Date().getFullYear();
+                dataEvento = `${ano}-${mes}-${dia}`;
             }
 
-            baseDeDadosAgendas.push({
-                id: Date.now(), substituicao: instIdentificada, data: dataEvento, instituicao: instIdentificada,
-                descricao: texto.length > 130 ? texto.substring(0, 127) + "..." : texto,
-                responsavel: "Extraído via Relatoria",
-                prioridade: texto.toLowerCase().includes("urgente") || texto.toLowerCase().includes("prioridade") ? "Alta" : "Normal"
-            });
+            const novoItem = {
+                id: Date.now(),
+                data: dataEvento,
+                horario: "08:00",
+                instituicao: instIdentificada,
+                descricao: texto.length > 100 ? texto.substring(0, 97) + "..." : texto,
+                responsavel: "Augusto",
+                prioridade: "Normal",
+                observacoes: `Doc: ${tituloIdent}`
+            };
 
-            localStorage.setItem('sigi_agendas', JSON.stringify(baseDeDadosAgendas));
+            baseDeDadosAgendas.push(novoItem);
+            localStorage.setItem('sigma_agendas_v1', JSON.stringify(baseDeDadosAgendas));
+            
             document.getElementById('texto-relatoria').value = '';
             abaSelecionada = instIdentificada;
-            renderizarAbas(); renderizarAgenda();
-            alert(`Sucesso! Vinculado ao campo: ${instIdentificada}`);
+            document.getElementById('footer-contexto-nome').innerText = instIdentificada;
+            renderizarAbas();
+            renderizarAgenda();
+            alert(`Sucesso! Relatório catalogado no SIGMA: ${instIdentificada}`);
+        }
+
+        function analisarTextoPrevia() {
+            const texto = document.getElementById('texto-relatoria').value;
+            if(!texto.trim()) return alert("Insira um texto.");
+            let encontradas = [];
+            iOficiais.forEach(inst => {
+                if(inst !== "Todos" && texto.toLowerCase().includes(inst.toLowerCase())) encontradas.push(inst);
+            });
+            alert(`Mapeamento SIGMA: ${encontradas.length ? encontradas.join(', ') : 'Nenhuma entidade identificada.'}`);
         }
 
         function adicionarManual(e) {
             e.preventDefault();
-            baseDeDadosAgendas.push({
+            const novoItem = {
                 id: Date.now(),
                 data: document.getElementById('manual-data').value,
+                horario: document.getElementById('manual-horario').value || "00:00",
                 instituicao: document.getElementById('manual-institicao').value,
                 descricao: document.getElementById('manual-descricao').value,
-                responsavel: document.getElementById('manual-responsavel').value || "Não especificado",
-                prioridade: document.getElementById('manual-prioridade').value
-            });
-            localStorage.setItem('sigi_agendas', JSON.stringify(baseDeDadosAgendas));
+                responsavel: document.getElementById('manual-responsavel').value || "Augusto",
+                prioridade: document.getElementById('manual-prioridade').value,
+                observacoes: document.getElementById('manual-observacoes').value
+            };
+
+            baseDeDadosAgendas.push(novoItem);
+            localStorage.setItem('sigma_agendas_v1', JSON.stringify(baseDeDadosAgendas));
+            
             document.getElementById('form-manual').reset();
+            configurarDatasIniciais();
             atualizarSelectInstituicoes();
-            abaSelecionada = baseDeDadosAgendas[baseDeDadosAgendas.length - 1].instituicao;
-            renderizarAbas(); renderizarAgenda();
+            abaSelecionada = novoItem.instituicao;
+            document.getElementById('footer-contexto-nome').innerText = novoItem.instituicao;
+            renderizarAbas();
+            renderizarAgenda();
+            alert("Compromisso sincronizado com a base modular do SIGMA!");
         }
 
         function renderizarAgenda() {
-            document.getElementById('titulo-agenda-campo').innerText = `Agenda: ${abaSelecionada}`;
-            const lista = document.getElementById('lista-agenda');
-            const painel = document.getElementById('painel-prioridades');
-            lista.innerHTML = ''; painel.innerHTML = '';
+            const lista = document.getElementById('lista-agenda-completa');
+            const painelHoje = document.getElementById('painel-prioridades-hoje');
+            const busca = document.getElementById('busca-agenda').value.toLowerCase();
+            const filtroTempo = document.getElementById('filtro-tempo-agenda').value;
+            
+            lista.innerHTML = '';
+            painelHoje.innerHTML = '';
 
-            const filtrados = baseDeDadosAgendas.filter(i => i.instituicao === abaSelecionada).sort((a,b) => new Date(a.data) - new Date(b.data));
-            let contAlta = 0;
+            const hojeObj = new Date();
+            const hojeStr = hojeObj.toISOString().split('T')[0];
+
+            let filtrados = baseDeDadosAgendas.filter(item => {
+                const porAba = (abaSelecionada === "Todos" || item.instituicao === abaSelecionada);
+                const porBusca = item.descricao.toLowerCase().includes(busca) || (item.responsavel && item.responsavel.toLowerCase().includes(busca));
+                
+                let porTempo = true;
+                const dataItem = new Date(item.data + 'T00:00:00');
+                
+                if (filtroTempo === "hoje") {
+                    porTempo = (item.data === hojeStr);
+                } else if (filtroTempo === "semana") {
+                    const umDia = 24 * 60 * 60 * 1000;
+                    const diferencaDias = Math.abs((dataItem - hojeObj) / umDia);
+                    porTempo = (diferencaDias <= 7);
+                } else if (filtroTempo === "mes") {
+                    porTempo = (dataItem.getMonth() === hojeObj.getMonth() && dataItem.getFullYear() === hojeObj.getFullYear());
+                }
+
+                return porAba && porBusca && porTempo;
+            });
+
+            filtrados.sort((a, b) => new Date(a.data + 'T' + a.horario) - new Date(b.data + 'T' + b.horario));
+
+            let itensHoje = baseDeDadosAgendas.filter(i => i.data === hojeStr);
+            if(itensHoje.length === 0) {
+                painelHoje.innerHTML = `<div class="alerta-vazio"><span>🌱</span><p>Nenhum compromisso para hoje no SIGMA.</p></div>`;
+            } else {
+                itensHoje.forEach(item => {
+                    const divH = document.createElement('div');
+                    divH.className = 'agenda-card-item';
+                    divH.style.borderLeftColor = item.prioridade === 'Alta' ? 'var(--cor-destaque)' : 'var(--cor-primaria)';
+                    divH.innerHTML = `<div class="item-info-flex"><p class="item-titulo">[${item.horario}] ${item.descricao}</p><div class="item-tags-row"><span class="tag-inst">${item.instituicao}</span></div></div>`;
+                    painelHoje.appendChild(divH);
+                });
+            }
 
             if(filtrados.length === 0) {
-                lista.innerHTML = `<p style="font-size:12px; color:#A0AEC0; text-align:center; padding:20px; background:white; border-radius:12px; border:1px dashed #E2E8F0;">Nenhum registro para esta instituição.</p>`;
-                painel.innerHTML = `<p style="font-size:12px; color:#A0AEC0; font-style: italic;">Livre de prioridades críticas hoje.</p>`;
+                lista.innerHTML = '<p style="text-align:center; font-size:13px; color:var(--texto-mutado); padding:24px;">Nenhum registro modular encontrado.</p>';
                 return;
             }
 
+            let dataAtualGrupo = "";
+            let divGrupo = null;
+
             filtrados.forEach(item => {
-                const dt = new Date(item.data + 'T00:00:00').toLocaleDateString('pt-BR', {day: '2-digit', month: '2-digit'});
-                const div = document.createElement('div');
-                div.className = 'agenda-card';
-                div.innerHTML = `
-                    <div style="display:flex; flex-direction:column; gap:4px;">
-                        <div style="display:flex; align-items: center;">
-                            <span class="agenda-date-badge">${dt}</span>
-                            ${item.prioridade === 'Alta' ? '<span class="tag-alta-inline">ALTA</span>' : ''}
-                        </div>
-                        <p class="agenda-desc">${item.descricao}</p>
-                        <p class="agenda-meta">👤 Resp: ${item.responsavel}</p>
-                    </div>
-                    <button onclick="removerItem(${item.id})" class="btn-del">✕</button>
-                `;
-                lista.appendChild(div);
-
-                if(item.prioridade === 'Alta') {
-                    contAlta++;
-                    const pDiv = document.createElement('div');
-                    pDiv.className = 'item-prioridade';
-                    pDiv.innerHTML = `<div><strong>[${dt}]</strong> ${item.descricao}</div><span class="tag-prioridade-inst">${item.instituicao.split(" ")[0]}</span>`;
-                    painel.appendChild(pDiv);
+                if(item.data !== dataAtualGrupo) {
+                    dataAtualGrupo = item.data;
+                    const partes = item.data.split('-');
+                    const bloco = document.createElement('div');
+                    bloco.className = 'bloco-data-grupo';
+                    bloco.innerHTML = `<span class="badge-data-separador">${partes[2]}/${partes[1]}/${partes[0]}</span><div id="grupo-${dataAtualGrupo}"></div>`;
+                    lista.appendChild(bloco);
+                    divGrupo = document.getElementById(`grupo-${dataAtualGrupo}`);
                 }
+
+                const card = document.createElement('div');
+                card.className = 'agenda-card-item';
+                card.innerHTML = `
+                    <div class="item-info-flex">
+                        <p class="item-titulo">${item.descricao}</p>
+                        <div class="item-tags-row">
+                            <span style="font-weight:700; color:var(--cor-primaria);">${item.horario}</span>
+                            <span class="tag-inst">${item.instituicao}</span>
+                            <span class="tag-resp">👤 ${item.responsavel}</span>
+                        </div>
+                        ${item.observacoes ? `<p class="item-obs">${item.observacoes}</p>` : ''}
+                    </div>
+                    <button onclick="deletarItem(${item.id})" class="btn-acao-card">🗑️</button>
+                `;
+                divGrupo.appendChild(card);
             });
-
-            if(contAlta === 0) painel.innerHTML = `<p style="font-size:12px; color:#A0AEC0;">Livre de prioridades críticas hoje.</p>`;
         }
 
-        function verificarSegundaFeira() {
-            if(new Date().getDay() === 1) document.getElementById('secao-comunicacao').classList.remove('hidden');
-        }
-
-        function gerarRelatorioWhatsApp() {
-            const itens = baseDeDadosAgendas.filter(i => i.instituicao === abaSelecionada);
-            if(itens.length === 0) return alert("Sem registros para compilar.");
-            let txt = `*CRONOGRAMA INSTITUCIONAL - ${abaSelecionada.toUpperCase()}*\nPrezados, seguem as atividades coordenadas para esta semana:\n\n`;
-            itens.forEach(i => {
-                const d = new Date(i.data + 'T00:00:00').toLocaleDateString('pt-BR', {day: '2-digit', month: '2-digit'});
-                txt += `📅 *${d}* - ${i.descricao} (_Resp: ${i.responsavel}_)\n`;
-            });
-            txt += `\n_Emitido via SIGI - Central de Memória Viva_`;
-            navigator.clipboard.writeText(txt).then(() => alert("Texto copiado para a área de transferência! Só colar no WhatsApp."));
-        }
-
-        function removerItem(id) {
-            baseDeDadosAgendas = baseDeDadosAgendas.filter(i => i.id !== id);
-            localStorage.setItem('sigi_agendas', JSON.stringify(baseDeDadosAgendas));
-            renderizarAgenda();
-        }
-
-        function limparAgendaCampo() {
-            if(confirm(`Limpar todos os dados da aba ${abaSelecionada}?`)) {
-                baseDeDadosAgendas = baseDeDadosAgendas.filter(i => i.instituicao !== abaSelecionada);
-                localStorage.setItem('sigi_agendas', JSON.stringify(baseDeDadosAgendas));
+        function deletarItem(id) {
+            if(confirm("Remover este compromisso do ecossistema SIGMA?")) {
+                baseDeDadosAgendas = baseDeDadosAgendas.filter(i => i.id !== id);
+                localStorage.setItem('sigma_agendas_v1', JSON.stringify(baseDeDadosAgendas));
                 renderizarAgenda();
             }
+        }
+
+        function exportarDados() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(baseDeDadosAgendas, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "sigma_export_agenda.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
         }
     </script>
 </body>
