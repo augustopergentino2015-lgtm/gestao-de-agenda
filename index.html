@@ -46,25 +46,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 10px;
         }
-        .header-brand { display: flex; align-items: center; gap: 8px; min-width: 0; }
-        .header-title h1 { font-size: 16px; font-weight: 700; letter-spacing: 0.5px; }
-        .header-title p { font-size: 10px; color: #A7F3D0; text-transform: uppercase; white-space: nowrap; }
-        
-        #data-atual { 
-            font-size: 11px; 
-            background-color: var(--cor-destaque); 
-            color: white; 
-            padding: 6px 12px; 
-            border-radius: 12px; 
-            font-weight: 600; 
-            white-space: nowrap; 
-            flex-shrink: 0;
-        }
+        .header-title h1 { font-size: 16px; font-weight: 700; }
+        .header-title p { font-size: 10px; color: #A7F3D0; text-transform: uppercase; }
+        #data-atual { font-size: 11px; background-color: var(--cor-destaque); color: white; padding: 6px 12px; border-radius: 12px; font-weight: 600; }
 
         main { max-width: 600px; margin: 0 auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
 
+        /* MOSAICO DE MÓDULOS INSTITUCIONAIS */
         .grid-modulos-fluxo {
             display: grid;
             grid-template-cols: repeat(2, 1fr);
@@ -72,7 +61,6 @@
             padding: 4px 0;
             width: 100%;
         }
-        
         .modulo-card-btn {
             background-color: #FFF3EB;
             border: 1px solid var(--cor-destaque);
@@ -86,136 +74,67 @@
             align-items: center;
             gap: 6px;
             cursor: pointer;
-            width: 100%;
         }
-        .modulo-card-ativa {
-            background-color: var(--cor-destaque) !important;
-            color: white !important;
-        }
-        .btn-deletar-modulo-x {
-            background: rgba(0,0,0,0.05);
-            border: none;
-            color: inherit;
-            font-size: 14px;
-            font-weight: bold;
-            padding: 2px 6px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+        .modulo-card-ativa { background-color: var(--cor-destaque) !important; color: white !important; }
+        .btn-deletar-modulo-x { background: rgba(0,0,0,0.05); border: none; color: inherit; font-size: 14px; font-weight: bold; padding: 2px 6px; border-radius: 4px; }
+        .btn-criar-modulo-trigger { grid-column: span 2; background-color: var(--cor-primaria); color: white; border: none; border-radius: 10px; padding: 10px; font-size: 12px; font-weight: 700; margin-top: 4px; cursor: pointer; }
 
-        .btn-criar-modulo-trigger {
-            grid-column: span 2;
-            background-color: var(--cor-primaria);
-            color: white;
+        /* MENU INTERNO COMPONENTE EXCLUSIVO SOLICITADO */
+        .menu-interno-modulo {
+            display: flex;
+            background-color: #E2E8F0;
+            padding: 4px;
+            border-radius: 12px;
+            gap: 4px;
+            margin: 6px 0;
+        }
+        .menu-interno-btn {
+            flex: 1;
             border: none;
-            border-radius: 10px;
-            padding: 10px;
+            background: none;
+            padding: 8px;
             font-size: 12px;
             font-weight: 700;
-            text-align: center;
+            color: var(--texto-principal);
+            border-radius: 8px;
             cursor: pointer;
-            margin-top: 4px;
+            text-align: center;
+        }
+        .menu-interno-btn-ativo {
+            background-color: var(--branco-puro) !important;
+            color: var(--cor-primaria) !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         .secao-titulo { font-size: 10px; font-weight: 700; color: #319795; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
         .card-titulo-h2 { font-size: 15px; font-weight: 700; color: var(--cor-primaria); margin-bottom: 12px; }
+        .card-sigi { background-color: var(--branco-puro); padding: 16px; border-radius: 16px; border: 1px solid var(--borda); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); }
 
-        .card-sigi {
-            background-color: var(--branco-puro);
-            padding: 16px;
-            border-radius: 16px;
-            border: 1px solid var(--borda);
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
-        }
-
-        .motor-box-operacional { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; width: 100%; }
-        .linha-lupa-input { display: flex; gap: 8px; align-items: center; }
-
-        .btn-lupa {
-            background-color: var(--cor-primaria);
-            color: white;
-            border: none;
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-
-        textarea.sigi-input {
-            width: 100%;
-            padding: 12px;
-            font-size: 13px;
-            border: 1px solid var(--borda);
-            border-radius: 12px;
-            outline: none;
-            font-family: inherit;
-            resize: none;
-            color: var(--texto-principal);
-        }
-
-        .sigi-grid-inputs {
-            display: grid;
-            grid-template-cols: 1fr 1fr;
-            gap: 8px;
-            margin-top: 8px;
-        }
+        .sigi-grid-inputs { display: grid; grid-template-cols: 1fr 1fr; gap: 8px; margin-top: 8px; }
         .sigi-field-container { display: flex; flex-direction: column; gap: 4px; }
         .sigi-label { font-size: 11px; font-weight: 600; color: var(--texto-principal); }
-        .sigi-field-container input, .sigi-field-container select {
-            padding: 10px;
-            font-size: 13px;
-            border: 1px solid var(--borda);
-            border-radius: 8px;
-            background-color: var(--branco-puro);
-            outline: none;
-            width: 100%;
-        }
+        .sigi-field-container input, .sigi-field-container select { padding: 10px; font-size: 13px; border: 1px solid var(--borda); border-radius: 8px; background-color: var(--branco-puro); outline: none; width: 100%; }
         .span-full { grid-column: span 2; }
 
-        .btn-submit-agenda {
-            background-color: var(--cor-primaria);
-            color: white;
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 12px;
-        }
+        .motor-box-operacional { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+        .linha-lupa-input { display: flex; gap: 8px; align-items: center; }
+        .btn-lupa { background-color: var(--cor-primaria); color: white; border: none; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        textarea.sigi-input { width: 100%; padding: 12px; font-size: 13px; border: 1px solid var(--borda); border-radius: 12px; outline: none; font-family: inherit; resize: none; color: var(--texto-principal); }
+        .btn-submit-agenda { background-color: var(--cor-primaria); color: white; width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; margin-top: 12px; cursor: pointer; }
 
         .agenda-meta-header { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; margin-bottom: 8px; }
         .search-container { position: relative; width: 100%; margin-bottom: 12px; }
         .search-container input { width: 100%; padding: 10px 12px 10px 36px; border-radius: 10px; border: 1px solid var(--borda); font-size: 13px; outline: none; }
         .search-container span { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--texto-mutado); font-size: 14px; }
-
         .bloco-data-grupo { margin-bottom: 12px; }
         .badge-data-separador { font-size: 11px; font-weight: 700; background-color: #E2E8F0; padding: 2px 8px; border-radius: 6px; color: #4A5568; display: inline-block; margin-bottom: 6px; }
         
-        .agenda-card-item {
-            background-color: var(--branco-puro);
-            border-left: 4px solid var(--cor-destaque);
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid var(--borda);
-            border-left-width: 4px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 6px;
-        }
+        .agenda-card-item { background-color: var(--branco-puro); border-left: 4px solid var(--cor-destaque); padding: 12px; border-radius: 8px; border: 1px solid var(--borda); border-left-width: 4px; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
         .item-info-flex { display: flex; flex-direction: column; gap: 4px; }
         .item-titulo { font-size: 14px; font-weight: 700; color: #1A202C; }
         .item-tags-row { display: flex; gap: 6px; align-items: center; font-size: 11px; margin-top: 2px; }
         .tag-inst { background-color: #FEEBC8; color: #C05621; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
-        
-        .btn-lixeira { background: none; border: none; color: #E53E3E; font-size: 16px; cursor: pointer; padding: 4px; }
+        .btn-lixeira { background: none; border: none; color: #E53E3E; font-size: 16px; padding: 4px; cursor: pointer; }
 
         footer { text-align: center; padding: 20px; margin-top: 30px; font-size: 12px; color: var(--texto-mutado); border-top: 1px solid var(--borda); }
         .topo-dobravel { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
@@ -238,7 +157,7 @@
     </header>
 
     <main>
-        <!-- IDENTIFICADOR MÁXIMO DO USUÁRIO OPERADOR -->
+        <!-- IDENTIFICADOR DO OPERADOR -->
         <section class="card-sigi">
             <div class="topo-dobravel" onclick="toggleSecao('box-usuario-identificador')">
                 <div>
@@ -259,146 +178,168 @@
             </div>
         </section>
 
-        <!-- MOSAICO RECONFIGURADO DE MÓDULOS -->
+        <!-- MOSAICO DE MÓDULOS -->
         <section class="grid-modulos-fluxo" id="container-modulos-mosaico"></section>
 
-        <!-- FICHA DE CADASTRO EXCLUSIVA DO MÓDULO -->
-        <section class="card-sigi">
-            <p class="secao-titulo">Ficha de Cadastro do Módulo</p>
+        <!-- MENU INTERNO EXCLUSIVO DO MÓDULO SELECIONADO -->
+        <nav class="menu-interno-modulo">
+            <button id="btn-sub-agenda" class="menu-interno-btn menu-interno-btn-ativo" onclick="alternarSubAbasModulo('agenda')">📌 Painel / Agenda</button>
+            <button id="btn-sub-cadastro" class="menu-interno-btn" onclick="alternarSubAbasModulo('cadastro')">📋 Ficha de Cadastro</button>
+            <button id="btn-sub-documentos" class="menu-interno-btn" onclick="alternarSubAbasModulo('documentos')">📂 Documentos</button>
+        </nav>
+
+        <!-- SUB-ABA: FICHA DE CADASTRO (EXCLUSIVA E INDIVIDUAL) -->
+        <section class="card-sigi colapsado" id="sub-bloco-cadastro">
+            <p class="secao-titulo">Cadastro Institucional do Âmbito</p>
             <h2 class="card-titulo-h2" id="sigma-txt-nome-modulo">Todos</h2>
             
-            <div class="sigi-grid-inputs" style="margin-top: 4px;">
-                <div class="sigi-field-container">
-                    <span class="sigi-label">Responsável pelo Âmbito</span>
-                    <input type="text" id="cadastro-mod-proprietario" onchange="salvarCadastroDoModuloAtual()">
+            <div class="sigi-grid-inputs">
+                <div class="sigi-field-container span-full">
+                    <span class="sigi-label">Razão Social / Nome Completo</span>
+                    <input type="text" id="cadastro-mod-nome-completo" onchange="salvarFichaDeCadastroAtual()" placeholder="Ex: Instituto Coopera de Economia Solidária">
                 </div>
                 <div class="sigi-field-container">
-                    <span class="sigi-label">Nível de Acesso / Categoria</span>
-                    <input type="text" id="cadastro-mod-categoria" onchange="salvarCadastroDoModuloAtual()">
+                    <span class="sigi-label">CNPJ / CPF</span>
+                    <input type="text" id="cadastro-mod-cnpj" onchange="salvarFichaDeCadastroAtual()" placeholder="00.000.000/0001-00">
+                </div>
+                <div class="sigi-field-container">
+                    <span class="sigi-label">Responsável Titular</span>
+                    <input type="text" id="cadastro-mod-proprietario" onchange="salvarFichaDeCadastroAtual()" placeholder="Nome do gestor">
                 </div>
                 <div class="sigi-field-container span-full">
-                    <span class="sigi-label">Meta / Diretriz Institucional</span>
-                    <input type="text" id="cadastro-mod-descricao" onchange="salvarCadastroDoModuloAtual()">
+                    <span class="sigi-label">Endereço / Localidade</span>
+                    <input type="text" id="cadastro-mod-endereco" onchange="salvarFichaDeCadastroAtual()" placeholder="Rua, Cidade - Estado">
+                </div>
+                <div class="sigi-field-container span-full">
+                    <span class="sigi-label">Diretriz Estratégica / Meta do Módulo</span>
+                    <input type="text" id="cadastro-mod-descricao" onchange="salvarFichaDeCadastroAtual()">
                 </div>
             </div>
         </section>
 
-        <!-- MOTOR DE EXTRAÇÃO AVANÇADA -->
-        <section class="card-sigi">
-            <div class="topo-dobravel" onclick="toggleSecao('motor-conteudo')">
-                <div>
-                    <p class="secao-titulo">Motor de Inteligência</p>
-                    <h2 class="card-titulo-h2" style="margin-bottom:0;">Caixa de Entrada / Lupa DOCX</h2>
-                </div>
-                <span>▼</span>
-            </div>
-            
-            <div id="motor-conteudo" class="motor-box-operacional">
-                <div class="linha-lupa-input">
-                    <button class="btn-lupa" onclick="dispararSeletorDeArquivo();">🔍</button>
-                    <input type="file" id="input-arquivo-real" style="display:none;" accept=".txt,.docx" onchange="executarLeituraRealDocx(event)">
-                    <textarea id="texto-caixa-entrada" rows="3" class="sigi-input" placeholder="Cole trechos do WhatsApp ou use a lupa para ler arquivos do Word (.docx)..."></textarea>
-                </div>
-
-                <div class="sigi-grid-inputs">
-                    <div class="sigi-field-container span-full">
-                        <span class="sigi-label">Título da Pauta / Documento</span>
-                        <input type="text" id="motor-campo-titulo" placeholder="Ex: Ata de Reunião Estratégica">
+        <!-- SUB-ABA: AGENDA OPERACIONAL E MOTOR DE INTELIGÊNCIA -->
+        <div id="sub-bloco-agenda">
+            <!-- MOTOR DE EXTRAÇÃO AVANÇADA -->
+            <section class="card-sigi" style="margin-bottom: 12px;">
+                <div class="topo-dobravel" onclick="toggleSecao('motor-conteudo')">
+                    <div>
+                        <p class="secao-titulo">Motor de Inteligência</p>
+                        <h2 class="card-titulo-h2" style="margin-bottom:0;">Caixa de Entrada / Lupa DOCX</h2>
                     </div>
+                    <span>▼</span>
+                </div>
+                
+                <div id="motor-conteudo" class="motor-box-operacional">
+                    <div class="linha-lupa-input">
+                        <button class="btn-lupa" onclick="dispararSeletorDeArquivo();">🔍</button>
+                        <input type="file" id="input-arquivo-real" style="display:none;" accept=".txt,.docx" onchange="executarLeituraRealDocx(event)">
+                        <textarea id="texto-caixa-entrada" rows="3" class="sigi-input" placeholder="Cole trechos do WhatsApp ou use a lupa para ler arquivos do Word (.docx)..."></textarea>
+                    </div>
+
+                    <div class="sigi-grid-inputs">
+                        <div class="sigi-field-container span-full">
+                            <span class="sigi-label">Título da Pauta / Documento</span>
+                            <input type="text" id="motor-campo-titulo" placeholder="Ex: Ata de Reunião Estratégica">
+                        </div>
+                        <div class="sigi-field-container">
+                            <span class="sigi-label">Data Extraída</span>
+                            <input type="date" id="motor-campo-data">
+                        </div>
+                        <div class="sigi-field-container">
+                            <span class="sigi-label">Horário</span>
+                            <input type="time" id="motor-campo-hora" value="09:00">
+                        </div>
+                        <div class="sigi-field-container span-full">
+                            <span class="sigi-label">Notas e Lembretes Identificados</span>
+                            <input type="text" id="motor-campo-lembrete" placeholder="Lembretes extraídos automaticamente">
+                        </div>
+                        <div class="sigi-field-container span-full">
+                            <span class="sigi-label">Observações Complementares</span>
+                            <input type="text" id="motor-campo-observacao" placeholder="Diretrizes identificadas">
+                        </div>
+                    </div>
+                    <button onclick="processarEAlocarNaAgendaSigma()" class="btn-submit-agenda" style="background-color:var(--cor-destaque); margin-top:4px;">⚡ Executar Alocação e Distribuição Modular</button>
+                </div>
+            </section>
+
+            <!-- INSERÇÃO MANUAL -->
+            <section class="card-sigi" style="margin-bottom: 12px;">
+                <div class="topo-dobravel" onclick="toggleSecao('form-manual')">
+                    <div>
+                        <p class="secao-titulo">Inserção Manual</p>
+                        <h2 class="card-titulo-h2" style="margin-bottom:0;">Adicionar Compromisso</h2>
+                    </div>
+                    <span>▼</span>
+                </div>
+                
+                <form id="form-manual" onsubmit="salvarCompromissoManual(event)" class="conteudo-dobravel sigi-grid-inputs">
                     <div class="sigi-field-container">
-                        <span class="sigi-label">Data Extraída</span>
-                        <input type="date" id="motor-campo-data">
+                        <span class="sigi-label">Data *</span>
+                        <input type="date" id="manual-data" required>
                     </div>
                     <div class="sigi-field-container">
                         <span class="sigi-label">Horário</span>
-                        <input type="time" id="motor-campo-hora" value="09:00">
+                        <input type="time" id="manual-horario">
                     </div>
                     <div class="sigi-field-container span-full">
-                        <span class="sigi-label">Notas e Lembretes Identificados</span>
-                        <input type="text" id="motor-campo-lembrete" placeholder="Lembretes extraídos do texto automaticamente">
+                        <span class="sigi-label">Módulo de Destino *</span>
+                        <select id="manual-select-instituicao" required></select>
                     </div>
                     <div class="sigi-field-container span-full">
-                        <span class="sigi-label">Observações Complementares</span>
-                        <input type="text" id="motor-campo-observacao" placeholder="Diretrizes e observações adicionais identificadas">
+                        <span class="sigi-label">Descrição / Pauta *</span>
+                        <input type="text" id="manual-descricao" placeholder="Pauta operacional" required>
                     </div>
-                </div>
-                
-                <button onclick="processarEAlocarNaAgendaSigma()" class="btn-submit-agenda" style="background-color:var(--cor-destaque); margin-top:4px;">⚡ Executar Alocação e Distribuição Modular</button>
-            </div>
-        </section>
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Responsável</span>
+                        <input type="text" id="manual-responsavel" placeholder="Nome do responsável">
+                    </div>
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Prioridade</span>
+                        <select id="manual-prioridade">
+                            <option value="Normal">Normal</option>
+                            <option value="Alta">Alta ⭐</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-submit-agenda span-full">+ Inserir na Agenda Modular</button>
+                </form>
+            </section>
 
-        <!-- INSERÇÃO MANUAL -->
-        <section class="card-sigi">
-            <div class="topo-dobravel" onclick="toggleSecao('form-manual')">
-                <div>
-                    <p class="secao-titulo">Inserção Manual</p>
-                    <h2 class="card-titulo-h2" style="margin-bottom:0;">Adicionar Compromisso</h2>
-                </div>
-                <span>▼</span>
-            </div>
-            
-            <form id="form-manual" onsubmit="salvarCompromissoManual(event)" class="conteudo-dobravel sigi-grid-inputs">
-                <div class="sigi-field-container">
-                    <span class="sigi-label">Data *</span>
-                    <input type="date" id="manual-data" required>
-                </div>
-                <div class="sigi-field-container">
-                    <span class="sigi-label">Horário</span>
-                    <input type="time" id="manual-horario">
-                </div>
-                <div class="sigi-field-container span-full">
-                    <span class="sigi-label">Módulo de Destino *</span>
-                    <select id="manual-select-instituicao" required></select>
-                </div>
-                <div class="sigi-field-container span-full">
-                    <span class="sigi-label">Descrição / Pauta *</span>
-                    <input type="text" id="manual-descricao" placeholder="Pauta operacional" required>
-                </div>
-                <div class="sigi-field-container">
-                    <span class="sigi-label">Responsável</span>
-                    <input type="text" id="manual-responsavel" placeholder="Nome do responsável">
-                </div>
-                <div class="sigi-field-container">
-                    <span class="sigi-label">Prioridade</span>
-                    <select id="manual-prioridade">
-                        <option value="Normal">Normal</option>
-                        <option value="Alta">Alta ⭐</option>
+            <!-- AGENDA FILTRADA -->
+            <section style="margin-top: 4px;">
+                <div class="agenda-meta-header">
+                    <div>
+                        <p class="secao-titulo">Filtragem Temporal</p>
+                        <h2 class="card-titulo-h2" style="margin-bottom:0;">Agenda Completa</h2>
+                    </div>
+                    <select id="filtro-tempo-agenda" onchange="renderizarPainelAgendaCompleta()" style="padding:6px; font-size:12px; border-radius:6px; border:1px solid var(--borda); font-weight:600;">
+                        <option value="todos">Todos</option>
+                        <option value="hoje">Hoje</option>
+                        <option value="semana">Esta Semana</option>
+                        <option value="mes">Este Mês</option>
                     </select>
                 </div>
-                <button type="submit" class="btn-submit-agenda span-full">+ Inserir na Agenda Modular</button>
-            </form>
-        </section>
-
-        <!-- AGENDA COMPLETA -->
-        <section style="margin-top: 4px;">
-            <div class="agenda-meta-header">
-                <div>
-                    <p class="secao-titulo">Filtragem Temporal</p>
-                    <h2 class="card-titulo-h2" style="margin-bottom:0;">Agenda Completa</h2>
+                <div class="search-container">
+                    <span>🔍</span>
+                    <input type="text" id="busca-input-texto" oninput="renderizarPainelAgendaCompleta()" placeholder="Buscar compromisso cadastrado...">
                 </div>
-                <select id="filtro-tempo-agenda" onchange="renderizarPainelAgendaCompleta()" style="padding:6px; font-size:12px; border-radius:6px; border:1px solid var(--borda); font-weight:600;">
-                    <option value="todos">Todos</option>
-                    <option value="hoje">Hoje</option>
-                    <option value="semana">Esta Semana</option>
-                    <option value="mes">Este Mês</option>
-                </select>
-            </div>
+                <div id="lista-agenda-dinamica"></div>
+            </section>
+        </div>
 
-            <div class="search-container">
-                <span>🔍</span>
-                <input type="text" id="busca-input-texto" oninput="renderizarPainelAgendaCompleta()" placeholder="Buscar compromisso cadastrado...">
-            </div>
-
-            <div id="lista-agenda-dinamica"></div>
+        <!-- SUB-ABA: DOCUMENTOS (PROMPT DE MEMÓRIA VIVA FUTURA) -->
+        <section class="card-sigi colapsado" id="sub-bloco-documentos">
+            <p class="secao-titulo">Repositório Documental</p>
+            <h2 class="card-titulo-h2">Biblioteca e Acervo Técnico</h2>
+            <p style="font-size: 13px; color: var(--texto-mutado);">Módulo de documentação da memória viva institucional. Os arquivos vinculados aparecerão listados aqui nas próximas etapas do Roadmap.</p>
         </section>
     </main>
 
     <footer>
-        <p>Plataforma SIGMA v2.5 | Sistema de Gestão Modular Assistida</p>
+        <p>Plataforma SIGMA v2.6 | Sistema de Gestão Modular Assistida</p>
     </footer>
 
     <script>
-        let listaModulosMestres = JSON.parse(localStorage.getItem('sigma_modulos_list_v4')) || [
+        let listaModulosMestres = JSON.parse(localStorage.getItem('sigma_modulos_list_v5')) || [
             "Todos", "Instituto Coopera", "Projeto Mutirão Coordenação executiva", 
             "Projeto Mutirão Ecocol", "Grupo Estudos Coopera", "Paul Singer", 
             "Ecofeira da Rural", "Residuos sólidos", "Pesquisa", "Coletivo Sementes",
@@ -406,17 +347,18 @@
         ];
 
         let moduloSelecionadoAtivo = "Todos";
+        let subAbaAtiva = "agenda";
         
-        let usuarioMasterAtivo = JSON.parse(localStorage.getItem('sigma_user_master_v4')) || {
+        let usuarioMasterAtivo = JSON.parse(localStorage.getItem('sigma_user_master_v5')) || {
             nome: "Augusto Cesar P. da Silva",
             email: "augusto@sigma.org"
         };
 
-        let dbCadastroModulos = JSON.parse(localStorage.getItem('sigma_db_cadastro_modulos_v4')) || {
-            "Todos": { proprietario: "Augusto Cesar P. da Silva", categoria: "Coordenação Executiva", descricao: "Visão unificada das pautas operacionais e tomada de decisões." }
+        let dbCadastroModulos = JSON.parse(localStorage.getItem('sigma_db_cadastro_modulos_v5')) || {
+            "Todos": { nomeCompleto: "Sistema SIGMA - Geral", cnpj: "Interno", proprietario: "Augusto Cesar P. da Silva", endereco: "Recife - PE", descricao: "Visão unificada das pautas operacionais." }
         };
 
-        let dbCompromissosSigma = JSON.parse(localStorage.getItem('sigma_db_compromissos_v5')) || [];
+        let dbCompromissosSigma = JSON.parse(localStorage.getItem('sigma_db_compromissos_v6')) || [];
 
         window.onload = function() {
             carregarDadosUsuarioIdentificador();
@@ -435,7 +377,7 @@
         function atualizarDadosUsuarioMaster() {
             usuarioMasterAtivo.nome = document.getElementById('sys-user-nome').value || "Usuário Anonimo";
             usuarioMasterAtivo.email = document.getElementById('sys-user-email').value || "sem@email.org";
-            localStorage.setItem('sigma_user_master_v4', JSON.stringify(usuarioMasterAtivo));
+            localStorage.setItem('sigma_user_master_v5', JSON.stringify(usuarioMasterAtivo));
             renderizarPainelAgendaCompleta();
         }
 
@@ -485,26 +427,55 @@
             container.appendChild(btnCriar);
         }
 
+        /* GERENCIAMENTO DO MENU DE SUB-ABAS INTERNAS SOLICITADO */
+        function alternarSubAbasModulo(target) {
+            subAbaAtiva = target;
+            document.getElementById('btn-sub-agenda').classList.remove('menu-interno-btn-ativo');
+            document.getElementById('btn-sub-cadastro').classList.remove('menu-interno-btn-ativo');
+            document.getElementById('btn-sub-documentos').classList.remove('menu-interno-btn-ativo');
+            
+            document.getElementById('sub-bloco-agenda').classList.add('colapsado');
+            document.getElementById('sub-bloco-cadastro').classList.add('colapsado');
+            document.getElementById('sub-bloco-documentos').classList.add('colapsado');
+
+            if(target === 'agenda') {
+                document.getElementById('btn-sub-agenda').classList.add('menu-interno-btn-ativo');
+                document.getElementById('sub-bloco-agenda').classList.remove('colapsado');
+            } else if(target === 'cadastro') {
+                document.getElementById('btn-sub-cadastro').classList.add('menu-interno-btn-ativo');
+                document.getElementById('sub-bloco-cadastro').classList.remove('colapsado');
+            } else if(target === 'documentos') {
+                document.getElementById('btn-sub-documentos').classList.add('menu-interno-btn-ativo');
+                document.getElementById('sub-bloco-documentos').classList.remove('colapsado');
+            }
+        }
+
         function carregarFichaDeCadastroDoModulo(nomeMod) {
             if(!dbCadastroModulos[nomeMod]) {
                 dbCadastroModulos[nomeMod] = {
+                    nomeCompleto: nomeMod,
+                    cnpj: "",
                     proprietario: "Augusto Cesar P. da Silva",
-                    categoria: "Módulo de Gestão",
-                    descricao: `Planejamento e memória vinculados ao âmbito: ${nomeMod}.`
+                    endereco: "",
+                    descricao: `Planejamento estratégico e memória institucional do âmbito: ${nomeMod}.`
                 };
             }
-            document.getElementById('cadastro-mod-proprietario').value = dbCadastroModulos[nomeMod].proprietario;
-            document.getElementById('cadastro-mod-categoria').value = dbCadastroModulos[nomeMod].categoria;
-            document.getElementById('cadastro-mod-descricao').value = dbCadastroModulos[nomeMod].descricao;
+            document.getElementById('cadastro-mod-nome-completo').value = dbCadastroModulos[nomeMod].nomeCompleto || "";
+            document.getElementById('cadastro-mod-cnpj').value = dbCadastroModulos[nomeMod].cnpj || "";
+            document.getElementById('cadastro-mod-proprietario').value = dbCadastroModulos[nomeMod].proprietario || "";
+            document.getElementById('cadastro-mod-endereco').value = dbCadastroModulos[nomeMod].endereco || "";
+            document.getElementById('cadastro-mod-descricao').value = dbCadastroModulos[nomeMod].descricao || "";
         }
 
-        function salvarCadastroDoModuloAtual() {
+        function salvarFichaDeCadastroAtual() {
             dbCadastroModulos[moduloSelecionadoAtivo] = {
+                nomeCompleto: document.getElementById('cadastro-mod-nome-completo').value,
+                cnpj: document.getElementById('cadastro-mod-cnpj').value,
                 proprietario: document.getElementById('cadastro-mod-proprietario').value,
-                categoria: document.getElementById('cadastro-mod-categoria').value,
+                endereco: document.getElementById('cadastro-mod-endereco').value,
                 descricao: document.getElementById('cadastro-mod-descricao').value
             };
-            localStorage.setItem('sigma_db_cadastro_modulos_v4', JSON.stringify(dbCadastroModulos));
+            localStorage.setItem('sigma_db_cadastro_modulos_v5', JSON.stringify(dbCadastroModulos));
         }
 
         function abrirPromptCriacaoModulo() {
@@ -518,6 +489,7 @@
                     renderizarMosaicoModulos();
                     atualizarListaOpcoesSelectForm();
                     carregarFichaDeCadastroDoModulo(limpo);
+                    alternarSubAbasModulo('cadastro'); // Direciona para o cadastro ao criar
                     renderizarPainelAgendaCompleta();
                 }
             }
@@ -528,7 +500,7 @@
                 listaModulosMestres = listaModulosMestres.filter(m => m !== nomeMod);
                 localStorage.setItem('sigma_modulos_list_v4', JSON.stringify(listaModulosMestres));
                 if(dbCadastroModulos[nomeMod]) delete dbCadastroModulos[nomeMod];
-                localStorage.setItem('sigma_db_cadastro_modulos_v4', JSON.stringify(dbCadastroModulos));
+                localStorage.setItem('sigma_db_cadastro_modulos_v5', JSON.stringify(dbCadastroModulos));
                 if(moduloSelecionadoAtivo === nomeMod) moduloSelecionadoAtivo = "Todos";
                 renderizarMosaicoModulos();
                 atualizarListaOpcoesSelectForm();
@@ -547,14 +519,11 @@
             });
         }
 
-        function dispararSeletorDeArquivo() {
-            document.getElementById('input-arquivo-real').click();
-        }
+        function dispararSeletorDeArquivo() { document.getElementById('input-arquivo-real').click(); }
 
         function executarLeituraRealDocx(event) {
             const arquivo = event.target.files[0];
             if (!arquivo) return;
-
             document.getElementById('motor-campo-titulo').value = arquivo.name.split('.')[0];
             const ext = arquivo.name.split('.').pop().toLowerCase();
             
@@ -581,31 +550,23 @@
 
         function processarEAnalizarTextoAutomaticamente(texto) {
             if(!texto) return;
-            
             const regexData = /(\d{2})\/(\d{2})/g;
             let matchData = regexData.exec(texto);
             if (matchData) {
                 const dia = matchData[1].padStart(2, '0');
                 const mes = matchData[2].padStart(2, '0');
-                const ano = new Date().getFullYear();
-                document.getElementById('motor-campo-data').value = `${ano}-${mes}-${dia}`;
+                document.getElementById('motor-campo-data').value = `${new Date().getFullYear()}-${mes}-${dia}`;
             }
-
             let lembreteExtraido = "Ata processada sem notas críticas.";
             const frases = texto.split(/[.\n]/);
             for(let frase of frases) {
-                if(frase.toLowerCase().includes("lembrar") || frase.toLowerCase().includes("nota") || frase.toLowerCase().includes("importante") || frase.toLowerCase().includes("pauta")) {
+                if(frase.toLowerCase().includes("lembrar") || frase.toLowerCase().includes("nota") || frase.toLowerCase().includes("importante")) {
                     lembreteExtraido = frase.trim();
                     break;
                 }
             }
             document.getElementById('motor-campo-lembrete').value = lembreteExtraido;
-
-            let obsExtraida = "Extração concluída com sucesso.";
-            if(texto.length > 10) {
-                obsExtraida = texto.substring(0, 60) + "...";
-            }
-            document.getElementById('motor-campo-observacao').value = obsExtraida;
+            document.getElementById('motor-campo-observacao').value = texto.length > 10 ? texto.substring(0, 60) + "..." : "Processado.";
         }
 
         function processarEAlocarNaAgendaSigma() {
@@ -617,14 +578,7 @@
             const observacao = document.getElementById('motor-campo-observacao').value;
 
             if(!textoBox.trim()) return alert("Texto vazio.");
-
             let moduloAlvo = moduloSelecionadoAtivo !== "Todos" ? moduloSelecionadoAtivo : "Instituto Coopera";
-            for(let m of listaModulosMestres) {
-                if(m !== "Todos" && textoBox.toLowerCase().includes(m.toLowerCase())) {
-                    moduloAlvo = m;
-                    break;
-                }
-            }
 
             const novoCompromisso = {
                 id: Date.now(),
@@ -640,17 +594,10 @@
             };
 
             dbCompromissosSigma.push(novoCompromisso);
-            localStorage.setItem('sigma_db_compromissos_v5', JSON.stringify(dbCompromissosSigma));
-            
+            localStorage.setItem('sigma_db_compromissos_v6', JSON.stringify(dbCompromissosSigma));
             document.getElementById('texto-caixa-entrada').value = '';
-            document.getElementById('motor-campo-titulo').value = '';
-            moduloSelecionadoAtivo = moduloAlvo;
-            
-            document.getElementById('sigma-txt-nome-modulo').innerText = moduloAlvo;
-            carregarFichaDeCadastroDoModulo(moduloAlvo);
-            renderizarMosaicoModulos();
             renderizarPainelAgendaCompleta();
-            alert(`Sucesso! Alocado em: ${moduloAlvo}`);
+            alert("Alocado!");
         }
 
         function salvarCompromissoManual(e) {
@@ -667,96 +614,57 @@
                 lembrete: "",
                 observacao: ""
             };
-
             dbCompromissosSigma.push(novo);
-            localStorage.setItem('sigma_db_compromissos_v5', JSON.stringify(dbCompromissosSigma));
+            localStorage.setItem('sigma_db_compromissos_v6', JSON.stringify(dbCompromissosSigma));
             document.getElementById('form-manual').reset();
             inicializarCalendariosEFechas();
-            moduloSelecionadoAtivo = novo.instituicao;
-            document.getElementById('sigma-txt-nome-modulo').innerText = novo.instituicao;
-            carregarFichaDeCadastroDoModulo(novo.instituicao);
-            renderizarMosaicoModulos();
             renderizarPainelAgendaCompleta();
-            alert("Salvo!");
+            alert("Salvo manual!");
         }
 
         function renderizarPainelAgendaCompleta() {
             const lista = document.getElementById('lista-agenda-dinamica');
             const busca = document.getElementById('busca-input-texto').value.toLowerCase();
             const filtroTempo = document.getElementById('filtro-tempo-agenda').value;
-            
             lista.innerHTML = '';
-            const hojeObj = new Date();
-            const hojeStr = hojeObj.toISOString().split('T')[0];
+            const hojeStr = new Date().toISOString().split('T')[0];
 
             let filtrados = dbCompromissosSigma.filter(item => {
                 const porUsuario = (item.userOwner === usuarioMasterAtivo.nome);
                 const porAba = (moduloSelecionadoAtivo === "Todos" || item.instituicao === moduloSelecionadoAtivo);
-                const porBusca = item.descricao.toLowerCase().includes(busca) || item.instituicao.toLowerCase().includes(busca);
-                
+                const porBusca = item.descricao.toLowerCase().includes(busca);
                 let porTempo = true;
                 if (filtroTempo === "hoje") porTempo = (item.data === hojeStr);
-                else if (filtroTempo === "semana") {
-                    const dataItem = new Date(item.data + 'T00:00:00');
-                    const dif = Math.abs((dataItem - hojeObj) / (24 * 60 * 60 * 1000));
-                    porTempo = (dif <= 7);
-                } else if (filtroTempo === "mes") {
-                    const dataItem = new Date(item.data + 'T00:00:00');
-                    porTempo = (dataItem.getMonth() === hojeObj.getMonth());
-                }
                 return porUsuario && porAba && porBusca && porTempo;
             });
 
             if(filtrados.length === 0) {
-                lista.innerHTML = `<p style="text-align:center; font-size:13px; color:var(--texto-mutado); padding:16px;">Nenhum registro ativo para o operador "${usuarioMasterAtivo.nome}".</p>`;
+                lista.innerHTML = '<p style="text-align:center; font-size:12px; color:var(--texto-mutado); padding:12px;">Nenhum registro para este âmbito.</p>';
                 return;
             }
 
-            let dataAtualGrupo = "";
-            let divGrupo = null;
-
             filtrados.forEach(item => {
-                if(item.data !== dataAtualGrupo) {
-                    dataAtualGrupo = item.data;
-                    const partes = item.data.split('-');
-                    const bloco = document.createElement('div');
-                    bloco.className = 'bloco-data-grupo';
-                    bloco.innerHTML = `<span class="badge-data-separador">${partes[2]}/${partes[1]}/${partes[0]}</span><div id="grupo-${dataAtualGrupo}"></div>`;
-                    lista.appendChild(bloco);
-                    divGrupo = document.getElementById(`grupo-${dataAtualGrupo}`);
-                }
-
                 const card = document.createElement('div');
                 card.className = 'agenda-card-item';
-                card.style.borderLeftColor = item.prioridade === 'Alta' ? 'var(--cor-destaque)' : 'var(--cor-primaria)';
                 card.innerHTML = `
                     <div class="item-info-flex">
                         <p class="item-titulo">${item.descricao}</p>
-                        <div class="item-tags-row">
-                            <span style="font-weight:700; color:var(--cor-primaria);">${item.horario}</span>
-                            <span class="tag-inst">${item.instituicao}</span>
-                            <span>👤 ${item.responsavel}</span>
-                        </div>
-                        ${item.lembrete ? `<p style="font-size:11px; color:var(--cor-destaque); font-weight:600; margin-top:2px;">📌 Lembrete: ${item.lembrete}</p>` : ''}
-                        ${item.observacao ? `<p style="font-size:11px; color:var(--texto-mutado); font-style:italic;">📝 Obs: ${item.observacao}</p>` : ''}
+                        <div class="item-tags-row"><span>${item.horario}</span><span class="tag-inst">${item.instituicao}</span></div>
+                        ${item.lembrete ? `<p style="font-size:11px; color:var(--cor-destaque);">📌 ${item.lembrete}</p>` : ''}
                     </div>
                     <button onclick="removerCompromissoIndividual(${item.id})" class="btn-lixeira">🗑️</button>
                 `;
-                divGrupo.appendChild(card);
+                lista.appendChild(card);
             });
         }
 
         function removerCompromissoIndividual(id) {
-            if(confirm("Mover este compromisso para a Lixeira?")) {
-                dbCompromissosSigma = dbCompromissosSigma.filter(i => i.id !== id);
-                localStorage.setItem('sigma_db_compromissos_v5', JSON.stringify(dbCompromissosSigma));
-                renderizarPainelAgendaCompleta();
-            }
+            dbCompromissosSigma = dbCompromissosSigma.filter(i => i.id !== id);
+            localStorage.setItem('sigma_db_compromissos_v6', JSON.stringify(dbCompromissosSigma));
+            renderizarPainelAgendaCompleta();
         }
 
-        function toggleSecao(id) {
-            document.getElementById(id).classList.toggle('colapsado');
-        }
+        function toggleSecao(id) { document.getElementById(id).classList.toggle('colapsado'); }
     </script>
 </body>
 </html>
