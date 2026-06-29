@@ -832,93 +832,87 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
-<!-- INJEÇÃO DO BOTÃO DE ARQUIVOS E MOTOR DE LEITURA SIGMA -->
+<!-- MOTOR DE DISTRIBUIÇÃO AUTOMÁTICA SIGMA (DEFINITIVO) -->
 <script src="https://jsdelivr.net"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. CRIA O BOTÃO DE ARQUIVO REAL E INVISÍVEL NA TELA
-    const inputOculto = document.createElement('input');
-    inputOculto.type = 'file';
-    inputOculto.accept = '.xlsx, .xls, .csv';
-    inputOculto.style.display = 'none';
-    document.body.appendChild(inputOculto);
+    // Alvo correto do botão de arquivo do SIGMA mapeado pelo diagnóstico
+    const inputArquivoSigma = document.getElementById('input-arquivo-real');
 
-    // 2. CAPTURA QUALQUER CLIQUE EM ELEMENTOS QUE FALEM SOBRE "ARQUIVO" OU "IMPORTAR"
-    document.addEventListener('click', function(e) {
-        // Encontra o elemento clicado ou seus pais
-        const elemento = e.target.closest('button, .modulo-card-btn, div, span, a');
-        if (!elemento) return;
+    if (inputArquivoSigma) {
+        inputArquivoSigma.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
 
-        const texto = (elemento.innerText || elemento.textContent || "").toLowerCase();
-        
-        // Se o usuário clicar em algo que tenha essas palavras, abre a busca de arquivos do celular
-        if (texto.includes('arquivo') || texto.includes('importar') || texto.includes('relatório') || texto.includes('📁')) {
-            e.preventDefault();
-            e.stopPropagation();
-            inputOculto.click();
-        }
-    });
+            const leitorMecanico = new FileReader();
+            
+            leitorMecanico.onload = function(evt) {
+                try {
+                    const dadosBinarios = evt.target.result;
+                    const livroTrabalho = XLSX.read(dadosBinarios, { type: 'binary' });
+                    const primeiraAba = livroTrabalho.SheetNames[0];
+                    const linhasDoRelatorio = XLSX.utils.sheet_to_json(livroTrabalho.Sheets[primeiraAba]);
+                    
+                    let totalAlocados = 0;
 
-    // 3. MOTOR DE PROCESSAMENTO DO RELATÓRIO
-    inputOculto.addEventListener('change', function(evento) {
-        const file = evento.target.files[0];
-        if (!file) return;
+                    // Mapeamento dos Inputs reais do painel SIGMA descobertos no mapa
+                    const campoTitulo = document.getElementById('motor-campo-titulo');
+                    const campoData = document.getElementById('motor-campo-data');
+                    const campoHora = document.getElementById('motor-campo-hora');
+                    const campoObservacao = document.getElementById('motor-campo-observacao');
+                    
+                    // Localiza o botão final de salvar pela classe exata e pelo texto do emoji de disquete
+                    const botoesSalvar = Array.from(document.querySelectorAll('.btn-submit-agenda'));
+                    const botaoConfirmarFinal = botoesSalvar.find(b => b.innerText.includes('Confirmar e Registrar'));
 
-        const leitor = new FileReader();
-        leitor.onload = function(evt) {
-            try {
-                const dataBin = evt.target.result;
-                const workbook = XLSX.read(dataBin, { type: 'binary' });
-                const sheetName = workbook.SheetNames[0];
-                const linhas = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
-                
-                let contador = 0;
-
-                // Captura os campos manuais que já existem no seu SIGMA
-                const inputTitulo = document.querySelector('input[placeholder*="Título"], input[id*="titulo"], input[type="text"]');
-                const inputData = document.querySelector('input[type="date"]');
-                const inputHora = document.querySelector('input[type="time"]');
-                const botaoSalvar = document.querySelector('.btn-submit-agenda, button[type="submit"], button.btn-submit, input[type="submit"]');
-
-                linhas.forEach(linha => {
-                    const titulo = linha.Titulo || linha.titulo || linha.Compromisso || linha.evento || linha.Descricao || linha.Descrição;
-                    let data = linha.Data || linha.data || linha.Dia || linha.dia;
-                    const hora = linha.Hora || linha.hora || "08:00";
-
-                    if (data && titulo && inputTitulo && inputData) {
-                        // Trata data numérica do Excel
-                        if (typeof data === 'number') {
-                            const dataConvertida = new Date((data - 25569) * 86400 * 1000);
-                            data = dataConvertida.toISOString().split('T')[0];
-                        }
-
-                        // Injeta os dados no seu formulário do SIGMA
-                        inputTitulo.value = titulo;
-                        inputData.value = data;
-                        if (inputHora) inputHora.value = hora;
-
-                        // Força o clique no seu botão de salvar para registrar na agenda
-                        if (botaoSalvar) {
-                            botaoSalvar.click();
-                            contador++;
-                        }
+                    if (!campoTitulo || !campoData || !botaoConfirmarFinal) {
+                        alert("Erro Estrutural: Os campos da agenda não estão visíveis na tela ativa do celular.");
+                        return;
                     }
-                });
 
-                if (contador > 0) {
-                    alert(`Mecanismo SIGMA: ${contador} compromissos do relatório foram processados e injetados na sua agenda!`);
-                } else {
-                    alert("O arquivo foi lido, mas não conseguimos simular o salvamento. Verifique se as colunas na planilha se chamam 'Data' e 'Titulo'.");
+                    // Processa linha por linha do relatório Excel/CSV
+                    linhasDoRelatorio.forEach(linha => {
+                        const titulo = linha.Titulo || linha.titulo || linha.Compromisso || linha.evento || linha.Descricao || linha.Descrição;
+                        let data = linha.Data || linha.data || linha.Dia || linha.dia;
+                        const hora = linha.Hora || linha.hora || "08:00";
+                        const obs = linha.Observacao || linha.observacao || linha.Diretrizes || "";
+
+                        if (data && titulo) {
+                            // Tratamento para o formato de data serial nativo do Excel
+                            if (typeof data === 'number') {
+                                const dataFormatada = new Date((data - 25569) * 86400 * 1000);
+                                data = dataFormatada.toISOString().split('T')[0];
+                            }
+
+                            // Injeta os dados do relatório diretamente nos campos nativos do SIGMA
+                            campoTitulo.value = titulo;
+                            campoData.value = data;
+                            if (campoHora) campoHora.value = hora;
+                            if (campoObservacao && obs) campoObservacao.value = obs;
+
+                            // Simula o clique físico no botão de confirmação do SIGMA para registrar no banco de dados
+                            botaoConfirmarFinal.click();
+                            totalAlocados++;
+                        }
+                    });
+
+                    if (totalAlocados > 0) {
+                        alert(`Mecanismo SIGMA: ${totalAlocados} compromissos do relatório foram processados, distribuídos e registrados com sucesso!`);
+                    } else {
+                        alert("O arquivo foi lido, mas nenhum compromisso foi inserido. Verifique se os cabeçalhos das colunas no Excel são 'Data' e 'Titulo'.");
+                    }
+
+                } catch (erro) {
+                    console.error("Falha no motor SIGMA:", erro);
+                    alert("Erro crítico ao processar planilha no celular. Use o formato padrão .xlsx ou .csv");
                 }
+                
+                inputArquivoSigma.value = ""; // Reseta o campo para novas leituras
+            };
 
-            } catch (err) {
-                console.error(err);
-                alert("Erro ao ler o arquivo no celular. Use formatos Excel (.xlsx) ou .csv");
-            }
-            inputOculto.value = ""; // Reseta para o próximo arquivo
-        };
-        leitor.readAsBinaryString(file);
-    });
+            leitorMecanico.readAsBinaryString(file);
+        });
+    }
 });
 </script>
 
