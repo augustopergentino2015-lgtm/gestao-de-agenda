@@ -9,7 +9,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#1E463C">
     
-    <!-- Biblioteca para extração real de conteúdo de arquivos Word .docx -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     
     <style>
@@ -33,10 +32,11 @@
             padding-bottom: 80px;
         }
 
+        /* CORREÇÃO DO CABEÇALHO PARA IMPEDIR QUEBRA DA DATA */
         header {
             background-color: var(--cor-primaria);
             color: white;
-            padding: 16px;
+            padding: 12px 16px;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -47,19 +47,34 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 10px;
         }
-        .header-title h1 { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
-        .header-title p { font-size: 11px; color: #A7F3D0; text-transform: uppercase; font-weight: 500; }
-        #data-atual { font-size: 11px; background-color: var(--cor-destaque); color: white; padding: 4px 10px; border-radius: 12px; font-weight: 600; }
+        .header-brand { display: flex; align-items: center; gap: 8px; min-width: 0; }
+        .header-title h1 { font-size: 16px; font-weight: 700; letter-spacing: 0.5px; }
+        .header-title p { font-size: 10px; color: #A7F3D0; text-transform: uppercase; white-space: nowrap; }
+        
+        /* Ajuste do crachá da data em bloco flex único e sem quebra */
+        #data-atual { 
+            font-size: 11px; 
+            background-color: var(--cor-destaque); 
+            color: white; 
+            padding: 6px 12px; 
+            border-radius: 12px; 
+            font-weight: 600; 
+            white-space: nowrap; 
+            flex-shrink: 0;
+            text-align: center;
+            display: inline-block;
+        }
 
         main { max-width: 600px; margin: 0 auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
 
-        /* MOSAICO DE MÓDULOS DE ACORDO COM AS DIRETRIZES DO USUÁRIO */
+        /* REESTRUTURAÇÃO COMPLETA DO MOSAICO PARA NÃO PASSAR DA TELA DO CELULAR */
         .grid-modulos-fluxo {
             display: grid;
-            grid-template-cols: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 6px;
-            padding: 4px 0 10px 0;
+            grid-template-cols: repeat(2, 1fr); /* Divide perfeitamente em duas colunas exatas na tela do celular */
+            gap: 8px;
+            padding: 4px 0;
             width: 100%;
         }
         
@@ -67,47 +82,48 @@
             background-color: #FFF3EB;
             border: 1px solid var(--cor-destaque);
             border-radius: 10px;
-            padding: 6px 10px;
-            font-size: 11px;
+            padding: 8px 12px;
+            font-size: 12px;
             font-weight: 600;
             color: #C05621;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
             cursor: pointer;
-            text-align: left;
-            transition: all 0.2s;
+            width: 100%;
         }
         .modulo-card-ativa {
             background-color: var(--cor-destaque) !important;
             color: white !important;
         }
         .btn-deletar-modulo-x {
-            background: none;
+            background: rgba(0,0,0,0.05);
             border: none;
             color: inherit;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
-            padding: 2px 4px;
+            padding: 2px 6px;
+            border-radius: 4px;
             cursor: pointer;
         }
 
         .btn-criar-modulo-trigger {
-            grid-column: 1 / -1;
+            grid-column: span 2; /* Ocupa a largura total abaixo das duas colunas */
             background-color: var(--cor-primaria);
             color: white;
             border: none;
             border-radius: 10px;
-            padding: 8px;
+            padding: 10px;
             font-size: 12px;
             font-weight: 700;
             text-align: center;
             cursor: pointer;
+            margin-top: 4px;
         }
 
         .secao-titulo { font-size: 10px; font-weight: 700; color: #319795; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
-        .card-titulo-h2 { font-size: 16px; font-weight: 700; color: var(--cor-primaria); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .card-titulo-h2 { font-size: 15px; font-weight: 700; color: var(--cor-primaria); margin-bottom: 12px; }
 
         .card-sigi {
             background-color: var(--branco-puro);
@@ -117,18 +133,8 @@
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
         }
 
-        .motor-box-operacional {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-top: 8px;
-            width: 100%;
-        }
-        .linha-lupa-input {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
+        .motor-box-operacional { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; width: 100%; }
+        .linha-lupa-input { display: flex; gap: 8px; align-items: center; }
 
         .btn-lupa {
             background-color: var(--cor-primaria);
@@ -149,7 +155,6 @@
             width: 100%;
             padding: 12px;
             font-size: 13px;
-            background-color: #FFFFFF;
             border: 1px solid var(--borda);
             border-radius: 12px;
             outline: none;
@@ -217,14 +222,7 @@
         
         .btn-lixeira { background: none; border: none; color: #E53E3E; font-size: 16px; cursor: pointer; padding: 4px; }
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 30px;
-            font-size: 12px;
-            color: var(--texto-mutado);
-            border-top: 1px solid var(--borda);
-        }
+        footer { text-align: center; padding: 20px; margin-top: 30px; font-size: 12px; color: var(--texto-mutado); border-top: 1px solid var(--borda); }
         .topo-dobravel { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
         .colapsado { display: none !important; }
     </style>
@@ -237,25 +235,36 @@
                 <span>⚡</span>
                 <div class="header-title">
                     <h1>SIGMA</h1>
-                    <p>Sistema de Gestão Modular Assistida</p>
+                    <p>Gestão Modular Assistida</p>
                 </div>
             </div>
-            <div id="data-atual"></div>
+            <div id="data-atual">Carregando data...</div>
         </div>
     </header>
 
     <main>
-        <!-- MOSAICO ESTRUTURADO DE MÓDULOS -->
         <section class="grid-modulos-fluxo" id="container-modulos-mosaico"></section>
 
-        <!-- IDENTIFICAÇÃO DINÂMICA DO ÁMBITO SELECIONADO -->
         <section class="card-sigi">
-            <p class="secao-titulo">Identificação do Âmbito</p>
+            <p class="secao-titulo">Memória & Cadastro do Módulo</p>
             <h2 class="card-titulo-h2" id="sigma-txt-nome-modulo">Todos</h2>
-            <p style="font-size: 12px; color: var(--texto-mutado);" id="sigma-txt-desc-modulo">Visão unificada das pautas operacionais.</p>
+            
+            <div class="sigi-grid-inputs" style="margin-top: 4px;">
+                <div class="sigi-field-container">
+                    <span class="sigi-label">Responsável Titular</span>
+                    <input type="text" id="cadastro-mod-proprietario" value="Augusto Cesar P. da Silva">
+                </div>
+                <div class="sigi-field-container">
+                    <span class="sigi-label">Nível de Acesso</span>
+                    <input type="text" id="cadastro-mod-categoria" value="Coordenação Executiva">
+                </div>
+                <div class="sigi-field-container span-full">
+                    <span class="sigi-label">Descrição / Meta Institucional do Âmbito</span>
+                    <input type="text" id="cadastro-mod-descricao" value="Visão unificada das pautas operacionais e tomada de decisões.">
+                </div>
+            </div>
         </section>
 
-        <!-- MOTOR DE EXTRAÇÃO AVANÇADA (NOTAS, LEMBRETES E DIRETRIZES) -->
         <section class="card-sigi">
             <div class="topo-dobravel" onclick="toggleSecao('motor-conteudo')">
                 <div>
@@ -267,12 +276,11 @@
             
             <div id="motor-conteudo" class="motor-box-operacional">
                 <div class="linha-lupa-input">
-                    <button class="btn-lupa" onclick="dispararSeletorDeArquivo();" title="Carregar arquivo .docx ou .txt">🔍</button>
+                    <button class="btn-lupa" onclick="dispararSeletorDeArquivo();">🔍</button>
                     <input type="file" id="input-arquivo-real" style="display:none;" accept=".txt,.docx" onchange="executarLeituraRealDocx(event)">
                     <textarea id="texto-caixa-entrada" rows="3" class="sigi-input" placeholder="Cole trechos do WhatsApp ou use a lupa para ler arquivos do Word (.docx)..."></textarea>
                 </div>
 
-                <!-- Campos de Identificação Alimentados Automaticamente pelo Motor -->
                 <div class="sigi-grid-inputs">
                     <div class="sigi-field-container span-full">
                         <span class="sigi-label">Título da Pauta / Documento</span>
@@ -300,7 +308,6 @@
             </div>
         </section>
 
-        <!-- CADASTRO MANUAL DE COMPROMISSOS -->
         <section class="card-sigi">
             <div class="topo-dobravel" onclick="toggleSecao('form-manual')">
                 <div>
@@ -342,7 +349,6 @@
             </form>
         </section>
 
-        <!-- EXIBIÇÃO DA AGENDA COMPLETA COM FILTRO TEMPORAL -->
         <section style="margin-top: 4px;">
             <div class="agenda-meta-header">
                 <div>
@@ -367,12 +373,11 @@
     </main>
 
     <footer>
-        <p>Plataforma SIGMA v2.0 | Responsável Técnico: <strong>Augusto Cesar P. da Silva</strong></p>
+        <p>Plataforma SIGMA v2.1 | Engenharia de Redes Colaborativas</p>
     </footer>
 
     <script>
-        // Lista Oficial de Módulos Iniciais (PRD Nível 3)
-        let listaModulosMestres = JSON.parse(localStorage.getItem('sigma_modulos_list')) || [
+        let listaModulosMestres = JSON.parse(localStorage.getItem('sigma_modulos_list_v2')) || [
             "Todos", "Instituto Coopera", "Projeto Mutirão Coordenação executiva", 
             "Projeto Mutirão Ecocol", "Grupo Estudos Coopera", "Paul Singer", 
             "Ecofeira da Rural", "Residuos sólidos", "Pesquisa", "Coletivo Sementes",
@@ -380,8 +385,8 @@
         ];
 
         let moduloSelecionadoAtivo = "Todos";
-        let dbCompromissosSigma = JSON.parse(localStorage.getItem('sigma_db_compromissos_v2')) || [
-            { id: 1, data: "2026-06-30", horario: "06:30", instituicao: "Ecofeira da Rural", descricao: "Dia de feira", responsavel: "Augusto", prioridade: "Normal", lembrete: "Separar os engradados", observacao: "Feira de base agroecológica" }
+        let dbCompromissosSigma = JSON.parse(localStorage.getItem('sigma_db_compromissos_v3')) || [
+            { id: 1, data: "2026-06-30", horario: "06:30", instituicao: "Ecofeira da Rural", descricao: "Dia de feira", responsavel: "Augusto", prioridade: "Normal", lembrete: "Separar insumos", observacao: "Feira de base agroecológica" }
         ];
 
         window.onload = function() {
@@ -398,7 +403,6 @@
             document.getElementById('manual-data').value = hoje.toISOString().split('T')[0];
         }
 
-        // CARREGA OS MÓDULOS EM MOSAICO COMPACTO ELEGANTE (DENTRO DA TELA)
         function renderizarMosaicoModulos() {
             const container = document.getElementById('container-modulos-mosaico');
             container.innerHTML = '';
@@ -407,19 +411,29 @@
                 const card = document.createElement('div');
                 card.className = `modulo-card-btn ${nomeMod === moduloSelecionadoAtivo ? 'modulo-card-ativa' : ''}`;
                 
-                // Texto do nome do módulo
                 const txtSpan = document.createElement('span');
-                txtSpan.innerText = nomeMod;
+                txtSpan.innerText = nomeMod.length > 22 ? nomeMod.substring(0, 19) + "..." : nomeMod;
                 txtSpan.onclick = () => {
                     moduloSelecionadoAtivo = nomeMod;
                     document.getElementById('sigma-txt-nome-modulo').innerText = nomeMod;
-                    document.getElementById('sigma-txt-desc-modulo').innerText = `Dados de Identificação e Memória do âmbito: ${nomeMod}.`;
+                    
+                    // Altera dinamicamente os campos de dados pessoais/institucionais de acordo com a aba clicada
+                    if(nomeMod === "Todos") {
+                        document.getElementById('cadastro-mod-proprietario').value = "Augusto Cesar P. da Silva";
+                        document.getElementById('cadastro-mod-categoria').value = "Coordenação Executiva";
+                        document.getElementById('cadastro-mod-descricao').value = "Visão unificada das pautas operacionais e tomada de decisões.";
+                    } else {
+                        document.getElementById('cadastro-mod-proprietario').value = "Augusto (Gestor)";
+                        document.getElementById('cadastro-mod-categoria').value = "Módulo de Extensão";
+                        document.getElementById('cadastro-mod-descricao').value = `Memória viva e registros vinculados ao âmbito: ${nomeMod}.`;
+                    }
+                    
                     renderizarMosaicoModulos();
                     renderizarPainelAgendaCompleta();
                 };
                 card.appendChild(txtSpan);
 
-                // Botão Deletar Módulo Dinâmico (Exceto o módulo "Todos")
+                // BOTÃO DELETAR MODULO (X) REINSERIDO DE FORMA VISUALMENTE LIMPA
                 if(nomeMod !== "Todos") {
                     const btnDel = document.createElement('button');
                     btnDel.className = "btn-deletar-modulo-x";
@@ -434,7 +448,6 @@
                 container.appendChild(card);
             });
 
-            // Botão "Criar Módulo +" posicionado de forma limpa abaixo do mosaico
             const btnCriar = document.createElement('button');
             btnCriar.className = "btn-criar-modulo-trigger";
             btnCriar.innerText = "+ Criar Novo Módulo Institucional";
@@ -448,7 +461,7 @@
                 const limpo = nome.trim();
                 if(!listaModulosMestres.includes(limpo)) {
                     listaModulosMestres.push(limpo);
-                    localStorage.setItem('sigma_modulos_list', JSON.stringify(listaModulosMestres));
+                    localStorage.setItem('sigma_modulos_list_v2', JSON.stringify(listaModulosMestres));
                     moduloSelecionadoAtivo = limpo;
                     renderizarMosaicoModulos();
                     atualizarListaOpcoesSelectForm();
@@ -458,9 +471,9 @@
         }
 
         function deletarModuloDinamicoDoSistema(nomeMod) {
-            if(confirm(`Deseja deletar o módulo "${nomeMod}"? Os compromissos cadastrados nele voltarão para a visão geral.`)) {
+            if(confirm(`Deseja remover o módulo "${nomeMod}"?`)) {
                 listaModulosMestres = listaModulosMestres.filter(m => m !== nomeMod);
-                localStorage.setItem('sigma_modulos_list', JSON.stringify(listaModulosMestres));
+                localStorage.setItem('sigma_modulos_list_v2', JSON.stringify(listaModulosMestres));
                 if(moduloSelecionadoAtivo === nomeMod) moduloSelecionadoAtivo = "Todos";
                 renderizarMosaicoModulos();
                 atualizarListaOpcoesSelectForm();
@@ -483,7 +496,6 @@
             document.getElementById('input-arquivo-real').click();
         }
 
-        // LEITURA REAL E EXTRAÇÃO DE TEXTO DO WORD (.DOCX)
         function executarLeituraRealDocx(event) {
             const arquivo = event.target.files[0];
             if (!arquivo) return;
@@ -512,11 +524,9 @@
             }
         }
 
-        // MOTOR DE EXTRAÇÃO SEMÂNTICA (NOTAS, LEMBRETES, DATAS E OBSERVAÇÕES)
         function processarEAnalizarTextoAutomaticamente(texto) {
             if(!texto) return;
             
-            // 1. Captura de Datas (DD/MM)
             const regexData = /(\d{2})\/(\d{2})/g;
             let matchData = regexData.exec(texto);
             if (matchData) {
@@ -526,26 +536,23 @@
                 document.getElementById('motor-campo-data').value = `${ano}-${mes}-${dia}`;
             }
 
-            // 2. Extração de Notas e Lembretes
-            let lembreteExtraido = "Nenhum lembrete imediato identificado.";
+            let lembreteExtraido = "Ata processada sem notas críticas.";
             const frases = texto.split(/[.\n]/);
             for(let frase of frases) {
-                if(frase.toLowerCase().includes("lembrar") || frase.toLowerCase().includes("nota") || frase.toLowerCase().includes("importante")) {
+                if(frase.toLowerCase().includes("lembrar") || frase.toLowerCase().includes("nota") || frase.toLowerCase().includes("importante") || frase.toLowerCase().includes("pauta")) {
                     lembreteExtraido = frase.trim();
                     break;
                 }
             }
             document.getElementById('motor-campo-lembrete').value = lembreteExtraido;
 
-            // 3. Extração de Observações / Diretrizes
-            let obsExtraida = "Análise operacional concluída.";
-            if(texto.length > 20) {
-                obsExtraida = texto.substring(0, 70) + "...";
+            let obsExtraida = "Extração concluída com sucesso.";
+            if(texto.length > 10) {
+                obsExtraida = texto.substring(0, 60) + "...";
             }
             document.getElementById('motor-campo-observacao').value = obsExtraida;
         }
 
-        // ALOCAÇÃO MODULAR INTELIGENTE NA AGENDA DO SIGMA (RN-001 e RN-006)
         function processarEAlocarNaAgendaSigma() {
             const textoBox = document.getElementById('texto-caixa-entrada').value;
             const titulo = document.getElementById('motor-campo-titulo').value || "Pauta Extraída";
@@ -554,9 +561,8 @@
             const lembrete = document.getElementById('motor-campo-lembrete').value;
             const observacao = document.getElementById('motor-campo-observacao').value;
 
-            if(!textoBox.trim()) return alert("Por favor, digite uma relatoria ou use a lupa para carregar.");
+            if(!textoBox.trim()) return alert("Texto vazio.");
 
-            // Identificação do Módulo Alvo por palavras-chave
             let moduloAlvo = moduloSelecionadoAtivo !== "Todos" ? moduloSelecionadoAtivo : "Instituto Coopera";
             for(let m of listaModulosMestres) {
                 if(m !== "Todos" && textoBox.toLowerCase().includes(m.toLowerCase())) {
@@ -578,16 +584,24 @@
             };
 
             dbCompromissosSigma.push(novoCompromisso);
-            localStorage.setItem('sigma_db_compromissos_v2', JSON.stringify(dbCompromissosSigma));
+            localStorage.setItem('sigma_db_compromissos_v3', JSON.stringify(dbCompromissosSigma));
             
-            // Limpeza e reset
             document.getElementById('texto-caixa-entrada').value = '';
             document.getElementById('motor-campo-titulo').value = '';
             moduloSelecionadoAtivo = moduloAlvo;
             
+            document.getElementById('sigma-txt-nome-modulo').innerText = moduloAlvo;
+            renderitmMod = moduloAlvo;
             renderizarMosaicoModulos();
+            renderPainelContextoDesc(moduloAlvo);
             renderizarPainelAgendaCompleta();
-            alert(`Sucesso! Distribuído e alocado no módulo: ${moduloAlvo}`);
+            alert(`Sucesso! Alocado em: ${moduloAlvo}`);
+        }
+
+        function renderPainelContextoDesc(nome) {
+            document.getElementById('cadastro-mod-proprietario').value = "Augusto (Gestor)";
+            document.getElementById('cadastro-mod-categoria').value = "Módulo de Extensão";
+            document.getElementById('cadastro-mod-descricao').value = `Memória viva e registros vinculados ao âmbito: ${nome}.`;
         }
 
         function salvarCompromissoManual(e) {
@@ -605,13 +619,15 @@
             };
 
             dbCompromissosSigma.push(novo);
-            localStorage.setItem('sigma_db_compromissos_v2', JSON.stringify(dbCompromissosSigma));
+            localStorage.setItem('sigma_db_compromissos_v3', JSON.stringify(dbCompromissosSigma));
             document.getElementById('form-manual').reset();
             inicializarCalendariosEFechas();
             moduloSelecionadoAtivo = novo.instituicao;
+            document.getElementById('sigma-txt-nome-modulo').innerText = novo.instituicao;
+            renderPainelContextoDesc(novo.instituicao);
             renderizarMosaicoModulos();
             renderizarPainelAgendaCompleta();
-            alert("Salvo com sucesso!");
+            alert("Salvo!");
         }
 
         function renderizarPainelAgendaCompleta() {
@@ -641,11 +657,10 @@
             });
 
             if(filtrados.length === 0) {
-                lista.innerHTML = '<p style="text-align:center; font-size:13px; color:var(--texto-mutado); padding:16px;">Nenhum registro ativo encontrado para este módulo.</p>';
+                lista.innerHTML = '<p style="text-align:center; font-size:13px; color:var(--texto-mutado); padding:16px;">Nenhum registro encontrado.</p>';
                 return;
             }
 
-            // Agrupamento por Data
             let dataAtualGrupo = "";
             let divGrupo = null;
 
@@ -674,16 +689,16 @@
                         ${item.lembrete ? `<p style="font-size:11px; color:var(--cor-destaque); font-weight:600; margin-top:2px;">📌 Lembrete: ${item.lembrete}</p>` : ''}
                         ${item.observacao ? `<p style="font-size:11px; color:var(--texto-mutado); font-style:italic;">📝 Obs: ${item.observacao}</p>` : ''}
                     </div>
-                    <button onclick="removerCompromissoIndividual(${item.id})" class="btn-lixeira" title="Excluir">🗑️</button>
+                    <button onclick="removerCompromissoIndividual(${item.id})" class="btn-lixeira">🗑️</button>
                 `;
                 divGrupo.appendChild(card);
             });
         }
 
         function removerCompromissoIndividual(id) {
-            if(confirm("Mover este compromisso permanentemente para a Lixeira?")) {
+            if(confirm("Mover este compromisso para a Lixeira?")) {
                 dbCompromissosSigma = dbCompromissosSigma.filter(i => i.id !== id);
-                localStorage.setItem('sigma_db_compromissos_v2', JSON.stringify(dbCompromissosSigma));
+                localStorage.setItem('sigma_db_compromissos_v3', JSON.stringify(dbCompromissosSigma));
                 renderizarPainelAgendaCompleta();
             }
         }
