@@ -46,14 +46,25 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 10px;
         }
-        .header-title h1 { font-size: 16px; font-weight: 700; }
-        .header-title p { font-size: 10px; color: #A7F3D0; text-transform: uppercase; }
-        #data-atual { font-size: 11px; background-color: var(--cor-destaque); color: white; padding: 6px 12px; border-radius: 12px; font-weight: 600; }
+        .header-brand { display: flex; align-items: center; gap: 8px; min-width: 0; }
+        .header-title h1 { font-size: 16px; font-weight: 700; letter-spacing: 0.5px; }
+        .header-title p { font-size: 10px; color: #A7F3D0; text-transform: uppercase; white-space: nowrap; }
+        
+        #data-atual { 
+            font-size: 11px; 
+            background-color: var(--cor-destaque); 
+            color: white; 
+            padding: 6px 12px; 
+            border-radius: 12px; 
+            font-weight: 600; 
+            white-space: nowrap; 
+            flex-shrink: 0;
+        }
 
         main { max-width: 600px; margin: 0 auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
 
-        /* MOSAICO DE MÓDULOS INSTITUCIONAIS */
         .grid-modulos-fluxo {
             display: grid;
             grid-template-cols: repeat(2, 1fr);
@@ -61,6 +72,7 @@
             padding: 4px 0;
             width: 100%;
         }
+        
         .modulo-card-btn {
             background-color: #FFF3EB;
             border: 1px solid var(--cor-destaque);
@@ -74,12 +86,130 @@
             align-items: center;
             gap: 6px;
             cursor: pointer;
+            width: 100%;
         }
-        .modulo-card-ativa { background-color: var(--cor-destaque) !important; color: white !important; }
-        .btn-deletar-modulo-x { background: rgba(0,0,0,0.05); border: none; color: inherit; font-size: 14px; font-weight: bold; padding: 2px 6px; border-radius: 4px; }
-        .btn-criar-modulo-trigger { grid-column: span 2; background-color: var(--cor-primaria); color: white; border: none; border-radius: 10px; padding: 10px; font-size: 12px; font-weight: 700; margin-top: 4px; cursor: pointer; }
+        .modulo-card-ativa {
+            background-color: var(--cor-destaque) !important;
+            color: white !important;
+        }
+        .btn-deletar-modulo-x {
+            background: rgba(0,0,0,0.05);
+            border: none;
+            color: inherit;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-        /* MENU INTERNO COMPONENTE EXCLUSIVO SOLICITADO */
+        .btn-criar-modulo-trigger {
+            grid-column: span 2;
+            background-color: var(--cor-primaria);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            cursor: pointer;
+            margin-top: 4px;
+        }
+
+        .secao-titulo { font-size: 10px; font-weight: 700; color: #319795; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+        .card-titulo-h2 { font-size: 15px; font-weight: 700; color: var(--cor-primaria); margin-bottom: 12px; }
+        .card-sigi {
+            background-color: var(--branco-puro);
+            padding: 16px;
+            border-radius: 16px;
+            border: 1px solid var(--borda);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+            margin-bottom: 4px;
+        }
+
+        .motor-box-operacional { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; width: 100%; }
+        .linha-lupa-input { display: flex; gap: 8px; align-items: center; }
+
+        .btn-lupa {
+            background-color: var(--cor-primaria);
+            color: white;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        textarea.sigi-input {
+            width: 100%;
+            padding: 12px;
+            font-size: 13px;
+            border: 1px solid var(--borda);
+            border-radius: 12px;
+            outline: none;
+            font-family: inherit;
+            resize: none;
+            color: var(--texto-principal);
+        }
+
+        .sigi-grid-inputs {
+            display: grid;
+            grid-template-cols: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .sigi-field-container { display: flex; flex-direction: column; gap: 4px; }
+        .sigi-label { font-size: 11px; font-weight: 600; color: var(--texto-principal); }
+        .sigi-field-container input, .sigi-field-container select {
+            padding: 10px;
+            font-size: 13px;
+            border: 1px solid var(--borda);
+            border-radius: 8px;
+            background-color: var(--branco-puro);
+            outline: none;
+            width: 100%;
+        }
+        .span-full { grid-column: span 2; }
+
+        .btn-submit-agenda {
+            background-color: var(--cor-primaria);
+            color: white;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+
+        /* ESTILOS PARA A MESA DE PRÉVIA TEMPORÁRIA */
+        .container-previa-temporaria {
+            background-color: #F7FAFC;
+            border: 1px dashed #CBD5E0;
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 10px;
+        }
+        .item-previa-linha {
+            background-color: white;
+            border: 1px solid #E2E8F0;
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            font-size: 12px;
+        }
+
         .menu-interno-modulo {
             display: flex;
             background-color: #E2E8F0;
@@ -106,38 +236,34 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        .secao-titulo { font-size: 10px; font-weight: 700; color: #319795; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
-        .card-titulo-h2 { font-size: 15px; font-weight: 700; color: var(--cor-primaria); margin-bottom: 12px; }
-        .card-sigi { background-color: var(--branco-puro); padding: 16px; border-radius: 16px; border: 1px solid var(--borda); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); }
-
-        .sigi-grid-inputs { display: grid; grid-template-cols: 1fr 1fr; gap: 8px; margin-top: 8px; }
-        .sigi-field-container { display: flex; flex-direction: column; gap: 4px; }
-        .sigi-label { font-size: 11px; font-weight: 600; color: var(--texto-principal); }
-        .sigi-field-container input, .sigi-field-container select { padding: 10px; font-size: 13px; border: 1px solid var(--borda); border-radius: 8px; background-color: var(--branco-puro); outline: none; width: 100%; }
-        .span-full { grid-column: span 2; }
-
-        .motor-box-operacional { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
-        .linha-lupa-input { display: flex; gap: 8px; align-items: center; }
-        .btn-lupa { background-color: var(--cor-primaria); color: white; border: none; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-        textarea.sigi-input { width: 100%; padding: 12px; font-size: 13px; border: 1px solid var(--borda); border-radius: 12px; outline: none; font-family: inherit; resize: none; color: var(--texto-principal); }
-        .btn-submit-agenda { background-color: var(--cor-primaria); color: white; width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; margin-top: 12px; cursor: pointer; }
-
         .agenda-meta-header { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; margin-bottom: 8px; }
         .search-container { position: relative; width: 100%; margin-bottom: 12px; }
         .search-container input { width: 100%; padding: 10px 12px 10px 36px; border-radius: 10px; border: 1px solid var(--borda); font-size: 13px; outline: none; }
         .search-container span { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--texto-mutado); font-size: 14px; }
+
         .bloco-data-grupo { margin-bottom: 12px; }
         .badge-data-separador { font-size: 11px; font-weight: 700; background-color: #E2E8F0; padding: 2px 8px; border-radius: 6px; color: #4A5568; display: inline-block; margin-bottom: 6px; }
         
-        .agenda-card-item { background-color: var(--branco-puro); border-left: 4px solid var(--cor-destaque); padding: 12px; border-radius: 8px; border: 1px solid var(--borda); border-left-width: 4px; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+        .agenda-card-item {
+            background-color: var(--branco-puro);
+            border-left: 4px solid var(--cor-destaque);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--borda);
+            border-left-width: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
+        }
         .item-info-flex { display: flex; flex-direction: column; gap: 4px; }
         .item-titulo { font-size: 14px; font-weight: 700; color: #1A202C; }
         .item-tags-row { display: flex; gap: 6px; align-items: center; font-size: 11px; margin-top: 2px; }
         .tag-inst { background-color: #FEEBC8; color: #C05621; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
-        .btn-lixeira { background: none; border: none; color: #E53E3E; font-size: 16px; padding: 4px; cursor: pointer; }
+        
+        .btn-lixeira { background: none; border: none; color: #E53E3E; font-size: 16px; cursor: pointer; padding: 4px; }
 
         footer { text-align: center; padding: 20px; margin-top: 30px; font-size: 12px; color: var(--texto-mutado); border-top: 1px solid var(--borda); }
-        .topo-dobravel { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
         .colapsado { display: none !important; }
     </style>
 </head>
@@ -178,7 +304,7 @@
             </div>
         </section>
 
-        <!-- MOSAICO DE MÓDULOS -->
+        <!-- MOSAICO RECONFIGURADO DE MÓDULOS -->
         <section class="grid-modulos-fluxo" id="container-modulos-mosaico"></section>
 
         <!-- MENU INTERNO EXCLUSIVO DO MÓDULO SELECIONADO -->
@@ -188,7 +314,7 @@
             <button id="btn-sub-documentos" class="menu-interno-btn" onclick="alternarSubAbasModulo('documentos')">📂 Documentos</button>
         </nav>
 
-        <!-- SUB-ABA: FICHA DE CADASTRO (EXCLUSIVA E INDIVIDUAL) -->
+        <!-- SUB-ABA: FICHA DE CADASTRO -->
         <section class="card-sigi colapsado" id="sub-bloco-cadastro">
             <p class="secao-titulo">Cadastro Institucional do Âmbito</p>
             <h2 class="card-titulo-h2" id="sigma-txt-nome-modulo">Todos</h2>
@@ -196,7 +322,7 @@
             <div class="sigi-grid-inputs">
                 <div class="sigi-field-container span-full">
                     <span class="sigi-label">Razão Social / Nome Completo</span>
-                    <input type="text" id="cadastro-mod-nome-completo" onchange="salvarFichaDeCadastroAtual()" placeholder="Ex: Instituto Coopera de Economia Solidária">
+                    <input type="text" id="cadastro-mod-nome-completo" onchange="salvarFichaDeCadastroAtual()" placeholder="Ex: Instituto Coopera">
                 </div>
                 <div class="sigi-field-container">
                     <span class="sigi-label">CNPJ / CPF</span>
@@ -217,9 +343,9 @@
             </div>
         </section>
 
-        <!-- SUB-ABA: AGENDA OPERACIONAL E MOTOR DE INTELIGÊNCIA -->
+        <!-- SUB-ABA: AGENDA OPERACIONAL -->
         <div id="sub-bloco-agenda">
-            <!-- MOTOR DE EXTRAÇÃO AVANÇADA -->
+            <!-- MOTOR DE EXTRAÇÃO -->
             <section class="card-sigi" style="margin-bottom: 12px;">
                 <div class="topo-dobravel" onclick="toggleSecao('motor-conteudo')">
                     <div>
@@ -258,11 +384,11 @@
                             <input type="text" id="motor-campo-observacao" placeholder="Diretrizes identificadas">
                         </div>
                     </div>
-                    <button onclick="processarEAlocarNaAgendaSigma()" class="btn-submit-agenda" style="background-color:var(--cor-destaque); margin-top:4px;">⚡ Executar Alocação e Distribuição Modular</button>
+                    <button onclick="adicionarMotorAMesaTemporaria()" class="btn-submit-agenda" style="background-color:var(--cor-destaque); margin-top:4px;">+ Adicionar à Mesa Temporária</button>
                 </div>
             </section>
 
-            <!-- INSERÇÃO MANUAL -->
+            <!-- INSERÇÃO MANUAL ADAPTADA COM LISTA DE PRÉVIA -->
             <section class="card-sigi" style="margin-bottom: 12px;">
                 <div class="topo-dobravel" onclick="toggleSecao('form-manual')">
                     <div>
@@ -272,7 +398,7 @@
                     <span>▼</span>
                 </div>
                 
-                <form id="form-manual" onsubmit="salvarCompromissoManual(event)" class="conteudo-dobravel sigi-grid-inputs">
+                <form id="form-manual" onsubmit="adicionarManualAMesaTemporaria(event)" class="conteudo-dobravel sigi-grid-inputs">
                     <div class="sigi-field-container">
                         <span class="sigi-label">Data *</span>
                         <input type="date" id="manual-data" required>
@@ -300,15 +426,23 @@
                             <option value="Alta">Alta ⭐</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn-submit-agenda span-full">+ Inserir na Agenda Modular</button>
+                    <button type="submit" class="btn-submit-agenda span-full" style="background-color:#4A5568;">+ Adicionar ao Lançamento Coletivo</button>
                 </form>
             </section>
 
-            <!-- AGENDA FILTRADA -->
+            <!-- MESA OPERACIONAL DE VALIDAÇÃO (IMPEÇE O SALVAMENTO AUTOMÁTICO CEGO) -->
+            <section class="card-sigi colapsado" id="card-mesa-validacao">
+                <p class="secao-titulo">Mesa de Validação Humana</p>
+                <h2 class="card-titulo-h2">Compromissos Aguardando Lançamento</h2>
+                <div id="lista-mesa-temporaria-rascunhos" class="container-previa-temporaria"></div>
+                <button onclick="consolidarEMandarParaAgendaDefinitiva()" class="btn-submit-agenda" style="background-color:#2B6CB0; font-weight:700;">💾 Confirmar e Registrar na Agenda do SIGMA</button>
+            </section>
+
+            <!-- AGENDA FILTRADA DEFINITIVA -->
             <section style="margin-top: 4px;">
                 <div class="agenda-meta-header">
                     <div>
-                        <p class="secao-titulo">Filtragem Temporal</p>
+                        <p class="secao-titulo">Visualização da Memória</p>
                         <h2 class="card-titulo-h2" style="margin-bottom:0;">Agenda Completa</h2>
                     </div>
                     <select id="filtro-tempo-agenda" onchange="renderizarPainelAgendaCompleta()" style="padding:6px; font-size:12px; border-radius:6px; border:1px solid var(--borda); font-weight:600;">
@@ -326,16 +460,16 @@
             </section>
         </div>
 
-        <!-- SUB-ABA: DOCUMENTOS (PROMPT DE MEMÓRIA VIVA FUTURA) -->
+        <!-- SUB-ABA: DOCUMENTOS -->
         <section class="card-sigi colapsado" id="sub-bloco-documentos">
             <p class="secao-titulo">Repositório Documental</p>
             <h2 class="card-titulo-h2">Biblioteca e Acervo Técnico</h2>
-            <p style="font-size: 13px; color: var(--texto-mutado);">Módulo de documentação da memória viva institucional. Os arquivos vinculados aparecerão listados aqui nas próximas etapas do Roadmap.</p>
+            <p style="font-size: 13px; color: var(--texto-mutado);">Módulo de documentação institucional da memória viva.</p>
         </section>
     </main>
 
     <footer>
-        <p>Plataforma SIGMA v2.6 | Sistema de Gestão Modular Assistida</p>
+        <p>Plataforma SIGMA v2.6 | Engenharia de Redes Colaborativas</p>
     </footer>
 
     <script>
@@ -349,6 +483,10 @@
         let moduloSelecionadoAtivo = "Todos";
         let subAbaAtiva = "agenda";
         
+        // Arrays de Controle (Banco Definitivo vs Mesa Temporária de Rascunhos)
+        let mesaTemporariaRascunhos = [];
+        let dbCompromissosSigma = JSON.parse(localStorage.getItem('sigma_db_compromissos_v6')) || [];
+
         let usuarioMasterAtivo = JSON.parse(localStorage.getItem('sigma_user_master_v5')) || {
             nome: "Augusto Cesar P. da Silva",
             email: "augusto@sigma.org"
@@ -357,8 +495,6 @@
         let dbCadastroModulos = JSON.parse(localStorage.getItem('sigma_db_cadastro_modulos_v5')) || {
             "Todos": { nomeCompleto: "Sistema SIGMA - Geral", cnpj: "Interno", proprietario: "Augusto Cesar P. da Silva", endereco: "Recife - PE", descricao: "Visão unificada das pautas operacionais." }
         };
-
-        let dbCompromissosSigma = JSON.parse(localStorage.getItem('sigma_db_compromissos_v6')) || [];
 
         window.onload = function() {
             carregarDadosUsuarioIdentificador();
@@ -427,7 +563,6 @@
             container.appendChild(btnCriar);
         }
 
-        /* GERENCIAMENTO DO MENU DE SUB-ABAS INTERNAS SOLICITADO */
         function alternarSubAbasModulo(target) {
             subAbaAtiva = target;
             document.getElementById('btn-sub-agenda').classList.remove('menu-interno-btn-ativo');
@@ -452,13 +587,7 @@
 
         function carregarFichaDeCadastroDoModulo(nomeMod) {
             if(!dbCadastroModulos[nomeMod]) {
-                dbCadastroModulos[nomeMod] = {
-                    nomeCompleto: nomeMod,
-                    cnpj: "",
-                    proprietario: "Augusto Cesar P. da Silva",
-                    endereco: "",
-                    descricao: `Planejamento estratégico e memória institucional do âmbito: ${nomeMod}.`
-                };
+                dbCadastroModulos[nomeMod] = { nomeCompleto: nomeMod, cnpj: "", proprietario: "Augusto Cesar P. da Silva", endereco: "", descricao: `Planejamento estratégico do âmbito: ${nomeMod}.` };
             }
             document.getElementById('cadastro-mod-nome-completo').value = dbCadastroModulos[nomeMod].nomeCompleto || "";
             document.getElementById('cadastro-mod-cnpj').value = dbCadastroModulos[nomeMod].cnpj || "";
@@ -489,7 +618,7 @@
                     renderizarMosaicoModulos();
                     atualizarListaOpcoesSelectForm();
                     carregarFichaDeCadastroDoModulo(limpo);
-                    alternarSubAbasModulo('cadastro'); // Direciona para o cadastro ao criar
+                    alternarSubAbasModulo('cadastro');
                     renderizarPainelAgendaCompleta();
                 }
             }
@@ -558,7 +687,7 @@
                 document.getElementById('motor-campo-data').value = `${new Date().getFullYear()}-${mes}-${dia}`;
             }
             let lembreteExtraido = "Ata processada sem notas críticas.";
-            const frases = texto.split(/[.\n]/);
+            const frases = text = texto.split(/[.\n]/);
             for(let frase of frases) {
                 if(frase.toLowerCase().includes("lembrar") || frase.toLowerCase().includes("nota") || frase.toLowerCase().includes("importante")) {
                     lembreteExtraido = frase.trim();
@@ -569,7 +698,8 @@
             document.getElementById('motor-campo-observacao').value = texto.length > 10 ? texto.substring(0, 60) + "..." : "Processado.";
         }
 
-        function processarEAlocarNaAgendaSigma() {
+        /* INSERÇÃO NA MESA TEMPORÁRIA VIA MOTOR */
+        function adicionarMotorAMesaTemporaria() {
             const textoBox = document.getElementById('texto-caixa-entrada').value;
             const titulo = document.getElementById('motor-campo-titulo').value || "Pauta Extraída";
             const data = document.getElementById('motor-campo-data').value;
@@ -577,12 +707,11 @@
             const lembrete = document.getElementById('motor-campo-lembrete').value;
             const observacao = document.getElementById('motor-campo-observacao').value;
 
-            if(!textoBox.trim()) return alert("Texto vazio.");
+            if(!textoBox.trim()) return alert("A caixa de texto está vazia!");
             let moduloAlvo = moduloSelecionadoAtivo !== "Todos" ? moduloSelecionadoAtivo : "Instituto Coopera";
 
-            const novoCompromisso = {
+            const itemRascunho = {
                 id: Date.now(),
-                userOwner: usuarioMasterAtivo.nome,
                 data: data,
                 horario: hora,
                 instituicao: moduloAlvo,
@@ -593,18 +722,16 @@
                 observacao: observacao
             };
 
-            dbCompromissosSigma.push(novoCompromisso);
-            localStorage.setItem('sigma_db_compromissos_v6', JSON.stringify(dbCompromissosSigma));
+            mesaTemporariaRascunhos.push(itemRascunho);
             document.getElementById('texto-caixa-entrada').value = '';
-            renderizarPainelAgendaCompleta();
-            alert("Alocado!");
+            atualizarVisualizacaoMesaMestre();
         }
 
-        function salvarCompromissoManual(e) {
+        /* INSERÇÃO NA MESA TEMPORÁRIA VIA FORMULÁRIO MANUAL */
+        function adicionarManualAMesaTemporaria(e) {
             e.preventDefault();
-            const novo = {
+            const itemRascunho = {
                 id: Date.now(),
-                userOwner: usuarioMasterAtivo.nome,
                 data: document.getElementById('manual-data').value,
                 horario: document.getElementById('manual-horario').value || "00:00",
                 instituicao: document.getElementById('manual-select-instituicao').value,
@@ -614,12 +741,56 @@
                 lembrete: "",
                 observacao: ""
             };
-            dbCompromissosSigma.push(novo);
-            localStorage.setItem('sigma_db_compromissos_v6', JSON.stringify(dbCompromissosSigma));
+
+            mesaTemporariaRascunhos.push(itemRascunho);
             document.getElementById('form-manual').reset();
             inicializarCalendariosEFechas();
+            atualizarVisualizacaoMesaMestre();
+        }
+
+        /* ATUALIZA A TELA DA MESA DE VALIDAÇÃO */
+        function atualizarVisualizacaoMesaMestre() {
+            const cardMesa = document.getElementById('card-mesa-validacao');
+            const listaRascunhos = document.getElementById('lista-mesa-temporaria-rascunhos');
+            
+            if(mesaTemporariaRascunhos.length === 0) {
+                cardMesa.classList.add('colapsado');
+                return;
+            }
+
+            cardMesa.classList.remove('colapsado');
+            listaRascunhos.innerHTML = '';
+
+            mesaTemporariaRascunhos.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'item-previa-linha';
+                div.innerHTML = `
+                    <div>
+                        <strong>[${item.instituicao}]</strong> ${item.descricao} - 📅 ${item.data.split('-').reverse().join('/')} às ${item.horario}
+                    </div>
+                    <button onclick="removerItemDaMesaTemporaria(${index})" style="background:none; border:none; color:#E53E3E; font-weight:bold; cursor:pointer;">✕</button>
+                `;
+                listaRascunhos.appendChild(div);
+            });
+        }
+
+        function removerItemDaMesaTemporaria(index) {
+            mesaTemporariaRascunhos.splice(index, 1);
+            atualizarVisualizacaoMesaMestre();
+        }
+
+        /* CONSOLIDAÇÃO FINAL E SALVAMENTO EM LOTE (RN-001) */
+        function consolidarEMandarParaAgendaDefinitiva() {
+            mesaTemporariaRascunhos.forEach(item => {
+                item.userOwner = usuarioMasterAtivo.nome; // Carimba a posse do dado privadamente
+                dbCompromissosSigma.push(item);
+            });
+
+            localStorage.setItem('sigma_db_compromissos_v6', JSON.stringify(dbCompromissosSigma));
+            mesaTemporariaRascunhos = [];
+            atualizarVisualizacaoMesaMestre();
             renderizarPainelAgendaCompleta();
-            alert("Salvo manual!");
+            alert("Sucesso! Todos os compromissos foram validados e lançados na agenda do SIGMA.");
         }
 
         function renderizarPainelAgendaCompleta() {
@@ -639,7 +810,7 @@
             });
 
             if(filtrados.length === 0) {
-                lista.innerHTML = '<p style="text-align:center; font-size:12px; color:var(--texto-mutado); padding:12px;">Nenhum registro para este âmbito.</p>';
+                lista.innerHTML = '<p style="text-align:center; font-size:12px; color:var(--texto-mutado); padding:12px;">Nenhum registro definitivo para este âmbito.</p>';
                 return;
             }
 
@@ -650,7 +821,7 @@
                     <div class="item-info-flex">
                         <p class="item-titulo">${item.descricao}</p>
                         <div class="item-tags-row"><span>${item.horario}</span><span class="tag-inst">${item.instituicao}</span></div>
-                        ${item.lembrete ? `<p style="font-size:11px; color:var(--cor-destaque);">📌 ${item.lembrete}</p>` : ''}
+                        ${item.lembrete ? `<p style="font-size:11px; color:var(--cor-destaque);">📌 Lembrete: ${item.lembrete}</p>` : ''}
                     </div>
                     <button onclick="removerCompromissoIndividual(${item.id})" class="btn-lixeira">🗑️</button>
                 `;
@@ -659,9 +830,11 @@
         }
 
         function removerCompromissoIndividual(id) {
-            dbCompromissosSigma = dbCompromissosSigma.filter(i => i.id !== id);
-            localStorage.setItem('sigma_db_compromissos_v6', JSON.stringify(dbCompromissosSigma));
-            renderizarPainelAgendaCompleta();
+            if(confirm("Excluir definitivamente?")) {
+                dbCompromissosSigma = dbCompromissosSigma.filter(i => i.id !== id);
+                localStorage.setItem('sigma_db_compromissos_v6', JSON.stringify(dbCompromissosSigma));
+                renderizarPainelAgendaCompleta();
+            }
         }
 
         function toggleSecao(id) { document.getElementById(id).classList.toggle('colapsado'); }
