@@ -5,9 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SIGMA - Sistema de Gestão Modular Assistida</title>
     
+    <!-- Configurações PWA e Metatags de Aplicativo Executivo -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SIGMA">
     <meta name="theme-color" content="#1E463C">
+    
+    <!-- Definição Real do Ícone com o Raio e Nome SIGMA para a Tela do Celular -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%231E463C'/><text x='50%' y='45%' font-family='sans-serif' font-weight='900' font-size='140' fill='%23E28743' text-anchor='middle' dominant-baseline='central'>⚡</text><text x='50%' y='75%' font-family='sans-serif' font-weight='900' font-size='65' fill='%23FFFFFF' text-anchor='middle' letter-spacing='4'>SIGMA</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%231E463C'/><text x='50%' y='45%' font-family='sans-serif' font-weight='900' font-size='140' fill='%23E28743' text-anchor='middle' dominant-baseline='central'>⚡</text><text x='50%' y='75%' font-family='sans-serif' font-weight='900' font-size='65' fill='%23FFFFFF' text-anchor='middle' letter-spacing='4'>SIGMA</text></svg>">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     
@@ -49,7 +55,6 @@
             gap: 10px;
         }
         
-        /* ÍCONE INSTITUCIONAL SIGMA EM VERDE COM TEXTO BRANCO */
         .link-institucional-sigma {
             background-color: #14352B;
             color: var(--branco-puro);
@@ -95,7 +100,7 @@
             width: 100%;
         }
         .modulo-card-ativa { background-color: var(--cor-destaque) !important; color: white !important; }
-        .btn-deletar-modulo-x { background: rgba(0,0,0,0.05); border: none; color: inherit; font-size: 14px; font-weight: bold; padding: 2px 6px; border-radius: 4px; }
+        .btn-deletar-modulo-x { background: rgba(0,0,0,0.05); border: none; color: inherit; font-size: 14px; font-weight: bold; padding: 2px 6px; border-radius: 4px; cursor: pointer; }
         .btn-criar-modulo-trigger { grid-column: span 2; background-color: var(--cor-primaria); color: white; border: none; border-radius: 10px; padding: 10px; font-size: 12px; font-weight: 700; text-align: center; cursor: pointer; margin-top: 4px; }
 
         .menu-interno-modulo {
@@ -173,7 +178,6 @@
     <header>
         <div class="header-container">
             <div class="header-brand">
-                <!-- BOTÃO DE IDENTIDADE VISUAL COM ÍCONE INSTITUCIONAL -->
                 <a href="#" class="link-institucional-sigma" onclick="location.reload();">⚡ SIGMA</a>
                 <div class="header-title-sub">
                     <p>Gestão Modular Assistida</p>
@@ -215,7 +219,7 @@
             <button id="btn-sub-documentos" class="menu-interno-btn" onclick="alternarSubAbasModulo('documentos')">📂 Documentos</button>
         </nav>
 
-        <!-- SUB-ABA: FICHA DE CADASTRO COM QUATRO OPÇÕES DE PREENCHIMENTO MANUAIS (NOME / FUNÇÃO) -->
+        <!-- SUB-ABA: FICHA DE CADASTRO -->
         <section class="card-sigi colapsado" id="sub-bloco-cadastro">
             <p class="secao-titulo">Cadastro Institucional do Âmbito</p>
             <h2 class="card-titulo-h2" id="sigma-txt-nome-modulo">Todos</h2>
@@ -234,7 +238,6 @@
                     <input type="text" id="cadastro-mod-endereco" onchange="salvarFichaDeCadastroAtual()" placeholder="Rua, Cidade - Estado">
                 </div>
 
-                <!-- QUATRO ESTRUTURAS DE CAMPOS DE PREENCHIMENTO EXCLUSIVOS (NOME / FUNÇÃO) -->
                 <div class="span-full" style="margin-top: 10px; border-top: 1px solid var(--borda); padding-top: 8px;">
                     <p class="secao-titulo" style="color: var(--cor-destaque);">Corpo de Responsáveis e Lideranças</p>
                 </div>
