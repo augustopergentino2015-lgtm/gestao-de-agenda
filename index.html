@@ -834,9 +834,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
-<!-- MOTOR HÍBRIDO SIGMA: EXCEL, WORD E PDF -->
+<!-- MOTOR HÍBRIDO SIGMA: LEITOR INTEGRADO DE EXCEL, WORD E PDF -->
+<script src="https://jsdelivr.net"></script>
+<script src="https://cloudflare.com"></script>
 <script>
-// Configuração inicial obrigatória do leitor de PDF
+// Configuração obrigatória para processar PDFs diretamente no navegador do celular
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cloudflare.com';
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -849,56 +851,60 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const nomeArquivo = arquivo.name.toLowerCase();
             
-            // Elementos reais do seu painel SIGMA mapeados no diagnóstico
+            // Elementos reais do painel SIGMA identificados no mapeamento de componentes
             const campoTitulo = document.getElementById('motor-campo-titulo');
             const campoData = document.getElementById('motor-campo-data');
             const campoHora = document.getElementById('motor-campo-hora');
+            const campoObservacao = document.getElementById('motor-campo-observacao');
             const botoesSalvar = Array.from(document.querySelectorAll('.btn-submit-agenda'));
             const botaoConfirmarFinal = botoesSalvar.find(b => b.innerText.includes('Confirmar e Registrar'));
 
             if (!campoTitulo || !campoData || !botaoConfirmarFinal) {
-                alert("Erro Estrutural: Os campos da agenda não estão visíveis na tela ativa.");
+                alert("Erro de Tela: Certifique-se de estar com a aba do painel da agenda aberta para que o robô encontre os campos.");
                 return;
             }
 
             try {
-                // ================= COMENTÁRIO TÉCNICO: SE FOR EXCEL =================
+                // 1. PROCESSAMENTO DE PLANILHAS (EXCEL / CSV)
                 if (nomeArquivo.endsWith('.xlsx') || nomeArquivo.endsWith('.xls') || nomeArquivo.endsWith('.csv')) {
                     const leitor = new FileReader();
                     leitor.onload = function(evt) {
                         const livro = XLSX.read(evt.target.result, { type: 'binary' });
                         const linhas = XLSX.utils.sheet_to_json(livro.Sheets[livro.SheetNames[0]]);
-                        
+                        let contadorExcel = 0;
+
                         linhas.forEach(linha => {
-                            let titulo = linha.Titulo || linha.titulo || linha.Compromisso || linha.evento || linha.Descricao;
-                            let data = linha.Data || linha.data || linha.Dia;
+                            let titulo = linha.Titulo || linha.titulo || linha.Compromisso || linha.evento || linha.Descricao || linha.Descrição;
+                            let data = linha.Data || linha.data || linha.Dia || linha.dia;
                             let hora = linha.Hora || linha.hora || "08:00";
+                            let obs = linha.Observacao || linha.observacao || linha.Diretrizes || "";
 
                             if (data && titulo) {
                                 if (typeof data === 'number') {
                                     data = new Date((data - 25569) * 86400 * 1000).toISOString().split('T')[0];
-                                }
-                                salvarNoSigma(titulo, data, hora, campoTitulo, campoData, campoHora, botaoConfirmarFinal);
+                                ]}
+                                preencherESalvarSigma(titulo, data, hora, obs, campoTitulo, campoData, campoHora, campoObservacao, botaoConfirmarFinal);
+                                contadorExcel++;
                             }
                         });
-                        alert("Relatório de Excel processado com sucesso!");
+                        if (contadorExcel > 0) alert(`Mecanismo SIGMA: ${contadorExcel} compromissos extraídos da planilha Excel.`);
                     };
                     leitor.readAsBinaryString(arquivo);
                 } 
                 
-                // ================= COMENTÁRIO TÉCNICO: SE FOR WORD (DOCX) =================
+                // 2. PROCESSAMENTO DE DOCUMENTOS DO WORD (DOCX)
                 else if (nomeArquivo.endsWith('.docx')) {
                     const leitor = new FileReader();
                     leitor.onload = function(evt) {
                         mammoth.extractRawText({ arrayBuffer: evt.target.result })
                             .then(function(resultado) {
-                                varrerTextoEAlocar(resultado.value, campoTitulo, campoData, campoHora, botaoConfirmarFinal);
+                                varrerTextoDocumento(resultado.value, campoTitulo, campoData, campoHora, campoObservacao, botaoConfirmarFinal);
                             });
                     };
                     leitor.readAsArrayBuffer(arquivo);
                 } 
                 
-                // ================= COMENTÁRIO TÉCNICO: SE FOR PDF =================
+                // 3. PROCESSAMENTO DE ARQUIVOS EM PDF
                 else if (nomeArquivo.endsWith('.pdf')) {
                     const leitor = new FileReader();
                     leitor.onload = async function(evt) {
@@ -910,61 +916,68 @@ document.addEventListener('DOMContentLoaded', function() {
                         for (let i = 1; i <= pdf.numPages; i++) {
                             const pagina = await pdf.getPage(i);
                             const conteudoTexto = await pagina.getTextContent();
-                            const stringsTexto = conteudoTexto.items.map(item => item.str);
-                            textoCompleto += stringsTexto.join(" ") + "\n";
+                            textoCompleto += conteudoTexto.items.map(item => item.str).join(" ") + "\n";
                         }
-                        varrerTextoEAlocar(textoCompleto, campoTitulo, campoData, campoHora, botaoConfirmarFinal);
+                        varrerTextoDocumento(textoCompleto, campoTitulo, campoData, campoHora, campoObservacao, botaoConfirmarFinal);
                     };
                     leitor.readAsArrayBuffer(arquivo);
                 } else {
-                    alert("Formato não suportado. Envie Excel, Word ou PDF.");
+                    alert("Aviso: Formato de arquivo não reconhecido pelo SIGMA. Envie Excel, Word ou PDF.");
                 }
 
             } catch (erro) {
                 console.error(erro);
-                alert("Falha mecânica ao interpretar a estrutura deste relatório.");
+                alert("Falha mecânica ao processar e distribuir os dados deste relatório.");
             }
             
-            inputArquivoSigma.value = ""; // Reseta o botão
+            inputArquivoSigma.value = ""; // Limpa o seletor para os próximos uploads
         });
     }
 });
 
-// Mecanismo inteligente de busca de padrões de Data e Título dentro de arquivos de texto (PDF/Word)
-function varrerTextoEAlocar(textoBruto, campoT, campoD, campoH, btnSalvar) {
-    // Procura por formatos de data padrão no Brasil (DD/MM/AAAA ou DD-MM-AAAA)
-    const regexData = /(\d{2})[\/\-](\d{2})[\/\-](\d{4})/;
+// Varre textos corridos (PDF e Word) localizando datas no formato DD/MM/AAAA ou DD-MM-AAAA
+function varrerTextoDocumento(textoBruto, cT, cD, cH, cO, btn) {
+    const regexDataBr = /(\d{2})[\/\-](\d{2})[\/\-](\d{4})/;
     const linhas = textoBruto.split('\n');
-    let contador = 0;
+    let contadorDocs = 0;
 
     linhas.forEach(linha => {
-        const achouData = linha.match(regexData);
-        // Se a linha contiver uma data e tiver algum texto longo (o compromisso)
-        if (achouData && linha.trim().length > 15) {
-            const dataFormatadaISO = `${achouData[3]}-${achouData[2]}-${achouData[1]}`; // Converte para AAAA-MM-DD
+        const correspondencia = linha.match(regexDataBr);
+        
+        // Se encontrar uma data e a linha contiver informações relevantes sobre a pauta
+        if (correspondencia && linha.trim().length > 12) {
+            const dia = correspondencia[1];
+            const mes = correspondencia[2];
+            const ano = correspondencia[3];
+            const dataPadraoISO = `${ano}-${mes}-${dia}`; // Converte para o formato aceito pelo input date (AAAA-MM-DD)
             
-            // Limpa o texto da linha removendo a data para usar o resto como título do compromisso
-            const tituloLimpo = linha.replace(regexData, '').replace(/[:\-–—]/g, '').trim();
-            
-            salvarNoSigma(tituloLimpo.substring(0, 60), dataFormatadaISO, "08:00", campoT, campoD, campoH, btnSalvar);
-            contador++;
+            // Remove a data do texto para usar o resto da frase como o Título do compromisso
+            let tituloExtraido = linha.replace(regexDataBr, '').replace(/[:\-–—]/g, '').trim();
+            if (tituloExtraido.length < 3) tituloExtraido = "Compromisso extraído do relatório";
+
+            preencherESalvarSigma(tituloExtraido.substring(0, 70), dataPadraoISO, "08:00", "Identificado via leitura de relatório automático", cT, cD, cH, cO, btn);
+            contadorDocs++;
         }
     });
 
-    if (contador > 0) {
-        alert(`Mecanismo SIGMA: Identificamos padrões de texto e alocamos ${contador} compromissos na agenda!`);
+    if (contadorDocs > 0) {
+        alert(`Mecanismo SIGMA: Identificamos padrões de relatórios e agendamos ${contadorDocs} compromissos.`);
     } else {
-        alert("O documento foi lido, mas não encontramos nenhuma linha contendo Data (ex: 29/06/2026) junto com a descrição da tarefa.");
+        alert("O documento foi lido, mas nenhuma linha com formato de Data (ex: 29/06/2026) foi detectada.");
     }
 }
 
-// Executa a automação física de preenchimento e clique
-function salvarNoSigma(titulo, data, hora, cT, cD, cH, btn) {
+// Insere os dados nos inputs nativos criados pelo Gemini e pressiona o botão de disquete
+function preencherESalvarSigma(titulo, data, hora, obs, cT, cD, cH, cO, btn) {
     cT.value = titulo;
     cD.value = data;
     if (cH) cH.value = hora;
+    if (cO && obs) cO.value = obs;
+    
+    // Dispara o evento de clique físico para salvar na memória e na interface do SIGMA
     btn.click();
 }
 </script>
+
 
 </html>
