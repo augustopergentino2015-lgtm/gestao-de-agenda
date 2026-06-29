@@ -11,15 +11,14 @@
     <meta name="apple-mobile-web-app-title" content="SIGMA">
     <meta name="theme-color" content="#1E463C">
     
-    <!-- AJUSTE MÁXIMO DO ÍCONE: SIGMA EXPANDIDO E EM ALTA VISIBILIDADE -->
+    <!-- ÍCONE OFICIAL DO SIGMA EXPANDIDO E EM ALTA VISIBILIDADE -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%231E463C'/><text x='50%' y='40%' font-family='sans-serif' font-weight='900' font-size='160' fill='%23E28743' text-anchor='middle' dominant-baseline='central'>⚡</text><text x='50%' y='76%' font-family='sans-serif' font-weight='900' font-size='95' fill='%23FFFFFF' text-anchor='middle' letter-spacing='2'>SIGMA</text></svg>">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%231E463C'/><text x='50%' y='40%' font-family='sans-serif' font-weight='900' font-size='160' fill='%23E28743' text-anchor='middle' dominant-baseline='central'>⚡</text><text x='50%' y='76%' font-family='sans-serif' font-weight='900' font-size='95' fill='%23FFFFFF' text-anchor='middle' letter-spacing='2'>SIGMA</text></svg>">
     
+    <!-- INJEÇÃO OFICIAL E CORRIGIDA DAS BIBLIOTECAS MOTORIZADAS PARA CELULAR -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-    <script src="https://jsdelivr.net"></script>
-    <script src="https://cloudflare.com"></script>
-
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     
     <style>
         :root {
@@ -27,10 +26,10 @@
             --cor-primaria: #1E463C;
             --cor-secundaria: #E3EDE9;
             --cor-destaque: #E28743;
-            --texto-principal: #2D3748;
-            --texto-mutado: #718096;
+            --texto-principal: #1A202C; /* Ajustado para maior nitidez */
+            --texto-mutado: #4A5568;    /* Escurecido para legibilidade mobile */
             --branco-puro: #FFFFFF;
-            --borda: #E2E8F0;
+            --borda: #CBD5E0;           /* Borda mais visível nas telas */
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -59,13 +58,12 @@
             gap: 10px;
         }
         
-        /* CABEÇALHO COM DESTAQUE MAXIMIZADO PARA A MARCA */
         .link-institucional-sigma {
             background-color: #14352B;
             color: var(--branco-puro);
             padding: 8px 18px;
             border-radius: 10px;
-            font-size: 20px; /* Aumentado para marcar presença */
+            font-size: 20px;
             font-weight: 900;
             letter-spacing: 1.5px;
             text-decoration: none;
@@ -91,11 +89,11 @@
         
         .modulo-card-btn {
             background-color: #FFF3EB;
-            border: 1px solid var(--cor-destaque);
+            border: 2px solid var(--cor-destaque); /* Aumentado para nitidez */
             border-radius: 10px;
-            padding: 8px 12px;
-            font-size: 12px;
-            font-weight: 600;
+            padding: 10px 12px;
+            font-size: 13px;
+            font-weight: 700;
             color: #C05621;
             display: flex;
             justify-content: space-between;
@@ -105,12 +103,12 @@
             width: 100%;
         }
         .modulo-card-ativa { background-color: var(--cor-destaque) !important; color: white !important; }
-        .btn-deletar-modulo-x { background: rgba(0,0,0,0.05); border: none; color: inherit; font-size: 14px; font-weight: bold; padding: 2px 6px; border-radius: 4px; }
-        .btn-criar-modulo-trigger { grid-column: span 2; background-color: var(--cor-primaria); color: white; border: none; border-radius: 10px; padding: 10px; font-size: 12px; font-weight: 700; text-align: center; cursor: pointer; margin-top: 4px; }
+        .btn-deletar-modulo-x { background: rgba(0,0,0,0.1); border: none; color: inherit; font-size: 14px; font-weight: bold; padding: 2px 6px; border-radius: 4px; cursor: pointer; }
+        .btn-criar-modulo-trigger { grid-column: span 2; background-color: var(--cor-primaria); color: white; border: none; border-radius: 10px; padding: 12px; font-size: 13px; font-weight: 700; text-align: center; cursor: pointer; margin-top: 4px; }
 
         .menu-interno-modulo {
             display: flex;
-            background-color: #E2E8F0;
+            background-color: #CBD5E0; /* Escurecido para melhor visualização */
             padding: 4px;
             border-radius: 12px;
             gap: 4px;
@@ -120,24 +118,35 @@
             flex: 1;
             border: none;
             background: none;
-            padding: 8px;
-            font-size: 12px;
+            padding: 10px;
+            font-size: 13px;
             font-weight: 700;
-            color: var(--texto-principal);
+            color: #2D3748;
             border-radius: 8px;
             cursor: pointer;
             text-align: center;
         }
-        .menu-interno-btn-ativo { background-color: var(--branco-puro) !important; color: var(--cor-primaria) !important; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .menu-interno-btn-ativo { background-color: var(--branco-puro) !important; color: var(--cor-primaria) !important; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 
-        .secao-titulo { font-size: 10px; font-weight: 700; color: #319795; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
-        .card-titulo-h2 { font-size: 15px; font-weight: 700; color: var(--cor-primaria); margin-bottom: 12px; }
-        .card-sigi { background-color: var(--branco-puro); padding: 16px; border-radius: 16px; border: 1px solid var(--borda); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); margin-bottom: 4px; }
+        .secao-titulo { font-size: 11px; font-weight: 800; color: #2C7A7B; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+        .card-titulo-h2 { font-size: 16px; font-weight: 800; color: var(--cor-primaria); margin-bottom: 12px; }
+        .card-sigi { background-color: var(--branco-puro); padding: 16px; border-radius: 16px; border: 1px solid var(--borda); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 4px; }
 
         .sigi-grid-inputs { display: grid; grid-template-cols: 1fr 1fr; gap: 8px; margin-top: 8px; }
         .sigi-field-container { display: flex; flex-direction: column; gap: 4px; }
-        .sigi-label { font-size: 11px; font-weight: 600; color: var(--texto-principal); }
-        .sigi-field-container input, .sigi-field-container select { padding: 10px; font-size: 13px; border: 1px solid var(--borda); border-radius: 8px; background-color: var(--branco-puro); outline: none; width: 100%; }
+        .sigi-label { font-size: 12px; font-weight: 700; color: var(--texto-principal); } /* Ajuste de Nitidez */
+        .sigi-field-container input, .sigi-field-container select { 
+            padding: 12px; 
+            font-size: 14px; 
+            border: 1.5px solid var(--borda); 
+            border-radius: 8px; 
+            background-color: var(--branco-puro); 
+            outline: none; 
+            width: 100%;
+            color: var(--texto-principal);
+            font-weight: 600;
+        }
+        .sigi-field-container input::placeholder { color: #718096; font-weight: 500; }
         .span-full { grid-column: span 2; }
         
         .bloco-linha-responsavel {
@@ -152,29 +161,29 @@
 
         .motor-box-operacional { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; width: 100%; }
         .linha-lupa-input { display: flex; gap: 8px; align-items: center; }
-        .btn-lupa { background-color: var(--cor-primaria); color: white; border: none; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-        textarea.sigi-input { width: 100%; padding: 12px; font-size: 13px; border: 1px solid var(--borda); border-radius: 12px; outline: none; font-family: inherit; resize: none; color: var(--texto-principal); }
-        .btn-submit-agenda { background-color: var(--cor-primaria); color: white; width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; margin-top: 12px; cursor: pointer; }
+        .btn-lupa { background-color: var(--cor-primaria); color: white; border: none; width: 48px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; cursor: pointer; }
+        textarea.sigi-input { width: 100%; padding: 12px; font-size: 14px; border: 1.5px solid var(--borda); border-radius: 12px; outline: none; font-family: inherit; resize: none; color: var(--texto-principal); font-weight: 600; }
+        .btn-submit-agenda { background-color: var(--cor-primaria); color: white; width: 100%; padding: 14px; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; margin-top: 12px; cursor: pointer; }
 
-        .container-previa-temporaria { background-color: #F7FAFC; border: 1px dashed #CBD5E0; border-radius: 12px; padding: 12px; margin-top: 10px; }
-        .item-previa-linha { background-color: white; border: 1px solid #E2E8F0; padding: 8px 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 12px; }
+        .container-previa-temporaria { background-color: #F7FAFC; border: 1.5px dashed var(--borda); border-radius: 12px; padding: 12px; margin-top: 10px; }
+        .item-previa-linha { background-color: white; border: 1px solid var(--borda); padding: 10px 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 13px; font-weight: 600; }
 
         .agenda-meta-header { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; margin-bottom: 8px; }
         .search-container { position: relative; width: 100%; margin-bottom: 12px; }
-        .search-container input { width: 100%; padding: 10px 12px 10px 36px; border-radius: 10px; border: 1px solid var(--borda); font-size: 13px; outline: none; }
-        .search-container span { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--texto-mutado); font-size: 14px; }
+        .search-container input { width: 100%; padding: 12px 12px 12px 40px; border-radius: 10px; border: 1.5px solid var(--borda); font-size: 14px; outline: none; color: var(--texto-principal); font-weight: 600; }
+        .search-container span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--texto-mutado); font-size: 16px; }
 
         .bloco-data-grupo { margin-bottom: 12px; }
-        .badge-data-separador { font-size: 11px; font-weight: 700; background-color: #E2E8F0; padding: 2px 8px; border-radius: 6px; color: #4A5568; display: inline-block; margin-bottom: 6px; }
+        .badge-data-separador { font-size: 12px; font-weight: 800; background-color: #E2E8F0; padding: 4px 10px; border-radius: 6px; color: #2D3748; display: inline-block; margin-bottom: 6px; }
         
-        .agenda-card-item { background-color: var(--branco-puro); border-left: 4px solid var(--cor-destaque); padding: 12px; border-radius: 8px; border: 1px solid var(--borda); border-left-width: 4px; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+        .agenda-card-item { background-color: var(--branco-puro); border-left: 5px solid var(--cor-destaque); padding: 14px; border-radius: 8px; border: 1px solid var(--borda); border-left-width: 5px; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
         .item-info-flex { display: flex; flex-direction: column; gap: 4px; }
-        .item-titulo { font-size: 14px; font-weight: 700; color: #1A202C; }
-        .item-tags-row { display: flex; gap: 6px; align-items: center; font-size: 11px; margin-top: 2px; }
-        .tag-inst { background-color: #FEEBC8; color: #C05621; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
-        .btn-lixeira { background: none; border: none; color: #E53E3E; font-size: 16px; cursor: pointer; padding: 4px; }
+        .item-titulo { font-size: 15px; font-weight: 700; color: var(--texto-principal); }
+        .item-tags-row { display: flex; gap: 8px; align-items: center; font-size: 12px; margin-top: 4px; font-weight: 600; color: var(--texto-mutado); }
+        .tag-inst { background-color: #FEEBC8; color: #C05621; padding: 2px 8px; border-radius: 4px; font-weight: 700; }
+        .btn-lixeira { background: none; border: none; color: #E53E3E; font-size: 18px; cursor: pointer; padding: 4px; flex-shrink: 0; }
 
-        footer { text-align: center; padding: 20px; margin-top: 30px; font-size: 12px; color: var(--texto-mutado); border-top: 1px solid var(--borda); }
+        footer { text-align: center; padding: 25px 20px; margin-top: 4px; font-size: 12px; color: var(--texto-mutado); border-top: 1px solid var(--borda); font-weight: 600; }
         .colapsado { display: none !important; }
     </style>
 </head>
@@ -205,26 +214,26 @@
             <div id="box-usuario-identificador" class="sigi-grid-inputs">
                 <div class="sigi-field-container">
                     <span class="sigi-label">Nome Completo do Operador</span>
-                    <input type="text" id="sys-user-nome" value="Augusto Cesar P. da Silva" onchange="transparent: true; role: input;">
+                    <input type="text" id="sys-user-nome" value="Augusto Cesar P. da Silva" onchange="atualizarDadosUsuarioMaster()">
                 </div>
                 <div class="sigi-field-container">
                     <span class="sigi-label">E-mail de Cadastro</span>
-                    <input type="text" id="sys-user-email" value="augusto@sigma.org" onchange="transparent: true; role: input;">
+                    <input type="text" id="sys-user-email" value="augusto@sigma.org" onchange="atualizarDadosUsuarioMaster()">
                 </div>
             </div>
         </section>
 
-        <!-- MOSAICO RECONFIGURADO DE MÓDULOS -->
+        <!-- MOSAICO DE MÓDULOS INSTITUCIONAIS -->
         <section class="grid-modulos-fluxo" id="container-modulos-mosaico"></section>
 
-        <!-- MENU INTERNO -->
+        <!-- MENU INTERNO DE COMPONENTES (NÍVEL 4) -->
         <nav class="menu-interno-modulo">
             <button id="btn-sub-agenda" class="menu-interno-btn menu-interno-btn-ativo" onclick="alternarSubAbasModulo('agenda')">📌 Painel / Agenda</button>
             <button id="btn-sub-cadastro" class="menu-interno-btn" onclick="alternarSubAbasModulo('cadastro')">📋 Ficha de Cadastro</button>
             <button id="btn-sub-documentos" class="menu-interno-btn" onclick="alternarSubAbasModulo('documentos')">📂 Documentos</button>
         </nav>
 
-        <!-- SUB-ABA: FICHA DE CADASTRO -->
+        <!-- SUB-ABA: FICHA DE CADASTRO COLETIVO -->
         <section class="card-sigi colapsado" id="sub-bloco-cadastro">
             <p class="secao-titulo">Cadastro Institucional do Âmbito</p>
             <h2 class="card-titulo-h2" id="sigma-txt-nome-modulo">Todos</h2>
@@ -300,30 +309,30 @@
 
         <!-- SUB-ABA: AGENDA OPERACIONAL -->
         <div id="sub-bloco-agenda">
-            <!-- MOTOR DE EXTRAÇÃO -->
+            <!-- MOTOR DE PROCESSAMENTO INTELIGENTE DE ARQUIVOS HÍBRIDOS (MAMMOTH, SHEETJS, PDFJS) -->
             <section class="card-sigi" style="margin-bottom: 12px;">
                 <div class="topo-dobravel" onclick="toggleSecao('motor-conteudo')">
                     <div>
-                        <p class="secao-titulo">Motor de Inteligência</p>
-                        <h2 class="card-titulo-h2" style="margin-bottom:0;">Caixa de Entrada / Lupa DOCX</h2>
+                        <p class="secao-titulo">Motor de Inteligência (SIGMA AI)</p>
+                        <h2 class="card-titulo-h2" style="margin-bottom:0;">Caixa de Entrada / Lupa Documental</h2>
                     </div>
                     <span>▼</span>
                 </div>
                 
                 <div id="motor-conteudo" class="motor-box-operacional">
                     <div class="linha-lupa-input">
-                        <button class="btn-lupa" onclick="dispararSeletorDeArquivo();">🔍</button>
-                        <input type="file" id="input-arquivo-real" style="display:none;" accept=".txt,.docx" onchange="executarLeituraRealDocx(event)">
-                        <textarea id="texto-caixa-entrada" rows="3" class="sigi-input" placeholder="Cole trechos do WhatsApp ou use a lupa para ler arquivos do Word (.docx)..."></textarea>
+                        <button class="btn-lupa" onclick="dispararSeletorDeArquivo();" title="Carregar Word, Excel ou PDF">🔍</button>
+                        <input type="file" id="input-arquivo-real" style="display:none;" accept=".txt,.docx,.xlsx,.xls,.csv,.pdf" onchange="forcarLeituraHibridaDeArquivo(event)">
+                        <textarea id="texto-caixa-entrada" rows="3" class="sigi-input" placeholder="Clique na lupa para ler relatórios (.docx, .xlsx, .pdf) ou cole textos corridos aqui..."></textarea>
                     </div>
 
                     <div class="sigi-grid-inputs">
                         <div class="sigi-field-container span-full">
-                            <span class="sigi-label">Título da Pauta / Documento</span>
-                            <input type="text" id="motor-campo-titulo" placeholder="Ex: Ata de Reunião Estratégica">
+                            <span class="sigi-label">Título do Compromisso / Pauta Mapeada</span>
+                            <input type="text" id="motor-campo-titulo" placeholder="Ex: Ata de Reunião de Alocação">
                         </div>
                         <div class="sigi-field-container">
-                            <span class="sigi-label">Data Extraída</span>
+                            <span class="sigi-label">Data Mapeada</span>
                             <input type="date" id="motor-campo-data">
                         </div>
                         <div class="sigi-field-container">
@@ -331,12 +340,12 @@
                             <input type="time" id="motor-campo-hora" value="09:00">
                         </div>
                         <div class="sigi-field-container span-full">
-                            <span class="sigi-label">Notas e Lembretes Identificados</span>
-                            <input type="text" id="motor-campo-lembrete" placeholder="Lembretes extraídos automaticamente">
+                            <span class="sigi-label">Notas / Lembretes Identificados</span>
+                            <input type="text" id="motor-campo-lembrete" placeholder="Lembrete automático do motor">
                         </div>
                         <div class="sigi-field-container span-full">
-                            <span class="sigi-label">Observações Complementares</span>
-                            <input type="text" id="motor-campo-observacao" placeholder="Diretrizes identificadas">
+                            <span class="sigi-label">Observações Extraídas</span>
+                            <input type="text" id="motor-campo-observacao" placeholder="Diretrizes complementares">
                         </div>
                     </div>
                     <button onclick="adicionarMotorAMesaTemporaria()" class="btn-submit-agenda" style="background-color:var(--cor-destaque); margin-top:4px;">+ Adicionar à Mesa Temporária</button>
@@ -385,7 +394,7 @@
                 </form>
             </section>
 
-            <!-- MESA OPERACIONAL -->
+            <!-- MESA OPERACIONAL DE VALIDAÇÃO (CONFIRMAR E REGISTRAR NA AGENDA) -->
             <section class="card-sigi colapsado" id="card-mesa-validacao">
                 <p class="secao-titulo">Mesa de Validação Humana</p>
                 <h2 class="card-titulo-h2">Compromissos Aguardando Lançamento</h2>
@@ -393,7 +402,7 @@
                 <button onclick="consolidarEMandarParaAgendaDefinitiva()" class="btn-submit-agenda" style="background-color:#2B6CB0; font-weight:700;">💾 Confirmar e Registrar na Agenda do SIGMA</button>
             </section>
 
-            <!-- AGENDA FILTRADA -->
+            <!-- AGENDA FILTRADA COMPLETA -->
             <section style="margin-top: 4px;">
                 <div class="agenda-meta-header">
                     <div>
@@ -424,10 +433,15 @@
     </main>
 
     <footer>
-        <p>Plataforma SIGMA v2.7 | Gestão Modular e Técnica</p>
+        <p>Plataforma SIGMA v2.8 | Engenharia de Redes Colaborativas</p>
     </footer>
 
     <script>
+        // Injeção do Worker do PDF.js para rodar perfeitamente em navegadores de celular
+        if (typeof pdfjsLib !== 'undefined') {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+        }
+
         let listaModulosMestres = JSON.parse(localStorage.getItem('sigma_modulos_list_v5')) || [
             "Todos", "Instituto Coopera", "Projeto Mutirão Coordenação executiva", 
             "Projeto Mutirão Ecocol", "Grupo Estudos Coopera", "Paul Singer", 
@@ -616,54 +630,106 @@
             });
         }
 
-        function dispararSeletorDeArquivo() { document.getElementById('input-arquivo-real').click(); }
+        function dispararSeletorDeArquivo() { 
+            document.getElementById('input-arquivo-real').value = "";
+            document.getElementById('input-arquivo-real').click(); 
+        }
 
-        function ejecutarLeituraRealDocx(event) {
+        // ENGENHARIA DE LEITURA HÍBRIDA BALANCED PARA MOBILES (WORD, EXCEL, PDF, TXT)
+        function forcarLeituraHibridaDeArquivo(event) {
             const arquivo = event.target.files[0];
             if (!arquivo) return;
+            
             document.getElementById('motor-campo-titulo').value = arquivo.name.split('.')[0];
             const ext = arquivo.name.split('.').pop().toLowerCase();
+            const leitor = new FileReader();
             
-            if (ext === "docx") {
-                const leitor = new FileReader();
-                leitor.onload = function(e) {
-                    mammoth.extractRawText({ arrayBuffer: e.target.result })
-                        .then(function(result) {
-                            document.getElementById('texto-caixa-entrada').value = result.value;
-                            processarEAnalizarTextoAutomaticamente(result.value);
-                        })
-                        .catch(function(err) { alert("Erro na leitura do DOCX: " + err); });
-                };
-                leitor.readAsArrayBuffer(e.target.result);
-            } else {
-                const leitor = new FileReader();
-                leitor.onload = function(e) {
-                    document.getElementById('texto-caixa-entrada').value = e.target.result;
-                    processarEAnalizarTextoAutomaticamente(e.target.result);
-                };
-                leitor.readAsText(arquivo);
+            try {
+                // 1. Decodificação de Documentos do Word (.docx)
+                if (ext === "docx") {
+                    leitor.onload = function(e) {
+                        mammoth.extractRawText({ arrayBuffer: e.target.result })
+                            .then(function(result) {
+                                document.getElementById('texto-caixa-entrada').value = result.value;
+                                processarEAnalizarTextoAutomaticamente(result.value);
+                                alert("SIGMA AI: Arquivo Word decodificado e injetado!");
+                            }).catch(err => alert("Erro Word: " + err));
+                    };
+                    leitor.readAsArrayBuffer(arquivo);
+                } 
+                // 2. Decodificação de Planilhas e Matrizes Excel (.xlsx, .xls, .csv)
+                else if (ext === "xlsx" || ext === "xls" || ext === "csv") {
+                    leitor.onload = function(e) {
+                        const dadosBinarios = new Uint8Array(e.target.result);
+                        const livro = XLSX.read(dadosBinarios, { type: 'array' });
+                        const aba = livro.Sheets[livro.SheetNames[0]];
+                        const textoPlanilha = XLSX.utils.sheet_to_txt(aba);
+                        document.getElementById('texto-caixa-entrada').value = textoPlanilha;
+                        processarEAnalizarTextoAutomaticamente(textoPlanilha);
+                        alert("SIGMA AI: Matriz Excel processada com sucesso!");
+                    };
+                    leitor.readAsArrayBuffer(arquivo);
+                } 
+                // 3. Decodificação Síncrona de Arquivos PDF
+                else if (ext === "pdf") {
+                    leitor.onload = async function(e) {
+                        const arrayBuffer = e.target.result;
+                        const carregandoPdf = pdfjsLib.getDocument({ data: arrayBuffer });
+                        const pdf = await carregandoPdf.promise;
+                        let textoPdf = "";
+                        for (let i = 1; i <= pdf.numPages; i++) {
+                            const pagina = await pdf.getPage(i);
+                            const conteudo = await pagina.getTextContent();
+                            textoPdf += conteudo.items.map(item => item.str).join(" ") + "\n";
+                        }
+                        document.getElementById('texto-caixa-entrada').value = textoPdf;
+                        processarEAnalizarTextoAutomaticamente(textoPdf);
+                        alert("SIGMA AI: Relatório PDF minerado!");
+                    };
+                    leitor.readAsArrayBuffer(arquivo);
+                } 
+                // 4. Leitura Padrão de Arquivos de Texto (.txt)
+                else {
+                    leitor.onload = function(e) {
+                        document.getElementById('texto-caixa-entrada').value = e.target.result;
+                        processarEAnalizarTextoAutomaticamente(e.target.result);
+                        alert("SIGMA AI: Documento de Texto sincronizado!");
+                    };
+                    leitor.readAsText(arquivo);
+                }
+            } catch (falha) {
+                alert("Falha de Processamento Híbrido: " + falha);
             }
         }
 
+        // MINERAÇÃO SEMÂNTICA DE DATAS E DIRETRIZES REAIS
         function processarEAnalizarTextoAutomaticamente(texto) {
             if(!texto) return;
-            const regexData = /(\d{2})\/(\d{2})/g;
-            let matchData = regexData.exec(texto);
+            
+            const regexDataFlexivel = /(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{2,4}))?/g;
+            let matchData = regexDataFlexivel.exec(texto);
+            
             if (matchData) {
                 const dia = matchData[1].padStart(2, '0');
                 const mes = matchData[2].padStart(2, '0');
-                document.getElementById('motor-campo-data').value = `${new Date().getFullYear()}-${mes}-${dia}`;
+                let ano = matchData[3] || new Date().getFullYear();
+                if(ano.toString().length === 2) ano = "20" + ano;
+                
+                document.getElementById('motor-campo-data').value = `${ano}-${mes}-${dia}`;
+            } else {
+                document.getElementById('motor-campo-data').value = new Date().toISOString().split('T')[0];
             }
-            let lembreteExtraido = "Ata processada sem notas críticas.";
+
+            let lembreteExtraido = "Pauta processada sem pautas críticas.";
             const frases = texto.split(/[.\n]/);
             for(let frase of frases) {
-                if(frase.toLowerCase().includes("lembrar") || frase.toLowerCase().includes("nota") || frase.toLowerCase().includes("importante")) {
+                if(frase.toLowerCase().includes("lembrar") || frase.toLowerCase().includes("nota") || frase.toLowerCase().includes("importante") || frase.toLowerCase().includes("urgente")) {
                     lembreteExtraido = frase.trim();
                     break;
                 }
             }
             document.getElementById('motor-campo-lembrete').value = lembreteExtraido;
-            document.getElementById('motor-campo-observacao').value = texto.length > 10 ? texto.substring(0, 60) + "..." : "Processado.";
+            document.getElementById('motor-campo-observacao').value = texto.length > 10 ? texto.substring(0, 80).trim() + "..." : "Texto extraído.";
         }
 
         function adicionarMotorAMesaTemporaria() {
@@ -675,11 +741,18 @@
             const observacao = document.getElementById('motor-campo-observacao').value;
 
             if(!textoBox.trim()) return alert("A caixa de texto está vazia!");
+            
             let moduloAlvo = moduloSelecionadoAtivo !== "Todos" ? moduloSelecionadoAtivo : "Instituto Coopera";
+            for(let m of listaModulosMestres) {
+                if(m !== "Todos" && textoBox.toLowerCase().includes(m.toLowerCase())) {
+                    moduloAlvo = m;
+                    break;
+                }
+            }
 
             const itemRascunho = {
                 id: Date.now(),
-                data: data,
+                data: data || new Date().toISOString().split('T')[0],
                 horario: hora,
                 instituicao: moduloAlvo,
                 descricao: titulo,
@@ -754,7 +827,7 @@
             mesaTemporariaRascunhos = [];
             atualizarVisualizacaoMesaMestre();
             renderizarPainelAgendaCompleta();
-            alert("Sucesso! Todos os compromissos foram lançados de forma coletiva na agenda.");
+            alert("Sucesso! Todos os compromissos foram validados e lançados na agenda do SIGMA.");
         }
 
         function renderizarPainelAgendaCompleta() {
@@ -767,14 +840,14 @@
             let filtrados = dbCompromissosSigma.filter(item => {
                 const porUsuario = (item.userOwner === usuarioMasterAtivo.nome);
                 const porAba = (moduloSelecionadoAtivo === "Todos" || item.instituicao === moduloSelecionadoAtivo);
-                const porBusca = item.descricao.toLowerCase().includes(busca);
+                const porBusca = item.descricao.toLowerCase().includes(busca) || item.instituicao.toLowerCase().includes(busca);
                 let porTempo = true;
                 if (filtroTempo === "hoje") porTempo = (item.data === hojeStr);
                 return porUsuario && porAba && porBusca && porTempo;
             });
 
             if(filtrados.length === 0) {
-                lista.innerHTML = '<p style="text-align:center; font-size:12px; color:var(--texto-mutado); padding:12px;">Nenhum registro definitivo para este âmbito.</p>';
+                lista.innerHTML = '<p style="text-align:center; font-size:12px; color:var(--texto-mutado); padding:12px;">Nenhum registro definitivo encontrado para este âmbito.</p>';
                 return;
             }
 
@@ -793,7 +866,7 @@
         }
 
         function removerCompromissoIndividual(id) {
-            if(confirm("Excluir definitivamente?")) {
+            if(confirm("Excluir definitivamente este registro da memória?")) {
                 dbCompromissosSigma = dbCompromissosSigma.filter(i => i.id !== id);
                 localStorage.setItem('sigma_db_compromissos_v6', JSON.stringify(dbCompromissosSigma));
                 renderizarPainelAgendaCompleta();
@@ -803,181 +876,4 @@
         function toggleSecao(id) { document.getElementById(id).classList.toggle('colapsado'); }
     </script>
 </body>
-    <!-- DIAGNÓSTICO INTELIGENTE SIGMA -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const inputArquivo = document.querySelector('input[type="file"]');
-    
-    if (inputArquivo) {
-        inputArquivo.addEventListener('change', function(e) {
-            const file = e.target.files;
-            if (!file) return;
-
-            const todosInputs = Array.from(document.querySelectorAll('input'));
-            const todosBotoes = Array.from(document.querySelectorAll('button, input[type="submit"]'));
-            
-            let mapaInputs = todosInputs.map(i => `Tipo: ${i.type} | ID: ${i.id} | Class: ${i.className} | Placeholder: ${i.placeholder}`).join('\n');
-            let mapaBotoes = todosBotoes.map(b => `Texto: ${b.innerText || b.value} | ID: ${b.id} | Class: ${b.className}`).join('\n');
-
-            const painelInfo = document.createElement('textarea');
-            painelInfo.style.width = '100%';
-            painelInfo.style.height = '200px';
-            painelInfo.style.marginTop = '20px';
-            painelInfo.style.padding = '10px';
-            painelInfo.style.fontSize = '12px';
-            painelInfo.style.fontFamily = 'monospace';
-            painelInfo.value = `=== COPIE O TEXTO ABAIXO E ME ENVIE ===\n\n[INPUTS ENCONTRADOS]:\n${mapaInputs}\n\n[BOTÕES ENCONTRADOS]:\n${mapaBotoes}`;
-            
-            inputArquivo.parentElement.appendChild(painelInfo);
-            alert("Mapeamento concluído! Copie o texto da caixa cinza que apareceu na tela e me envie.");
-        });
-    }
-});
-</script>
-<!-- MOTOR HÍBRIDO SIGMA: LEITOR INTEGRADO DE EXCEL, WORD E PDF -->
-<script src="https://jsdelivr.net"></script>
-<script src="https://cloudflare.com"></script>
-<script>
-// Configuração obrigatória para processar PDFs diretamente no navegador do celular
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cloudflare.com';
-
-document.addEventListener('DOMContentLoaded', function() {
-    const inputArquivoSigma = document.getElementById('input-arquivo-real');
-
-    if (inputArquivoSigma) {
-        inputArquivoSigma.addEventListener('change', async function(e) {
-            const arquivo = e.target.files[0];
-            if (!arquivo) return;
-
-            const nomeArquivo = arquivo.name.toLowerCase();
-            
-            // Elementos reais do painel SIGMA identificados no mapeamento de componentes
-            const campoTitulo = document.getElementById('motor-campo-titulo');
-            const campoData = document.getElementById('motor-campo-data');
-            const campoHora = document.getElementById('motor-campo-hora');
-            const campoObservacao = document.getElementById('motor-campo-observacao');
-            const botoesSalvar = Array.from(document.querySelectorAll('.btn-submit-agenda'));
-            const botaoConfirmarFinal = botoesSalvar.find(b => b.innerText.includes('Confirmar e Registrar'));
-
-            if (!campoTitulo || !campoData || !botaoConfirmarFinal) {
-                alert("Erro de Tela: Certifique-se de estar com a aba do painel da agenda aberta para que o robô encontre os campos.");
-                return;
-            }
-
-            try {
-                // 1. PROCESSAMENTO DE PLANILHAS (EXCEL / CSV)
-                if (nomeArquivo.endsWith('.xlsx') || nomeArquivo.endsWith('.xls') || nomeArquivo.endsWith('.csv')) {
-                    const leitor = new FileReader();
-                    leitor.onload = function(evt) {
-                        const livro = XLSX.read(evt.target.result, { type: 'binary' });
-                        const linhas = XLSX.utils.sheet_to_json(livro.Sheets[livro.SheetNames[0]]);
-                        let contadorExcel = 0;
-
-                        linhas.forEach(linha => {
-                            let titulo = linha.Titulo || linha.titulo || linha.Compromisso || linha.evento || linha.Descricao || linha.Descrição;
-                            let data = linha.Data || linha.data || linha.Dia || linha.dia;
-                            let hora = linha.Hora || linha.hora || "08:00";
-                            let obs = linha.Observacao || linha.observacao || linha.Diretrizes || "";
-
-                            if (data && titulo) {
-                                if (typeof data === 'number') {
-                                    data = new Date((data - 25569) * 86400 * 1000).toISOString().split('T')[0];
-                                ]}
-                                preencherESalvarSigma(titulo, data, hora, obs, campoTitulo, campoData, campoHora, campoObservacao, botaoConfirmarFinal);
-                                contadorExcel++;
-                            }
-                        });
-                        if (contadorExcel > 0) alert(`Mecanismo SIGMA: ${contadorExcel} compromissos extraídos da planilha Excel.`);
-                    };
-                    leitor.readAsBinaryString(arquivo);
-                } 
-                
-                // 2. PROCESSAMENTO DE DOCUMENTOS DO WORD (DOCX)
-                else if (nomeArquivo.endsWith('.docx')) {
-                    const leitor = new FileReader();
-                    leitor.onload = function(evt) {
-                        mammoth.extractRawText({ arrayBuffer: evt.target.result })
-                            .then(function(resultado) {
-                                varrerTextoDocumento(resultado.value, campoTitulo, campoData, campoHora, campoObservacao, botaoConfirmarFinal);
-                            });
-                    };
-                    leitor.readAsArrayBuffer(arquivo);
-                } 
-                
-                // 3. PROCESSAMENTO DE ARQUIVOS EM PDF
-                else if (nomeArquivo.endsWith('.pdf')) {
-                    const leitor = new FileReader();
-                    leitor.onload = async function(evt) {
-                        const dados = new Uint8Array(evt.target.result);
-                        const carregandoPdf = pdfjsLib.getDocument({ data: dados });
-                        const pdf = await carregandoPdf.promise;
-                        let textoCompleto = "";
-
-                        for (let i = 1; i <= pdf.numPages; i++) {
-                            const pagina = await pdf.getPage(i);
-                            const conteudoTexto = await pagina.getTextContent();
-                            textoCompleto += conteudoTexto.items.map(item => item.str).join(" ") + "\n";
-                        }
-                        varrerTextoDocumento(textoCompleto, campoTitulo, campoData, campoHora, campoObservacao, botaoConfirmarFinal);
-                    };
-                    leitor.readAsArrayBuffer(arquivo);
-                } else {
-                    alert("Aviso: Formato de arquivo não reconhecido pelo SIGMA. Envie Excel, Word ou PDF.");
-                }
-
-            } catch (erro) {
-                console.error(erro);
-                alert("Falha mecânica ao processar e distribuir os dados deste relatório.");
-            }
-            
-            inputArquivoSigma.value = ""; // Limpa o seletor para os próximos uploads
-        });
-    }
-});
-
-// Varre textos corridos (PDF e Word) localizando datas no formato DD/MM/AAAA ou DD-MM-AAAA
-function varrerTextoDocumento(textoBruto, cT, cD, cH, cO, btn) {
-    const regexDataBr = /(\d{2})[\/\-](\d{2})[\/\-](\d{4})/;
-    const linhas = textoBruto.split('\n');
-    let contadorDocs = 0;
-
-    linhas.forEach(linha => {
-        const correspondencia = linha.match(regexDataBr);
-        
-        // Se encontrar uma data e a linha contiver informações relevantes sobre a pauta
-        if (correspondencia && linha.trim().length > 12) {
-            const dia = correspondencia[1];
-            const mes = correspondencia[2];
-            const ano = correspondencia[3];
-            const dataPadraoISO = `${ano}-${mes}-${dia}`; // Converte para o formato aceito pelo input date (AAAA-MM-DD)
-            
-            // Remove a data do texto para usar o resto da frase como o Título do compromisso
-            let tituloExtraido = linha.replace(regexDataBr, '').replace(/[:\-–—]/g, '').trim();
-            if (tituloExtraido.length < 3) tituloExtraido = "Compromisso extraído do relatório";
-
-            preencherESalvarSigma(tituloExtraido.substring(0, 70), dataPadraoISO, "08:00", "Identificado via leitura de relatório automático", cT, cD, cH, cO, btn);
-            contadorDocs++;
-        }
-    });
-
-    if (contadorDocs > 0) {
-        alert(`Mecanismo SIGMA: Identificamos padrões de relatórios e agendamos ${contadorDocs} compromissos.`);
-    } else {
-        alert("O documento foi lido, mas nenhuma linha com formato de Data (ex: 29/06/2026) foi detectada.");
-    }
-}
-
-// Insere os dados nos inputs nativos criados pelo Gemini e pressiona o botão de disquete
-function preencherESalvarSigma(titulo, data, hora, obs, cT, cD, cH, cO, btn) {
-    cT.value = titulo;
-    cD.value = data;
-    if (cH) cH.value = hora;
-    if (cO && obs) cO.value = obs;
-    
-    // Dispara o evento de clique físico para salvar na memória e na interface do SIGMA
-    btn.click();
-}
-</script>
-
-
 </html>
