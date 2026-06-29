@@ -9,6 +9,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#1E463C">
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    
     <style>
         :root {
             --cor-fundo: #F9F9F6;
@@ -48,13 +50,10 @@
         .header-brand { display: flex; align-items: center; gap: 10px; }
         .header-title h1 { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
         .header-title p { font-size: 11px; color: #A7F3D0; text-transform: uppercase; font-weight: 500; }
-        
-        .header-meta { display: flex; align-items: center; gap: 8px; }
         #data-atual { font-size: 11px; background-color: var(--cor-destaque); color: white; padding: 4px 10px; border-radius: 12px; font-weight: 600; }
 
         main { max-width: 600px; margin: 0 auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
 
-        /* MÓDULOS HORIZONTAIS EM LARANJA CONFORME INSTRUÍDO */
         .scroll-abas {
             display: flex;
             overflow-x: auto;
@@ -75,7 +74,6 @@
             background-color: #FFF3EB;
             color: #C05621;
             cursor: pointer;
-            transition: all 0.2s;
         }
         .aba-ativa {
             background-color: var(--cor-destaque) !important;
@@ -153,19 +151,6 @@
         }
         .span-full { grid-column: span 2; }
 
-        .btn-container-flex { display: flex; gap: 8px; margin-top: 12px; }
-        .btn-primario {
-            flex: 1;
-            background-color: var(--cor-destaque);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
         .btn-submit-agenda {
             background-color: var(--cor-primaria);
             color: white;
@@ -234,10 +219,8 @@
     </header>
 
     <main>
-        <!-- ABAS HORIZONTAIS CONFIGURÁVEIS -->
         <section class="scroll-abas" id="container-abas"></section>
 
-        <!-- IDENTIFICAÇÃO E CADASTRO EXCLUSIVO DO MÓDULO SELECIONADO -->
         <section class="card-sigi" id="card-identificacao-modulo">
             <p class="secao-titulo">Memória Institucional</p>
             <h2 class="card-titulo-h2" id="sigi-modulo-titulo-nome">Módulo Geral</h2>
@@ -248,7 +231,6 @@
             </div>
         </section>
 
-        <!-- MOTOR DE RELATORIA COM SUPORTE TOTAL A ARQUIVOS E COLA DE TEXTO -->
         <section class="card-sigi">
             <div class="topo-dobravel" onclick="toggleSecao('motor-conteudo')">
                 <div>
@@ -260,28 +242,26 @@
             
             <div id="motor-conteudo" class="conteudo-dobravel">
                 <div class="motor-acoes-linha">
-                    <!-- Lupa agora aceita PDF, DOCX e TXT para registrar o nome -->
-                    <button class="btn-lupa" onclick="acionarInputArquivo();" title="Carregar PDF, DOCX ou TXT">🔍</button>
-                    <input type="file" id="arquivo-relatoria-input" style="display:none;" accept=".txt,.pdf,.doc,.docx" onchange="registrarArquivoNaCaixa(event)">
-                    <textarea id="texto-relatoria" rows="3" class="sigi-input" placeholder="Cole textos copiados do WhatsApp ou digite relatorias aqui..."></textarea>
+                    <button class="btn-lupa" onclick="acionarInputArquivo();" title="Carregar DOCX ou TXT">🔍</button>
+                    <input type="file" id="arquivo-relatoria-input" style="display:none;" accept=".txt,.docx" onchange="processarLeituraDeArquivo(event)">
+                    <textarea id="texto-relatoria" rows="4" class="sigi-input" placeholder="Cole textos do WhatsApp, digite relatorias ou clique na lupa para carregar um arquivo .docx..."></textarea>
                 </div>
 
                 <div class="sigi-grid-inputs">
                     <div class="sigi-field-container">
                         <span class="sigi-label">Título do Documento</span>
-                        <input type="text" id="relatoria-titulo-ident" placeholder="Ex: Ata Carregada">
+                        <input type="text" id="relatoria-titulo-ident" placeholder="Ex: Ata de Reunião">
                     </div>
                     <div class="sigi-field-container">
-                        <span class="sigi-label">Data Limite</span>
+                        <span class="sigi-label">Data de Referência Padrão</span>
                         <input type="date" id="relatoria-data-ident">
                     </div>
                 </div>
                 
-                <button onclick="processarRelatoriaAvancada()" class="btn-submit-agenda" style="background-color:var(--cor-destaque);">⚡ Processar e Alocar Dados</button>
+                <button onclick="processarRelatoriaAvancada()" class="btn-submit-agenda" style="background-color:var(--cor-destaque);">⚡ Processar e Distribuir Automaticamente</button>
             </div>
         </section>
 
-        <!-- INSERÇÃO MANUAL DE COMPROMISSOS -->
         <section class="card-sigi">
             <div class="topo-dobravel" onclick="toggleSecao('form-manual')">
                 <div>
@@ -323,7 +303,6 @@
             </form>
         </section>
 
-        <!-- AGENDA COMPLETA COM FILTROS TEMPORAIS E LIXEIRA -->
         <section style="margin-top: 8px;">
             <div class="agenda-meta-header">
                 <div>
@@ -348,7 +327,7 @@
     </main>
 
     <footer>
-        <p>Plataforma SIGMA v1.8 | Responsável: <strong>Augusto Cesar P. da Silva</strong></p>
+        <p>Plataforma SIGMA v1.9 | Responsável: <strong>Augusto Cesar P. da Silva</strong></p>
     </footer>
 
     <script>
@@ -395,7 +374,6 @@
                 container.appendChild(btn);
             });
 
-            // ABA CRIAR + INTEGRADA NA HORIZONTAL CONFORME SOLICITADO
             const btnCriar = document.createElement('button');
             btnCriar.className = "aba-btn aba-criar";
             btnCriar.innerText = "Criar Módulo +";
@@ -418,7 +396,7 @@
                     atualizarSelectInstituicoes();
                     atualizarIdentificacaoModulo(abaSelecionada);
                     renderizarAgenda();
-                    alert(`Módulo "${nomeNovo}" criado com sucesso no ecossistema.`);
+                    alert(`Módulo "${nomeNovo}" criado com sucesso.`);
                 }
             }
         }
@@ -438,38 +416,94 @@
             document.getElementById('arquivo-relatoria-input').click();
         }
 
-        function registrarArquivoNaCaixa(event) {
+        // LEITURA INTELIGENTE REAL DE .DOCX E .TXT
+        function processarLeituraDeArquivo(event) {
             const arquivo = event.target.files[0];
             if (!arquivo) return;
-            document.getElementById('relatoria-titulo-ident').value = arquivo.name;
-            document.getElementById('texto-relatoria').value = `[Arquivo Carregado: ${arquivo.name}] -> Digite ou cole aqui os compromissos contidos no documento.`;
+
+            document.getElementById('relatoria-titulo-ident').value = arquivo.name.split('.')[0];
+            
+            const extensao = arquivo.name.split('.').pop().toLowerCase();
+            
+            if (extensao === "docx") {
+                const leitor = new FileReader();
+                leitor.onload = function(e) {
+                    const arrayBuffer = e.target.result;
+                    mammoth.extractRawText({ arrayBuffer: arrayBuffer })
+                        .then(function(result) {
+                            document.getElementById('texto-relatoria').value = result.value;
+                            alert("Arquivo Word (.docx) lido e extraído com sucesso para a caixa!");
+                        })
+                        .catch(function(err) {
+                            alert("Erro ao decodificar o arquivo Word: " + err);
+                        });
+                };
+                leitor.readAsArrayBuffer(arquivo);
+            } else {
+                // Se for arquivo .txt padrão
+                const leitor = new FileReader();
+                leitor.onload = function(e) {
+                    document.getElementById('texto-relatoria').value = e.target.result;
+                    alert("Arquivo de texto (.txt) extraído com sucesso!");
+                };
+                leitor.readAsText(arquivo);
+            }
         }
 
+        // MOTOR DE DISTRIBUIÇÃO E ALOCAÇÃO AUTOMÁTICA (RN-001 e RN-006)
         function processarRelatoriaAvancada() {
             const texto = document.getElementById('texto-relatoria').value;
-            const titulo = document.getElementById('relatoria-titulo-ident').value || "Documento Processado";
+            const titulo = document.getElementById('relatoria-titulo-ident').value || "Extração de Documento";
             const dataIdent = document.getElementById('relatoria-data-ident').value;
 
-            if(!texto.trim()) return alert("Insira o texto na caixa para processar.");
+            if(!texto.trim()) return alert("Insira ou carregue um texto na caixa para poder processar.");
 
-            let instIdentificada = abaSelecionada !== "Todos" ? abaSelecionada : "Instituto Coopera";
+            // Identificação Semântica da Instituição (Dicionário Inteligente)
+            let instIdentificada = "Instituto Coopera"; 
+            for (let inst of iOficiais) {
+                if (inst !== "Todos" && texto.toLowerCase().includes(inst.toLowerCase())) {
+                    instIdentificada = inst;
+                    break;
+                } else if (inst === "Projeto Mutirão Coordenação executiva" && texto.toLowerCase().includes("mutirão")) {
+                    instIdentificada = "Projeto Mutirão Coordenação executiva";
+                    break;
+                } else if (inst === "Paul Singer" && texto.toLowerCase().includes("singer")) {
+                    instIdentificada = "Paul Singer";
+                    break;
+                }
+            }
+
+            // Identificação Semântica de Datas no Texto (Formatos: DD/MM ou DD/MM/AAAA)
+            const regexData = /(\d{2})\/(\d{2})(?:\/(\d{4}))?/g;
+            let match = regexData.exec(texto);
+            let dataAlocada = dataIdent;
+
+            if (match) {
+                const dia = match[1].padStart(2, '0');
+                const mes = match[2].padStart(2, '0');
+                const ano = match[3] || new Date().getFullYear();
+                dataAlocada = `${ano}-${mes}-${dia}`;
+            }
 
             const novoItem = {
                 id: Date.now(),
-                data: dataIdent,
-                horario: "08:00",
+                data: dataAlocada,
+                horario: "09:00",
                 instituicao: instIdentificada,
-                descricao: texto,
-                responsavel: "Augusto",
-                prioridade: "Normal"
+                descricao: texto.length > 140 ? texto.substring(0, 137) + "..." : texto,
+                responsavel: "Augusto (Via Motor)",
+                prioridade: texto.toLowerCase().includes("urgente") || texto.toLowerCase().includes("alta") ? "Alta" : "Normal"
             };
 
             baseDeDadosAgendas.push(novoItem);
             localStorage.setItem('sigma_db_v1', JSON.stringify(baseDeDadosAgendas));
             
             document.getElementById('texto-relatoria').value = '';
+            abaSelecionada = instIdentificada;
+            atualizarIdentificacaoModulo(instIdentificada);
+            renderizarAbas();
             renderizarAgenda();
-            alert(`Sincronizado no módulo: ${instIdentificada}`);
+            alert(`Sucesso! O Motor do SIGMA distribuiu e alocou este registro automaticamente em: ${instIdentificada}`);
         }
 
         function adicionarManual(e) {
@@ -489,7 +523,7 @@
             document.getElementById('form-manual').reset();
             configurarDatasIniciais();
             renderizarAgenda();
-            alert("Sucesso!");
+            alert("Compromisso salvo manualmente!");
         }
 
         function renderizarAgenda() {
@@ -519,11 +553,25 @@
             });
 
             if(filtrados.length === 0) {
-                lista.innerHTML = '<p style="text-align:center; font-size:13px; color:var(--texto-mutado); padding:16px;">Nenhum dado ativo.</p>';
+                lista.innerHTML = '<p style="text-align:center; font-size:13px; color:var(--texto-mutado); padding:16px;">Nenhum registro ativo encontrado.</p>';
                 return;
             }
 
+            // Agrupamento por Data
+            let dataAtualGrupo = "";
+            let divGrupo = null;
+
             filtrados.forEach(item => {
+                if(item.data !== dataAtualGrupo) {
+                    dataAtualGrupo = item.data;
+                    const partes = item.data.split('-');
+                    const bloco = document.createElement('div');
+                    bloco.className = 'bloco-data-grupo';
+                    bloco.innerHTML = `<span class="badge-data-separador">${partes[2]}/${partes[1]}/${partes[0]}</span><div id="grupo-${dataAtualGrupo}"></div>`;
+                    lista.appendChild(bloco);
+                    divGrupo = document.getElementById(`grupo-${dataAtualGrupo}`);
+                }
+
                 const card = document.createElement('div');
                 card.className = 'agenda-card-item';
                 card.style.borderLeftColor = item.prioridade === 'Alta' ? 'var(--cor-destaque)' : 'var(--cor-primaria)';
@@ -531,15 +579,14 @@
                     <div class="item-info-flex">
                         <p class="item-titulo">${item.descricao}</p>
                         <div class="item-tags-row">
-                            <span style="font-weight:700;">${item.horario}</span>
+                            <span style="font-weight:700; color:var(--cor-primaria);">${item.horario}</span>
                             <span class="tag-inst">${item.instituicao}</span>
                             <span>👤 ${item.responsavel}</span>
                         </div>
                     </div>
-                    <!-- LIXEIRA SOLICITADA PARA REMOÇÃO DIRETA -->
                     <button onclick="deletarItem(${item.id})" class="btn-lixeira" title="Mandar para Lixeira">🗑️</button>
                 `;
-                lista.appendChild(card);
+                divGrupo.appendChild(card);
             });
         }
 
