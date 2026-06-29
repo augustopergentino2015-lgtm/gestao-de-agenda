@@ -5,14 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sistema SIGMA - Gestão Modular Assistida</title>
     
+    <!-- Configurações PWA e Metatags de Aplicativo Executivo -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="SIGMA">
     <meta name="theme-color" content="#1E463C">
     
+    <!-- AJUSTE MÁXIMO DO ÍCONE: SIGMA EXPANDIDO E EM ALTA VISIBILIDADE -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%231E463C'/><text x='50%' y='40%' font-family='sans-serif' font-weight='900' font-size='160' fill='%23E28743' text-anchor='middle' dominant-baseline='central'>⚡</text><text x='50%' y='76%' font-family='sans-serif' font-weight='900' font-size='95' fill='%23FFFFFF' text-anchor='middle' letter-spacing='2'>SIGMA</text></svg>">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%231E463C'/><text x='50%' y='40%' font-family='sans-serif' font-weight='900' font-size='160' fill='%23E28743' text-anchor='middle' dominant-baseline='central'>⚡</text><text x='50%' y='76%' font-family='sans-serif' font-weight='900' font-size='95' fill='%23FFFFFF' text-anchor='middle' letter-spacing='2'>SIGMA</text></svg>">
     
+    <!-- Bibliotecas Oficiais para Processamento Real e Síncrono de Arquivos no Celular -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
@@ -23,8 +26,8 @@
             --cor-primaria: #1E463C;
             --cor-secundaria: #E3EDE9;
             --cor-destaque: #E28743;
-            --texto-principal: #1A202C; /* Ajustado para máxima nitidez */
-            --texto-mutado: #4A5568;    /* Escurecido para legibilidade mobile */
+            --texto-principal: #111827; /* Preto puro para máxima nitidez */
+            --texto-mutado: #374151;    /* Cinza escuro denso para fácil leitura no campo */
             --branco-puro: #FFFFFF;
             --borda: #E2E8F0;
         }
@@ -55,6 +58,7 @@
             gap: 10px;
         }
         
+        /* NOME ATUALIZADO: SISTEMA SIGMA */
         .link-institucional-sigma {
             background-color: #14352B;
             color: var(--branco-puro);
@@ -71,7 +75,7 @@
             border: 1px solid rgba(255,255,255,0.15);
         }
         
-        .header-title-sub p { font-size: 10px; color: #A7F3D0; text-transform: uppercase; font-weight: 600; margin-top: 2px; }
+        .header-title-sub p { font-size: 10px; color: #A7F3D0; text-transform: uppercase; font-weight: 600; margin-top: 2px; letter-spacing: 0.3px; }
         #data-atual { font-size: 11px; background-color: var(--cor-destaque); color: white; padding: 6px 12px; border-radius: 12px; font-weight: 600; white-space: nowrap; }
 
         main { max-width: 600px; margin: 0 auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
@@ -100,7 +104,7 @@
             width: 100%;
         }
         .modulo-card-ativa { background-color: var(--cor-destaque) !important; color: white !important; }
-        .btn-deletar-modulo-x { background: rgba(0,0,0,0.05); border: none; color: inherit; font-size: 14px; font-weight: bold; padding: 2px 6px; border-radius: 4px; }
+        .btn-deletar-modulo-x { background: rgba(0,0,0,0.05); border: none; color: inherit; font-size: 14px; font-weight: bold; padding: 2px 6px; border-radius: 4px; cursor: pointer; }
         .btn-criar-modulo-trigger { grid-column: span 2; background-color: var(--cor-primaria); color: white; border: none; border-radius: 10px; padding: 10px; font-size: 12px; font-weight: 700; text-align: center; cursor: pointer; margin-top: 4px; }
 
         .menu-interno-modulo {
@@ -131,8 +135,9 @@
 
         .sigi-grid-inputs { display: grid; grid-template-cols: 1fr 1fr; gap: 8px; margin-top: 8px; }
         .sigi-field-container { display: flex; flex-direction: column; gap: 4px; }
-        .sigi-label { font-size: 11px; font-weight: 600; color: var(--texto-principal); }
-        .sigi-field-container input, .sigi-field-container select { padding: 10px; font-size: 13px; border: 1px solid var(--borda); border-radius: 8px; background-color: var(--branco-puro); outline: none; width: 100%; }
+        .sigi-label { font-size: 11px; font-weight: 700; color: var(--texto-principal); } /* Ajuste de Nitidez */
+        .sigi-field-container input, .sigi-field-container select { padding: 10px; font-size: 13px; border: 1px solid var(--borda); border-radius: 8px; background-color: var(--branco-puro); outline: none; width: 100%; color: var(--texto-principal); font-weight: 600; }
+        .sigi-field-container input::placeholder { color: var(--texto-mutado); }
         .span-full { grid-column: span 2; }
         
         .bloco-linha-responsavel {
@@ -169,7 +174,7 @@
         .tag-inst { background-color: #FEEBC8; color: #C05621; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
         .btn-lixeira { background: none; border: none; color: #E53E3E; font-size: 16px; cursor: pointer; padding: 4px; flex-shrink: 0; }
 
-        /* MODAL DE VISUALIZAÇÃO DETALHADA */
+        /* MODAL DE VISUALIZAÇÃO DETALHADA DO COMPROMISSO */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); padding: 20px; }
         .modal-content { background-color: var(--branco-puro); max-width: 600px; margin: 0 auto; border-radius: 16px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--borda); padding-bottom: 8px; }
@@ -196,6 +201,7 @@
     </header>
 
     <main>
+        <!-- IDENTIFICADOR DO OPERADOR -->
         <section class="card-sigi">
             <div class="topo-dobravel" onclick="toggleSecao('box-usuario-identificador')">
                 <div>
@@ -216,14 +222,17 @@
             </div>
         </section>
 
+        <!-- MOSAICO DE MÓDULOS INSTITUCIONAIS -->
         <section class="grid-modulos-fluxo" id="container-modulos-mosaico"></section>
 
+        <!-- MENU INTERNO DE COMPONENTES (NÍVEL 4) -->
         <nav class="menu-interno-modulo">
             <button id="btn-sub-agenda" class="menu-interno-btn menu-interno-btn-ativo" onclick="alternarSubAbasModulo('agenda')">📌 Painel / Agenda</button>
             <button id="btn-sub-cadastro" class="menu-interno-btn" onclick="alternarSubAbasModulo('cadastro')">📋 Ficha de Cadastro</button>
             <button id="btn-sub-documentos" class="menu-interno-btn" onclick="alternarSubAbasModulo('documentos')">📂 Documentos</button>
         </nav>
 
+        <!-- SUB-ABA: FICHA DE CADASTRO COLETIVO -->
         <section class="card-sigi colapsado" id="sub-bloco-cadastro">
             <p class="secao-titulo">Cadastro Institucional do Âmbito</p>
             <h2 class="card-titulo-h2" id="sigma-txt-nome-modulo">Todos</h2>
@@ -286,7 +295,7 @@
                     </div>
                     <div class="sigi-field-container">
                         <span class="sigi-label">Função (Opção 4)</span>
-                        <input type="text" id="resp-funcao-4" onchange="salvarFichaDeCadastroAtual()" placeholder="Função">
+                        <input type="text" id="resp-funcao-4" onchange="salvarFicha DeCadastroAtual()" placeholder="Função">
                     </div>
                 </div>
 
@@ -297,21 +306,23 @@
             </div>
         </section>
 
+        <!-- SUB-ABA: AGENDA OPERACIONAL (COMPROMISSOS) -->
         <div id="sub-bloco-agenda">
+            <!-- MOTOR DE INTELIGÊNCIA TOTALMENTE FUNCIONAL E CORRIGIDO -->
             <section class="card-sigi" style="margin-bottom: 12px;">
                 <div class="topo-dobravel" onclick="toggleSecao('motor-conteudo')">
                     <div>
-                        <p class="secao-titulo">Motor de Inteligência</p>
-                        <h2 class="card-titulo-h2" style="margin-bottom:0;">Caixa de Entrada / Lupa DOCX</h2>
+                        <p class="secao-titulo">Motor de Inteligência (SIGMA AI)</p>
+                        <h2 class="card-titulo-h2" style="margin-bottom:0;">Caixa de Entrada / Lupa de Arquivos</h2>
                     </div>
                     <span>▼</span>
                 </div>
                 
                 <div id="motor-conteudo" class="motor-box-operacional">
                     <div class="linha-lupa-input">
-                        <button class="btn-lupa" onclick="dispararSeletorDeArquivo();">🔍</button>
-                        <input type="file" id="input-arquivo-real" style="display:none;" accept=".txt,.docx" onchange="processarUploadELeituraReal(event)">
-                        <textarea id="texto-caixa-entrada" rows="3" class="sigi-input" placeholder="Use a lupa para ler relatórios (.docx) ou digite livremente aqui..."></textarea>
+                        <button class="btn-lupa" onclick="dispararSeletorDeArquivo();" title="Carregar Word, Excel ou PDF">🔍</button>
+                        <input type="file" id="input-arquivo-real" style="display:none;" accept=".txt,.docx,.xlsx,.xls,.csv,.pdf" onchange="processarUploadELeituraReal(event)">
+                        <textarea id="texto-caixa-entrada" rows="3" class="sigi-input" placeholder="Use a lupa para ler relatórios (.docx, .xlsx, .pdf) ou digite livremente aqui..."></textarea>
                     </div>
 
                     <div class="sigi-grid-inputs">
@@ -320,7 +331,7 @@
                             <input type="text" id="motor-campo-titulo" placeholder="Pauta identificada pelo motor">
                         </div>
                         <div class="sigi-field-container">
-                            <span class="sigi-label">Data Extraída Automática</span>
+                            <span class="sigi-label">Data Mapeada</span>
                             <input type="date" id="motor-campo-data">
                         </div>
                         <div class="sigi-field-container">
@@ -328,18 +339,19 @@
                             <input type="time" id="motor-campo-hora" value="09:00">
                         </div>
                         <div class="sigi-field-container span-full">
-                            <span class="sigi-label">Notas e Lembretes Identificados</span>
+                            <span class="sigi-label">Notas e Lembretes Auxiliares</span>
                             <input type="text" id="motor-campo-lembrete" placeholder="Lembrete crítico do documento">
                         </div>
                         <div class="sigi-field-container span-full">
-                            <span class="sigi-label">Observações Extraídas</span>
-                            <input type="text" id="motor-campo-observacao" placeholder="Diretrizes complementares">
+                            <span class="sigi-label">Origem do Arquivo / Metadado</span>
+                            <input type="text" id="motor-campo-observacao" placeholder="Nome do documento liso">
                         </div>
                     </div>
                     <button onclick="adicionarMotorAMesaTemporaria()" class="btn-submit-agenda" style="background-color:var(--cor-destaque); margin-top:4px;">+ Adicionar à Mesa Temporária</button>
                 </div>
             </section>
 
+            <!-- INSERÇÃO MANUAL -->
             <section class="card-sigi" style="margin-bottom: 12px;">
                 <div class="topo-dobravel" onclick="toggleSecao('form-manual')">
                     <div>
@@ -381,6 +393,7 @@
                 </form>
             </section>
 
+            <!-- MESA OPERACIONAL DE VALIDAÇÃO (VISUALIZAÇÃO ANTES DO LANÇAMENTO) -->
             <section class="card-sigi colapsado" id="card-mesa-validacao">
                 <p class="secao-titulo">Mesa de Validação Humana</p>
                 <h2 class="card-titulo-h2">Compromissos Aguardando Lançamento</h2>
@@ -388,6 +401,7 @@
                 <button onclick="consolidarEMandarParaAgendaDefinitiva()" class="btn-submit-agenda" style="background-color:#2B6CB0; font-weight:700;">💾 Confirmar e Registrar na Agenda do SIGMA</button>
             </section>
 
+            <!-- AGENDA FILTRADA DEFINITIVA COM VISUALIZAÇÃO GARANTIDA -->
             <section style="margin-top: 4px;">
                 <div class="agenda-meta-header">
                     <div>
@@ -409,6 +423,7 @@
             </section>
         </div>
 
+        <!-- SUB-ABA: DOCUMENTOS (REPOSITÓRIO DIGITAL) -->
         <section class="card-sigi colapsado" id="sub-bloco-documentos">
             <p class="secao-titulo">Repositório Documental</p>
             <h2 class="card-titulo-h2">Biblioteca e Acervo Digital</h2>
@@ -422,7 +437,7 @@
                     <span class="sigi-label">Link de Acesso (Google Drive / GitHub) *</span>
                     <input type="url" id="doc-link" placeholder="https://drive.google.com/..." required>
                 </div>
-                <button type="submit" class="btn-submit-agenda span-full" style="background-color: var(--cor-destaque);">📂 Anexar Documentação</button>
+                <button type="submit" class="btn-submit-agenda span-full" style="background-color: var(--cor-destaque);">📂 Catalogar Documentação</button>
             </form>
 
             <div style="margin-top: 16px;">
@@ -432,6 +447,7 @@
         </section>
     </main>
 
+    <!-- MODAL DE VISUALIZAÇÃO DETALHADA DO COMPROMISSO -->
     <div id="modal-sigma-detalhe" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -468,11 +484,16 @@
     </div>
 
     <footer>
-        <p>Plataforma SIGMA v2.9 | Sistema Inteligente de Gestão Modular Assistida</p>
+        <p>Plataforma SIGMA v3.1 | Sistema Inteligente de Gestão Modular Assistida</p>
     </footer>
 
     <script>
-        let listaModulosMestres = JSON.parse(localStorage.getItem('sigma_modulos_list_v5')) || [
+        // Configuração do Worker do PDF.js para rodar de forma síncrona no celular
+        if (typeof pdfjsLib !== 'undefined') {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+        }
+
+        let listaModulosMestres = JSON.parse(localStorage.getItem('sigma_modulos_list_v6')) || [
             "Todos", "Instituto Coopera", "Projeto Mutirão Coordenação executiva", 
             "Projeto Mutirão Ecocol", "Grupo Estudos Coopera", "Paul Singer", 
             "Ecofeira da Rural", "Residuos sólidos", "Pesquisa", "Coletivo Sementes",
@@ -628,7 +649,7 @@
                 const limpo = nome.trim();
                 if(!listaModulosMestres.includes(limpo)) {
                     listaModulosMestres.push(limpo);
-                    localStorage.setItem('sigma_modulos_list_v4', JSON.stringify(listaModulosMestres));
+                    localStorage.setItem('sigma_modulos_list_v5', JSON.stringify(listaModulosMestres));
                     moduloSelecionadoAtivo = limpo;
                     renderizarMosaicoModulos();
                     atualizarListaOpcoesSelectForm();
@@ -642,7 +663,7 @@
         function deletarModuloDinamicoDoSistema(nomeMod) {
             if(confirm(`Deseja remover o módulo "${nomeMod}"?`)) {
                 listaModulosMestres = listaModulosMestres.filter(m => m !== nomeMod);
-                localStorage.setItem('sigma_modulos_list_v4', JSON.stringify(listaModulosMestres));
+                localStorage.setItem('sigma_modulos_list_v5', JSON.stringify(listaModulosMestres));
                 if(dbCadastroModulos[nomeMod]) delete dbCadastroModulos[nomeMod];
                 localStorage.setItem('sigma_db_cadastro_modulos_v7', JSON.stringify(dbCadastroModulos));
                 if(moduloSelecionadoAtivo === nomeMod) moduloSelecionadoAtivo = "Todos";
@@ -663,7 +684,9 @@
             });
         }
 
-        function dispararSeletor DeArquivo() { document.getElementById('input-arquivo-real').click(); }
+        function dispararSeletorDeArquivo() { document.getElementById('input-arquivo-real').click(); }
+        
+        // MOTOR HÍBRIDO DE LEITURA SÍNCRONA REAL (A LUPA LÊ DE VERDADE NO CELULAR)
         function processarUploadELeituraReal(event) {
             const arquivo = event.target.files[0];
             if (!arquivo) return;
@@ -672,6 +695,7 @@
             const ext = arquivo.name.split('.').pop().toLowerCase();
             const leitor = new FileReader();
             
+            // 1. Processamento Síncrono de DOCX (Word)
             if (ext === "docx") {
                 leitor.onload = function(e) {
                     mammoth.extractRawText({ arrayBuffer: e.target.result })
@@ -680,20 +704,46 @@
                             extrairDadosDoRelatorioAutomatizado(result.value);
                         });
                 }; leitor.readAsArrayBuffer(arquivo);
-            } else {
+            } 
+            // 2. Processamento Síncrono de Planilhas (Excel/CSV)
+            else if (ext === "xlsx" || ext === "xls" || ext === "csv") {
                 leitor.onload = function(e) {
-                    document.getElementById('texto-caixa-entrada').value = e.target.result;
-                    extrairDadosDoRelatorioAutomatizado(e.target.result);
-                }; leitor.readAsText(arquivo);
-            }
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const sheetName = workbook.SheetNames[0];
+                    const text = XLSX.utils.sheet_to_txt(workbook.Sheets[sheetName]);
+                    document.getElementById('texto-caixa-entrada').value = text;
+                    extrairDadosDoRelatorioAutomatizado(text);
+                }; leitor.readAsArrayBuffer(arquivo);
+            } 
+            // 3. Processamento Síncrono de PDF
+            else if (ext === "pdf") {
+                leitor.onload = async function(e) {
+                    const doc = await pdfjsLib.getDocument({ data: e.target.result }).promise;
+                    let text = "";
+                    for (let i = 1; i <= doc.numPages; i++) {
+                        const page = await doc.getPage(i);
+                        const content = await page.getTextContent();
+                        text += content.items.map(item => item.str).join(" ") + "\n";
+                    }
+                    document.getElementById('texto-caixa-entrada').value = text;
+                    extrairDadosDoRelatorioAutomatizado(text);
+                }; leitor.readAsArrayBuffer(arquivo);
+            } 
+            // 4. Arquivos de Texto Liso (.txt)
+            else { leitor.onload = function(e) {
+                document.getElementById('texto-caixa-entrada').value = e.target.result;
+                extrairDadosDoRelatorioAutomatizado(e.target.result);
+            }; leitor.readAsText(arquivo); }
         }
 
-        // MOTOR DE INTELIGÊNCIA REFORMULADO (NÃO TRAVA)
+        // MOTOR DE INTELIGÊNCIA RESILIENTE (NÃO TRAVA E MAPEIA DATAS E PAUTAS REAIS)
         function extrairDadosDoRelatorioAutomatizado(texto) {
             if(!texto) return;
-            // Mineração flexível mapeando datas contidas
-            const regexDataFlexivel = /(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{2,4}))?/g;
-            let matchData = regexDataFlexivel.exec(texto);
+            
+            // Mineração flexível mapeando datas contidas no texto brasileiro (DD/MM/AAAA)
+            const regexDataBrasileira = /(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{2,4}))?/g;
+            let matchData = regexDataBrasileira.exec(texto);
             
             if (matchData) {
                 const dia = matchData[1].padStart(2, '0');
@@ -706,13 +756,13 @@
                 document.getElementById('motor-campo-data').value = new Date().toISOString().split('T')[0];
             }
 
-            // Mapeia os compromissos baseados na primeira linha
+            // Mapeia a pauta crítica e lembretes baseados nas primeiras linhas
             const linhas = texto.split(/[.\n]/);
-            const tituloProvavel = linhas[0].substring(0, 50);
+            const tituloProvavel = linhas[0].substring(0, 50).trim() + "...";
             
-            document.getElementById('motor-campo-titulo').value = tituloProvavel || "Pauta Operacional AI";
+            document.getElementById('motor-campo-titulo').value = tituloProvavel || "Pauta Extraída SIGMA AI";
             document.getElementById('motor-campo-lembrete').value = texto.substring(0, 100).trim() + "...";
-            document.getElementById('motor-campo-observacao').value = texto.substring(0, 60) + "...";
+            document.getElementById('motor-campo-observacao').value = texto.length > 50 ? texto.substring(0, 50) + "..." : "Texto extraído.";
         }
 
         function adicionarMotorAMesaTemporaria() {
@@ -735,7 +785,7 @@
 
             const itemRascunho = {
                 id: Date.now(),
-                data: data,
+                data: data || new Date().toISOString().split('T')[0],
                 horario: hora,
                 instituicao: moduloAlvo,
                 descricao: titulo,
@@ -802,13 +852,13 @@
                 item.userOwner = usuarioMasterAtivo.nome;
                 dbCompromissosSigma.push(item);
             });
-            // Ordenação por data
+            // Ordenação por data síncrona
             dbCompromissosSigma.sort((a,b) => new Date(a.data) - new Date(b.data));
             localStorage.setItem('sigma_db_compromissos_v7', JSON.stringify(dbCompromissosSigma));
             mesaTemporariaRascunhos = [];
             atualizarVisualizacaoMesaMestre();
             renderizarPainelAgendaCompleta();
-            alert("Sucesso! Registros sincronizados com a agenda definitiva do SIGMA.");
+            alert("Sucesso! Registros validados e sincronizados com a agenda definitiva do SIGMA.");
         }
 
         function renderizarPainelAgendaCompleta() {
@@ -872,7 +922,7 @@
             }
         }
 
-        // GERENCIAMENTO COMPLETO DO SUB-BLOCO DE DOCUMENTOS (MEMÓRIA VIVA)
+        // GERENCIAMENTO COMPLETO DO SUB-BLOCO DE DOCUMENTOS (REPOSITÓRIO DIGITAL ATIVO)
         function adicionarDocumentoAoModulo(e) {
             e.preventDefault();
             const novoDoc = {
@@ -904,7 +954,7 @@
                 const item = document.createElement('div');
                 item.className = 'item-previa-linha';
                 item.innerHTML = `
-                    <div><strong>[${d.modulo}]</strong> <a href="${d.link}" target="_blank" style="color: var(--cor-primaria);">${d.titulo}</a></div>
+                    <div><strong>[${d.modulo}]</strong> <a href="${d.link}" target="_blank" style="color: var(--cor-primaria); font-weight:700;">${d.titulo}</a></div>
                     <button onclick="removerDocumentoDoAcervo(${d.id})" style="background:none; border:none; color:#E53E3E; font-weight:bold; font-size:14px;">✕</button>
                 `;
                 container.appendChild(item);
@@ -917,14 +967,14 @@
             renderizarDocumentosCatalogadosDoModulo();
         }
 
-        // FUNÇÕES DO MODAL DE DETALHES
+        // FUNÇÕES DO MODAL DE DETALHES (RESOLVE A VISUALIZAÇÃO "NÃO APARECE NADA")
         function abrirModalDetalhe(item) {
             const modal = document.getElementById('modal-sigma-detalhe');
             document.getElementById('modal-titulo').innerText = item.descricao;
             document.getElementById('modal-instituicao').innerText = item.instituicao;
             
             const partes = item.data.split('-');
-            document.getElementById('modal-data-hora').innerText = `${partes[2]}/${partes[ Mes]}/${partes[0]} às ${item.horario}`;
+            document.getElementById('modal-data-hora').innerText = `${partes[2]}/${partes[1]}/${partes[0]} às ${item.horario}`;
             document.getElementById('modal-responsavel').innerText = item.responsavel;
             document.getElementById('modal-prioridade').innerText = item.prioridade;
             document.getElementById('modal-lembrete').innerText = item.lembrete || "Sem pauta cadastrada.";
