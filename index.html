@@ -9,7 +9,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#1E463C">
     
-    <!-- Biblioteca para extração real de conteúdo de arquivos Word .docx -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     
     <style>
@@ -62,7 +61,6 @@
             font-weight: 600; 
             white-space: nowrap; 
             flex-shrink: 0;
-            text-align: center;
         }
 
         main { max-width: 600px; margin: 0 auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
@@ -240,7 +238,7 @@
     </header>
 
     <main>
-        <!-- IDENTIFICADOR MÁXIMO DO USUÁRIO OPERADOR (GARANTE PRIVACIDADE INDIVIDUAL) -->
+        <!-- IDENTIFICADOR MÁXIMO DO USUÁRIO OPERADOR -->
         <section class="card-sigi">
             <div class="topo-dobravel" onclick="toggleSecao('box-usuario-identificador')">
                 <div>
@@ -255,7 +253,7 @@
                     <input type="text" id="sys-user-nome" value="Augusto Cesar P. da Silva" onchange="atualizarDadosUsuarioMaster()">
                 </div>
                 <div class="sigi-field-container">
-                    <span class="sigi-label">E-mail Institucional</span>
+                    <span class="sigi-label">E-mail de Cadastro</span>
                     <input type="text" id="sys-user-email" value="augusto@sigma.org" onchange="atualizarDadosUsuarioMaster()">
                 </div>
             </div>
@@ -264,7 +262,7 @@
         <!-- MOSAICO RECONFIGURADO DE MÓDULOS -->
         <section class="grid-modulos-fluxo" id="container-modulos-mosaico"></section>
 
-        <!-- DADOS DE CADASTRO E IDENTIFICAÇÃO DO MÓDULO (EDITÁVEL E SALVO POR ABA) -->
+        <!-- FICHA DE CADASTRO EXCLUSIVA DO MÓDULO -->
         <section class="card-sigi">
             <p class="secao-titulo">Ficha de Cadastro do Módulo</p>
             <h2 class="card-titulo-h2" id="sigma-txt-nome-modulo">Todos</h2>
@@ -400,8 +398,7 @@
     </footer>
 
     <script>
-        // Módulos Iniciais
-        let listaModulosMestres = JSON.parse(localStorage.getItem('sigma_modulos_list_v3')) || [
+        let listaModulosMestres = JSON.parse(localStorage.getItem('sigma_modulos_list_v4')) || [
             "Todos", "Instituto Coopera", "Projeto Mutirão Coordenação executiva", 
             "Projeto Mutirão Ecocol", "Grupo Estudos Coopera", "Paul Singer", 
             "Ecofeira da Rural", "Residuos sólidos", "Pesquisa", "Coletivo Sementes",
@@ -410,19 +407,16 @@
 
         let moduloSelecionadoAtivo = "Todos";
         
-        // Dados de Identificação de Usuário Ativo
-        let usuarioMasterAtivo = JSON.parse(localStorage.getItem('sigma_user_master')) || {
+        let usuarioMasterAtivo = JSON.parse(localStorage.getItem('sigma_user_master_v4')) || {
             nome: "Augusto Cesar P. da Silva",
             email: "augusto@sigma.org"
         };
 
-        // Banco de Dados das Fichas de Cadastro de Cada Módulo
-        let dbCadastroModulos = JSON.parse(localStorage.getItem('sigma_db_cadastro_modulos')) || {
+        let dbCadastroModulos = JSON.parse(localStorage.getItem('sigma_db_cadastro_modulos_v4')) || {
             "Todos": { proprietario: "Augusto Cesar P. da Silva", categoria: "Coordenação Executiva", descricao: "Visão unificada das pautas operacionais e tomada de decisões." }
         };
 
-        // Banco de Dados Geral de Compromissos
-        let dbCompromissosSigma = JSON.parse(localStorage.getItem('sigma_db_compromissos_v4')) || [];
+        let dbCompromissosSigma = JSON.parse(localStorage.getItem('sigma_db_compromissos_v5')) || [];
 
         window.onload = function() {
             carregarDadosUsuarioIdentificador();
@@ -441,7 +435,7 @@
         function atualizarDadosUsuarioMaster() {
             usuarioMasterAtivo.nome = document.getElementById('sys-user-nome').value || "Usuário Anonimo";
             usuarioMasterAtivo.email = document.getElementById('sys-user-email').value || "sem@email.org";
-            localStorage.setItem('sigma_user_master', JSON.stringify(usuarioMasterAtivo));
+            localStorage.setItem('sigma_user_master_v4', JSON.stringify(usuarioMasterAtivo));
             renderizarPainelAgendaCompleta();
         }
 
@@ -491,13 +485,12 @@
             container.appendChild(btnCriar);
         }
 
-        // GERENCIAMENTO DA FICHA DE CADASTRO DO MÓDULO POR ABA
         function carregarFichaDeCadastroDoModulo(nomeMod) {
             if(!dbCadastroModulos[nomeMod]) {
                 dbCadastroModulos[nomeMod] = {
-                    proprietario: "Augusto (Gestor)",
-                    categoria: "Módulo de Extensão",
-                    descricao: `Memória viva e registros vinculados ao âmbito: ${nomeMod}.`
+                    proprietario: "Augusto Cesar P. da Silva",
+                    categoria: "Módulo de Gestão",
+                    descricao: `Planejamento e memória vinculados ao âmbito: ${nomeMod}.`
                 };
             }
             document.getElementById('cadastro-mod-proprietario').value = dbCadastroModulos[nomeMod].proprietario;
@@ -511,7 +504,7 @@
                 categoria: document.getElementById('cadastro-mod-categoria').value,
                 descricao: document.getElementById('cadastro-mod-descricao').value
             };
-            localStorage.setItem('sigma_db_cadastro_modulos', JSON.stringify(dbCadastroModulos));
+            localStorage.setItem('sigma_db_cadastro_modulos_v4', JSON.stringify(dbCadastroModulos));
         }
 
         function abrirPromptCriacaoModulo() {
@@ -520,7 +513,7 @@
                 const limpo = nome.trim();
                 if(!listaModulosMestres.includes(limpo)) {
                     listaModulosMestres.push(limpo);
-                    localStorage.setItem('sigma_modulos_list_v3', JSON.stringify(listaModulosMestres));
+                    localStorage.setItem('sigma_modulos_list_v4', JSON.stringify(listaModulosMestres));
                     moduloSelecionadoAtivo = limpo;
                     renderizarMosaicoModulos();
                     atualizarListaOpcoesSelectForm();
@@ -533,9 +526,9 @@
         function deletarModuloDinamicoDoSistema(nomeMod) {
             if(confirm(`Deseja remover o módulo "${nomeMod}"?`)) {
                 listaModulosMestres = listaModulosMestres.filter(m => m !== nomeMod);
-                localStorage.setItem('sigma_modulos_list_v3', JSON.stringify(listaModulosMestres));
+                localStorage.setItem('sigma_modulos_list_v4', JSON.stringify(listaModulosMestres));
                 if(dbCadastroModulos[nomeMod]) delete dbCadastroModulos[nomeMod];
-                localStorage.setItem('sigma_db_cadastro_modulos', JSON.stringify(dbCadastroModulos));
+                localStorage.setItem('sigma_db_cadastro_modulos_v4', JSON.stringify(dbCadastroModulos));
                 if(moduloSelecionadoAtivo === nomeMod) moduloSelecionadoAtivo = "Todos";
                 renderizarMosaicoModulos();
                 atualizarListaOpcoesSelectForm();
@@ -635,7 +628,7 @@
 
             const novoCompromisso = {
                 id: Date.now(),
-                userOwner: usuarioMasterAtivo.nome, // Vincula a posse do dado ao usuário ativo
+                userOwner: usuarioMasterAtivo.nome,
                 data: data,
                 horario: hora,
                 instituicao: moduloAlvo,
@@ -647,7 +640,7 @@
             };
 
             dbCompromissosSigma.push(novoCompromisso);
-            localStorage.setItem('sigma_db_compromissos_v4', JSON.stringify(dbCompromissosSigma));
+            localStorage.setItem('sigma_db_compromissos_v5', JSON.stringify(dbCompromissosSigma));
             
             document.getElementById('texto-caixa-entrada').value = '';
             document.getElementById('motor-campo-titulo').value = '';
@@ -664,7 +657,7 @@
             e.preventDefault();
             const novo = {
                 id: Date.now(),
-                userOwner: usuarioMasterAtivo.nome, // Vincula a posse do dado ao usuário ativo
+                userOwner: usuarioMasterAtivo.nome,
                 data: document.getElementById('manual-data').value,
                 horario: document.getElementById('manual-horario').value || "00:00",
                 instituicao: document.getElementById('manual-select-instituicao').value,
@@ -676,7 +669,7 @@
             };
 
             dbCompromissosSigma.push(novo);
-            localStorage.setItem('sigma_db_compromissos_v4', JSON.stringify(dbCompromissosSigma));
+            localStorage.setItem('sigma_db_compromissos_v5', JSON.stringify(dbCompromissosSigma));
             document.getElementById('form-manual').reset();
             inicializarCalendariosEFechas();
             moduloSelecionadoAtivo = novo.instituicao;
@@ -696,7 +689,6 @@
             const hojeObj = new Date();
             const hojeStr = hojeObj.toISOString().split('T')[0];
 
-            // FILTRAGEM COM CRITÉRIO E PRIVACIDADE: Só exibe dados pertencentes ao usuário ativo
             let filtrados = dbCompromissosSigma.filter(item => {
                 const porUsuario = (item.userOwner === usuarioMasterAtivo.nome);
                 const porAba = (moduloSelecionadoAtivo === "Todos" || item.instituicao === moduloSelecionadoAtivo);
@@ -716,7 +708,7 @@
             });
 
             if(filtrados.length === 0) {
-                lista.innerHTML = `<p style="text-align:center; font-size:13px; color:var(--texto-mutado); padding:16px;">Nenhum registro de agenda ativo para o operador "${usuarioMasterAtivo.nome}".</p>`;
+                lista.innerHTML = `<p style="text-align:center; font-size:13px; color:var(--texto-mutado); padding:16px;">Nenhum registro ativo para o operador "${usuarioMasterAtivo.nome}".</p>`;
                 return;
             }
 
@@ -757,7 +749,7 @@
         function removerCompromissoIndividual(id) {
             if(confirm("Mover este compromisso para a Lixeira?")) {
                 dbCompromissosSigma = dbCompromissosSigma.filter(i => i.id !== id);
-                localStorage.setItem('sigma_db_compromissos_v4', JSON.stringify(dbCompromissosSigma));
+                localStorage.setItem('sigma_db_compromissos_v5', JSON.stringify(dbCompromissosSigma));
                 renderizarPainelAgendaCompleta();
             }
         }
