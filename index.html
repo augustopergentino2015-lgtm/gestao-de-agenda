@@ -1,1219 +1,987 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-<meta name="theme-color" content="#1E463C"/>
-<meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-title" content="SIGMA"/>
-<link rel="manifest" href="#" id="manifest-link"/>
-<title>SIGMA — Gestão Modular Assistida</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sistema SIGMA - Gestão Modular Assistida</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SIGMA">
+    <meta name="theme-color" content="#1E463C">
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%231E463C'/><text x='50%' y='40%' font-family='sans-serif' font-weight='900' font-size='160' fill='%23E28743' text-anchor='middle' dominant-baseline='central'>⚡</text><text x='50%' y='76%' font-family='sans-serif' font-weight='900' font-size='95' fill='%23FFFFFF' text-anchor='middle' letter-spacing='2'>SIGMA</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%231E463C'/><text x='50%' y='40%' font-family='sans-serif' font-weight='900' font-size='160' fill='%23E28743' text-anchor='middle' dominant-baseline='central'>⚡</text><text x='50%' y='76%' font-family='sans-serif' font-weight='900' font-size='95' fill='%23FFFFFF' text-anchor='middle' letter-spacing='2'>SIGMA</text></svg>">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    
+    <style>
+        /* ── CSS ORIGINAL RESTAURADO E NITIDEZ GARANTIDA ────────────────── */
+        :root {
+            --cor-fundo: #F9F9F6;
+            --cor-primaria: #1E463C;
+            --cor-secundaria: #E3EDE9;
+            --cor-destaque: #E28743;
+            --texto-principal: #111827; /* Preto puro para máxima nitidez */
+            --texto-mutado: #374151;    /* Cinza escuro denso para fácil leitura no campo */
+            --branco-puro: #FFFFFF;
+            --borda: #E2E8F0;
+        }
 
-<style>
-/* ── BASE ─────────────────────────────── */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{font-family:'Inter',system-ui,sans-serif;background:#F7F7F4;color:#1a1a1a;min-height:100dvh;}
-::-webkit-scrollbar{width:4px;height:4px;}
-::-webkit-scrollbar-thumb{background:#3d7a6a;border-radius:99px;}
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            background-color: var(--cor-fundo);
+            color: var(--texto-principal);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding-bottom: 80px;
+        }
 
-/* ── TABS ────────────────────────────── */
-#tab-scroll{scrollbar-width:none;-ms-overflow-style:none;display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;}
-#tab-scroll::-webkit-scrollbar{display:none;}
-.inst-tab{flex-shrink:0;white-space:nowrap;padding:7px 14px;border-radius:99px;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .18s ease;border:1.5px solid transparent;color:rgba(255,255,255,.6);background:rgba(255,255,255,.07);}
-.inst-tab:hover{background:rgba(255,255,255,.14);color:rgba(255,255,255,.9);}
-.inst-tab.active{background:white;color:#1E463C;border-color:white;}
-.inst-tab.t-add{background:rgba(200,120,58,.22);color:#E8954E;border-color:rgba(200,120,58,.4);}
-.inst-tab.t-add:hover{background:rgba(200,120,58,.36);}
+        header {
+            background-color: var(--cor-primaria);
+            color: white;
+            padding: 14px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-container {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* TÍTULO ATUALIZADO: Sistema SIGMA */
+        .link-institucional-sigma {
+            background-color: #14352B;
+            color: var(--branco-puro);
+            padding: 8px 18px;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        
+        .header-title-sub p { font-size: 10px; color: #A7F3D0; text-transform: uppercase; font-weight: 600; margin-top: 2px; }
+        #data-atual { font-size: 11px; background-color: var(--cor-destaque); color: white; padding: 6px 12px; border-radius: 12px; font-weight: 600; white-space: nowrap; }
 
-/* ── INPUTS ──────────────────────────── */
-.si{width:100%;padding:10px 14px;border:1.5px solid #d4d8d6;border-radius:10px;background:white;color:#1a1a1a;font-size:.9rem;transition:border-color .2s,box-shadow .2s;outline:none;font-family:inherit;}
-.si:focus{border-color:#1E463C;box-shadow:0 0 0 3px rgba(30,70,60,.1);}
-.si::placeholder{color:#9ca3af;}
-select.si{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%231E463C' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;cursor:pointer;}
-textarea.si{resize:vertical;min-height:110px;line-height:1.55;}
+        main { max-width: 600px; margin: 0 auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
 
-/* ── BUTTONS ─────────────────────────── */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 20px;border-radius:10px;border:none;cursor:pointer;font-weight:600;font-size:.875rem;transition:background .18s,transform .1s,box-shadow .18s;font-family:inherit;}
-.btn:active{transform:scale(.97);}
-.btn-green{background:#1E463C;color:white;}.btn-green:hover{background:#163229;box-shadow:0 4px 12px rgba(30,70,60,.28);}
-.btn-amber{background:#C8783A;color:white;}.btn-amber:hover{background:#a8622e;}
-.btn-ghost{background:transparent;color:#1E463C;border:1.5px solid #1E463C;}.btn-ghost:hover{background:#EAF2EC;}
-.btn-red{background:#c0392b;color:white;}.btn-red:hover{background:#a93226;}
-.btn-sm{padding:7px 14px;font-size:.8rem;}
+        /* MOSAICO DE MÓDULOS INSTITUCIONAIS ORIGINAL (VERDE/LARANJA) */
+        .grid-modulos-fluxo {
+            display: grid;
+            grid-template-cols: repeat(2, 1fr);
+            gap: 8px;
+            padding: 4px 0;
+            width: 100%;
+        }
+        
+        .modulo-card-btn {
+            background-color: #FFF3EB;
+            border: 1px solid var(--cor-destaque);
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 700; /* Tipografia mais nítida conforme solicitado */
+            color: #A04000; /* Laranja escuro denso para legibilidade */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .modulo-card-ativa { background-color: var(--cor-destaque) !important; color: white !important; }
+        .btn-deletar-modulo-x { background: rgba(0,0,0,0.05); border: none; color: inherit; font-size: 14px; font-weight: bold; padding: 2px 6px; border-radius: 4px; }
+        .btn-criar-modulo-trigger { grid-column: span 2; background-color: var(--cor-primaria); color: white; border: none; border-radius: 10px; padding: 10px; font-size: 12px; font-weight: 700; text-align: center; cursor: pointer; margin-top: 4px; }
 
-/* ── CARDS ───────────────────────────── */
-.card{background:white;border-radius:16px;border:1px solid #e8edeb;box-shadow:0 1px 3px rgba(30,70,60,.05),0 4px 14px rgba(30,70,60,.05);}
-.ev-card{border-left:4px solid var(--c,#1E463C);background:white;border-radius:12px;padding:12px 14px;margin-bottom:8px;border-top:1px solid #e8edeb;border-right:1px solid #e8edeb;border-bottom:1px solid #e8edeb;transition:box-shadow .18s,transform .15s;cursor:pointer;}
-.ev-card:hover{box-shadow:0 4px 18px rgba(30,70,60,.11);transform:translateX(3px);}
+        .menu-interno-modulo {
+            display: flex;
+            background-color: #E2E8F0;
+            padding: 4px;
+            border-radius: 12px;
+            gap: 4px;
+            margin: 6px 0;
+        }
+        .menu-interno-btn {
+            flex: 1;
+            border: none;
+            background: none;
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--texto-principal);
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .menu-interno-btn-ativo { background-color: var(--branco-puro) !important; color: var(--cor-primaria) !important; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 
-/* ── MODAL ───────────────────────────── */
-#mOverlay{position:fixed;inset:0;z-index:800;background:rgba(10,18,16,.52);backdrop-filter:blur(3px);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .22s;}
-#mOverlay.on{opacity:1;pointer-events:all;}
-#mBox{background:white;border-radius:20px 20px 0 0;width:100%;max-width:540px;max-height:90dvh;overflow-y:auto;transform:translateY(50px);transition:transform .28s cubic-bezier(.34,1.56,.64,1);}
-#mOverlay.on #mBox{transform:translateY(0);}
+        .secao-titulo { font-size: 10px; font-weight: 700; color: #146152; /* Verde escuro nítido */ text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+        .card-titulo-h2 { font-size: 15px; font-weight: 700; color: var(--cor-primaria); margin-bottom: 12px; }
+        .card-sigi { background-color: var(--branco-puro); padding: 16px; border-radius: 16px; border: 1px solid var(--borda); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); margin-bottom: 4px; }
 
-/* ── TOAST ───────────────────────────── */
-#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:#1E463C;color:white;padding:11px 22px;border-radius:99px;font-size:.84rem;font-weight:500;z-index:9999;box-shadow:0 6px 20px rgba(0,0,0,.18);transition:opacity .28s,transform .28s;opacity:0;white-space:nowrap;max-width:88vw;text-align:center;pointer-events:none;}
-#toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+        .sigi-grid-inputs { display: grid; grid-template-cols: 1fr 1fr; gap: 8px; margin-top: 8px; }
+        .sigi-field-container { display: flex; flex-direction: column; gap: 4px; }
+        .sigi-label { font-size: 11px; font-weight: 600; color: var(--texto-principal); }
+        .sigi-field-container input, .sigi-field-container select { padding: 10px; font-size: 13px; border: 1px solid var(--borda); border-radius: 8px; background-color: var(--branco-puro); outline: none; width: 100%; color: var(--texto-principal); font-weight: 600; }
+        .sigi-field-container input::placeholder { color: var(--texto-mutado); }
+        .span-full { grid-column: span 2; }
+        
+        .bloco-linha-responsavel {
+            grid-column: span 2;
+            display: grid;
+            grid-template-cols: 1fr 1fr;
+            gap: 8px;
+            border-bottom: 1px dashed var(--borda);
+            padding-bottom: 8px;
+            margin-bottom: 4px;
+        }
 
-/* ── DROP ZONE ───────────────────────── */
-.drop-zone{border:2px dashed #a8ccc0;border-radius:12px;padding:18px;text-align:center;cursor:pointer;transition:background .18s,border-color .18s;}
-.drop-zone:hover,.drop-zone.dov{background:#EAF2EC;border-color:#1E463C;}
+        .motor-box-operacional { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; width: 100%; }
+        .linha-lupa-input { display: flex; gap: 8px; align-items: center; width: 100%; }
+        .btn-lupa { background-color: var(--cor-primaria); color: white; border: none; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        textarea.sigi-input { width: 100%; padding: 12px; font-size: 13px; border: 1px solid var(--borda); border-radius: 12px; outline: none; font-family: inherit; resize: none; color: var(--texto-principal); font-weight: 600; }
+        .btn-submit-agenda { background-color: var(--cor-primaria); color: white; width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; margin-top: 12px; cursor: pointer; }
 
-/* ── MISC ────────────────────────────── */
-.eyebrow{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#3d7a6a;}
-@keyframes fi{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:none;}}
-.fi{animation:fi .25s ease both;}
-@keyframes pd{0%,100%{opacity:1;}50%{opacity:.25;}}
-.pd{animation:pd 1.6s ease-in-out infinite;}
-.sec-hdr{cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #f0f4f2;}
+        .container-previa-temporaria { background-color: #F7FAFC; border: 1px dashed #CBD5E0; border-radius: 12px; padding: 12px; margin-top: 10px; }
+        .item-previa-linha { background-color: white; border: 1px solid #E2E8F0; padding: 8px 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 12px; font-weight: 600; color: var(--texto-principal); }
 
-/* ── DATE GROUP HEADER ───────────────── */
-.dg-hdr{display:flex;align-items:center;gap:8px;margin:14px 0 6px;}
-.dg-lbl{font-size:.75rem;font-weight:700;padding:2px 8px;border-radius:99px;}
-.dg-line{flex:1;height:1px;background:#e8edeb;}
-.dg-cnt{font-size:.72rem;color:#9ca3af;}
+        .agenda-meta-header { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; margin-bottom: 8px; }
+        
+        /* CAMPO DE PESQUISA ORIGINAL PRESERVADO */
+        .search-container { position: relative; width: 100%; margin-bottom: 12px; }
+        .search-container input { width: 100%; padding: 10px 12px 10px 36px; border-radius: 10px; border: 1px solid var(--borda); font-size: 13px; outline: none; color: var(--texto-principal); font-weight: 600; }
+        .search-container span { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--texto-principal); font-size: 14px; }
 
-/* ── PRIORITY BAR ────────────────────── */
-.pbar-w{display:flex;align-items:stretch;gap:0;}
-.pbar{width:4px;border-radius:99px;margin-right:10px;flex-shrink:0;}
-</style>
+        .bloco-data-grupo { margin-bottom: 12px; }
+        .badge-data-separador { font-size: 11px; font-weight: 700; background-color: #E2E8F0; padding: 2px 8px; border-radius: 6px; color: var(--texto-principal); display: inline-block; margin-bottom: 6px; }
+        
+        .agenda-card-item { background-color: var(--branco-puro); border-left: 4px solid var(--cor-destaque); padding: 12px; border-radius: 8px; border: 1px solid var(--borda); border-left-width: 4px; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; cursor: pointer; }
+        .item-info-flex { display: flex; flex-direction: column; gap: 4px; width: 100%; min-width: 0; }
+        .item-titulo { font-size: 14px; font-weight: 700; color: var(--texto-principal); word-wrap: break-word; }
+        .item-tags-row { display: flex; gap: 6px; align-items: center; font-size: 11px; margin-top: 2px; font-weight: 600; color: var(--texto-principal); }
+        .tag-inst { background-color: #FEEBC8; color: #C05621; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+        .btn-lixeira { background: none; border: none; color: #E53E3E; font-size: 16px; cursor: pointer; padding: 4px; flex-shrink: 0; }
+
+        /* MODAL DE VISUALIZAÇÃO DETALHADA (NITIDEZ MAXIMIZADA) */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); padding: 20px; }
+        .modal-content { background-color: var(--branco-puro); max-width: 600px; margin: 0 auto; border-radius: 16px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--borda); padding-bottom: 8px; }
+        .modal-body { display: flex; flex-direction: column; gap: 10px; font-size: 13px; color: var(--texto-principal); font-weight: 600; }
+        .modal-detail-line { display: flex; flex-direction: column; gap: 2px; }
+        .modal-label { font-size: 10px; font-weight: 700; color: var(--texto-principal); text-transform: uppercase; }
+
+        footer { text-align: center; padding: 20px; margin-top: 30px; font-size: 12px; color: var(--texto-principal); border-top: 1px solid var(--borda); font-weight: 700; }
+        .colapsado { display: none !important; }
+    </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════
-     HEADER + ABAS DE INSTITUIÇÕES
-═══════════════════════════════════════════ -->
-<header class="sticky top-0 z-50" style="background:#1E463C;box-shadow:0 2px 10px rgba(0,0,0,.22);">
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;">
-    <!-- Logo -->
-    <div style="display:flex;align-items:center;gap:10px;">
-      <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-      </div>
-      <div>
-        <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:1rem;color:white;line-height:1.1;">SIGMA</div>
-        <div style="font-size:.65rem;letter-spacing:.08em;color:rgba(255,255,255,.5);text-transform:uppercase;">Gestão Modular Assistida</div>
-      </div>
+    <header>
+        <div class="header-container">
+            <div class="header-brand">
+                <a href="#" class="link-institucional-sigma" onclick="location.reload();">⚡ Sistema SIGMA</a>
+                <div class="header-title-sub">
+                    <p>Gestão Modular Assistida</p>
+                </div>
+            </div>
+            <div id="data-atual">Carregando data...</div>
+        </div>
+    </header>
+
+    <main>
+        <section class="card-sigi">
+            <div class="topo-dobravel" onclick="toggleSecao('box-usuario-identificador')">
+                <div>
+                    <p class="secao-titulo">Identificador do Sistema</p>
+                    <h2 class="card-titulo-h2" style="margin-bottom:0;">Usuário Ativo (Gestão Protegida)</h2>
+                </div>
+                <span>▼</span>
+            </div>
+            <div id="box-usuario-identificador" class="sigi-grid-inputs">
+                <div class="sigi-field-container">
+                    <span class="sigi-label">Nome Completo do Operador</span>
+                    <input type="text" id="sys-user-nome" value="Augusto Cesar P. da Silva" onchange="atualizarDadosUsuarioMaster()">
+                </div>
+                <div class="sigi-field-container">
+                    <span class="sigi-label">E-mail de Cadastro</span>
+                    <input type="text" id="sys-user-email" value="augusto@sigma.org" onchange="atualizarDadosUsuarioMaster()">
+                </div>
+            </div>
+        </section>
+
+        <section class="grid-modulos-fluxo" id="container-modulos-mosaico"></section>
+
+        <nav class="menu-interno-modulo">
+            <button id="btn-sub-agenda" class="menu-interno-btn menu-interno-btn-ativo" onclick="alternarSubAbasModulo('agenda')">📌 Painel / Agenda</button>
+            <button id="btn-sub-cadastro" class="menu-interno-btn" onclick="alternarSubAbasModulo('cadastro')">📋 Ficha de Cadastro</button>
+            <button id="btn-sub-documentos" class="menu-interno-btn" onclick="alternarSubAbasModulo('documentos')">📂 Documentos</button>
+        </nav>
+
+        <section class="card-sigi colapsado" id="sub-bloco-cadastro">
+            <p class="secao-titulo">Cadastro Institucional do Âmbito</p>
+            <h2 class="card-titulo-h2" id="sigma-txt-nome-modulo">Todos</h2>
+            
+            <div class="sigi-grid-inputs">
+                <div class="sigi-field-container span-full">
+                    <span class="sigi-label">Razão Social / Nome Completo</span>
+                    <input type="text" id="cadastro-mod-nome-completo" onchange="salvarFichaDeCadastroAtual()" placeholder="Ex: Instituto Coopera">
+                </div>
+                <div class="sigi-field-container">
+                    <span class="sigi-label">CNPJ / CPF</span>
+                    <input type="text" id="cadastro-mod-cnpj" onchange="salvarFichaDeCadastroAtual()" placeholder="00.000.000/0001-00">
+                </div>
+                <div class="sigi-field-container">
+                    <span class="sigi-label">Endereço / Localidade</span>
+                    <input type="text" id="cadastro-mod-endereco" onchange="salvarFichaDeCadastroAtual()" placeholder="Rua, Cidade - Estado">
+                </div>
+
+                <div class="span-full" style="margin-top: 10px; border-top: 1px solid var(--borda); padding-top: 8px;">
+                    <p class="secao-titulo" style="color: var(--cor-destaque);">Corpo de Responsáveis e Lideranças</p>
+                </div>
+
+                <div class="bloco-linha-responsavel">
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Nome (Opção 1)</span>
+                        <input type="text" id="resp-nome-1" onchange="salvarFichaDeCadastroAtual()" placeholder="Nome">
+                    </div>
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Função (Opção 1)</span>
+                        <input type="text" id="resp-funcao-1" onchange="salvarFichaDeCadastroAtual()" placeholder="Função">
+                    </div>
+                </div>
+
+                <div class="bloco-linha-responsavel">
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Nome (Opção 2)</span>
+                        <input type="text" id="resp-nome-2" onchange="salvarFichaDeCadastroAtual()" placeholder="Nome">
+                    </div>
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Função (Opção 2)</span>
+                        <input type="text" id="resp-funcao-2" onchange="salvarFichaDeCadastroAtual()" placeholder="Função">
+                    </div>
+                </div>
+
+                <div class="bloco-linha-responsavel">
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Nome (Opção 3)</span>
+                        <input type="text" id="resp-nome-3" onchange="salvarFichaDeCadastroAtual()" placeholder="Nome">
+                    </div>
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Função (Opção 3)</span>
+                        <input type="text" id="resp-funcao-3" onchange="salvarFichaDeCadastroAtual()" placeholder="Função">
+                    </div>
+                </div>
+
+                <div class="bloco-linha-responsavel">
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Nome (Opção 4)</span>
+                        <input type="text" id="resp-nome-4" onchange="salvarFichaDeCadastroAtual()" placeholder="Nome">
+                    </div>
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Função (Opção 4)</span>
+                        <input type="text" id="resp-funcao-4" onchange="salvarFichaDeCadastroAtual()" placeholder="Função">
+                    </div>
+                </div>
+
+                <div class="sigi-field-container span-full" style="margin-top:4px;">
+                    <span class="sigi-label">Diretriz Estratégica / Meta Geral do Módulo</span>
+                    <input type="text" id="cadastro-mod-descricao" onchange="salvarFichaDeCadastroAtual()">
+                </div>
+            </div>
+        </section>
+
+        <div id="sub-bloco-agenda">
+            <section class="card-sigi" style="margin-bottom: 12px;">
+                <div class="topo-dobravel" onclick="toggleSecao('motor-conteudo')">
+                    <div>
+                        <p class="secao-titulo">Motor de Inteligência Híbrido (SIGMA AI)</p>
+                        <h2 class="card-titulo-h2" style="margin-bottom:0;">Caixa de Entrada / Lupa de Arquivos</h2>
+                    </div>
+                    <span>▼</span>
+                </div>
+                
+                <div id="motor-conteudo" class="motor-box-operacional">
+                    <div class="linha-lupa-input">
+                        <button class="btn-lupa" onclick="dispararSeletorDeArquivo();" title="Carregar Word, Excel ou PDF">🔍</button>
+                        <input type="file" id="input-arquivo-real" style="display:none;" accept=".txt,.docx,.xlsx,.xls,.csv,.pdf" onchange="processarUploadELeituraReal(event)">
+                        <textarea id="texto-caixa-entrada" rows="3" class="sigi-input" placeholder="Use a lupa para ler relatórios (.docx, .xlsx, .pdf) ou digite livremente aqui..."></textarea>
+                    </div>
+
+                    <div class="sigi-grid-inputs">
+                        <div class="sigi-field-container span-full">
+                            <span class="sigi-label">Título do Compromisso Extraído</span>
+                            <input type="text" id="motor-campo-titulo" placeholder="Pauta identificada pelo motor">
+                        </div>
+                        <div class="sigi-field-container">
+                            <span class="sigi-label">Data Mapeada</span>
+                            <input type="date" id="motor-campo-data">
+                        </div>
+                        <div class="sigi-field-container">
+                            <span class="sigi-label">Horário</span>
+                            <input type="time" id="motor-campo-hora" value="09:00">
+                        </div>
+                        <div class="sigi-field-container span-full">
+                            <span class="sigi-label">Notas e Lembretes Auxiliares</span>
+                            <input type="text" id="motor-campo-lembrete" placeholder="Lembrete crítico do documento">
+                        </div>
+                        <div class="sigi-field-container span-full">
+                            <span class="sigi-label">Origem do Arquivo / Metadado</span>
+                            <input type="text" id="motor-campo-observacao" placeholder="Nome do documento liso">
+                        </div>
+                    </div>
+                    <button onclick="adicionarMotorAMesaTemporaria()" class="btn-submit-agenda" style="background-color:var(--cor-destaque); margin-top:4px;">+ Adicionar à Mesa Temporária</button>
+                </div>
+            </section>
+
+            <section class="card-sigi" style="margin-bottom: 12px;">
+                <div class="topo-dobravel" onclick="toggleSecao('form-manual')">
+                    <div>
+                        <p class="secao-titulo">Inserção Manual</p>
+                        <h2 class="card-titulo-h2" style="margin-bottom:0;">Adicionar Compromisso</h2>
+                    </div>
+                    <span>▼</span>
+                </div>
+                
+                <form id="form-manual" onsubmit="adicionarManualAMesaTemporaria(event)" class="conteudo-dobravel sigi-grid-inputs">
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Data *</span>
+                        <input type="date" id="manual-data" required>
+                    </div>
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Horário</span>
+                        <input type="time" id="manual-horario">
+                    </div>
+                    <div class="sigi-field-container span-full">
+                        <span class="sigi-label">Módulo de Destino *</span>
+                        <select id="manual-select-instituicao" required></select>
+                    </div>
+                    <div class="sigi-field-container span-full">
+                        <span class="sigi-label">Descrição / Pauta *</span>
+                        <input type="text" id="manual-descricao" placeholder="Pauta operacional" required>
+                    </div>
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Responsável</span>
+                        <input type="text" id="manual-responsavel" placeholder="Nome do responsável">
+                    </div>
+                    <div class="sigi-field-container">
+                        <span class="sigi-label">Prioridade</span>
+                        <select id="manual-prioridade">
+                            <option value="Normal">Normal</option>
+                            <option value="Alta">Alta ⭐</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-submit-agenda span-full" style="background-color:#4A5568;">+ Adicionar ao Lançamento Coletivo</button>
+                </form>
+            </section>
+
+            <section class="card-sigi colapsado" id="card-mesa-validacao">
+                <p class="secao-titulo">Mesa de Validação Humana</p>
+                <h2 class="card-titulo-h2">Compromissos Aguardando Lançamento</h2>
+                <div id="lista-mesa-temporaria-rascunhos" class="container-previa-temporaria"></div>
+                <button onclick="consolidarEMandarParaAgendaDefinitiva()" class="btn-submit-agenda" style="background-color:#2B6CB0; font-weight:700;">💾 Confirmar e Registrar na Agenda do SIGMA</button>
+            </section>
+
+            <section style="margin-top: 4px;">
+                <div class="agenda-meta-header">
+                    <div>
+                        <p class="secao-titulo">Visualização da Memória</p>
+                        <h2 class="card-titulo-h2" style="margin-bottom:0;">Agenda Completa</h2>
+                    </div>
+                    <select id="filtro-tempo-agenda" onchange="renderizarPainelAgendaCompleta()" style="padding:6px; font-size:12px; border-radius:6px; border:1px solid var(--borda); font-weight:700; color:var(--texto-principal);">
+                        <option value="todos">Todos</option>
+                        <option value="hoje">Hoje</option>
+                        <option value="semana">Esta Semana</option>
+                        <option value="mes">Este Mês</option>
+                    </select>
+                </div>
+                
+                <div class="search-container">
+                    <span>🔍</span>
+                    <input type="text" id="busca-input-texto" oninput="renderizarPainelAgendaCompleta()" placeholder="Buscar compromisso cadastrado...">
+                </div>
+                
+                <div id="lista-agenda-dinamica"></div>
+            </section>
+        </div>
+
+        <section class="card-sigi colapsado" id="sub-bloco-documentos">
+            <p class="secao-titulo">Repositório Documental</p>
+            <h2 class="card-titulo-h2">Biblioteca e Acervo Digital</h2>
+            
+            <form id="form-documentos-sigma" onsubmit="adicionarDocumentoAoModulo(event)" class="sigi-grid-inputs">
+                <div class="sigi-field-container span-full">
+                    <span class="sigi-label">Título do Documento / Ata *</span>
+                    <input type="text" id="doc-titulo" placeholder="Ex: Relatório Zona da Mata" required>
+                </div>
+                <div class="sigi-field-container span-full">
+                    <span class="sigi-label">Link de Acesso (Google Drive / GitHub) *</span>
+                    <input type="url" id="doc-link" placeholder="https://drive.google.com/..." required>
+                </div>
+                <button type="submit" class="btn-submit-agenda span-full" style="background-color: var(--cor-destaque);">📂 Catalogar Documentação</button>
+            </form>
+
+            <div style="margin-top: 16px;">
+                <p class="secao-titulo">Arquivos Vinculados a este Módulo</p>
+                <div id="lista-documentos-modulo-ativos" style="margin-top: 8px;"></div>
+            </div>
+        </section>
+    </main>
+
+    <div id="modal-sigma-detalhe" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="card-titulo-h2" style="margin-bottom:0;" id="modal-titulo">Detalhes</h3>
+                <span style="font-size:20px; cursor:pointer; color:var(--texto-principal);" onclick="fecharModalDetalhe()">×</span>
+            </div>
+            <div class="modal-body">
+                <div class="modal-detail-line">
+                    <span class="modal-label">Âmbito / Módulo</span>
+                    <span id="modal-instituicao" class="tag-inst" style="width:fit-content"></span>
+                </div>
+                <div class="modal-detail-line">
+                    <span class="modal-label">Data e Horário</span>
+                    <strong id="modal-data-hora"></strong>
+                </div>
+                <div class="modal-detail-line">
+                    <span class="modal-label">Responsável</span>
+                    <span id="modal-responsavel"></span>
+                </div>
+                <div class="modal-detail-line">
+                    <span class="modal-label">Prioridade</span>
+                    <span id="modal-prioridade"></span>
+                </div>
+                <div class="modal-detail-line">
+                    <span class="modal-label">Notas e Lembretes (Pauta)</span>
+                    <span id="modal-lembrete"></span>
+                </div>
+                <div class="modal-detail-line">
+                    <span class="modal-label">Observações e Metadados</span>
+                    <span id="modal-observacao"></span>
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- Right controls -->
-    <div style="display:flex;align-items:center;gap:6px;">
-      <span id="today-badge" style="font-size:.68rem;font-weight:700;padding:3px 9px;border-radius:99px;background:rgba(200,120,58,.28);color:#E8954E;"></span>
-      <button onclick="toggleStats()" style="display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:8px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);border:none;cursor:pointer;font-size:.75rem;font-weight:600;">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        <span id="hdr-total">0</span>
-      </button>
-    </div>
-  </div>
-  <!-- Tabs -->
-  <div style="padding:0 12px 10px;">
-    <div id="tab-scroll"></div>
-  </div>
-</header>
-
-<!-- STATS BAR -->
-<div id="stats-bar" style="display:none;background:#163229;padding:10px 14px;">
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:640px;margin:0 auto;">
-    <div style="background:rgba(255,255,255,.07);border-radius:10px;padding:10px;text-align:center;"><div id="s-hoje" style="font-size:1.5rem;font-weight:700;color:white;">0</div><div style="font-size:.68rem;color:rgba(255,255,255,.45);margin-top:2px;">Hoje</div></div>
-    <div style="background:rgba(255,255,255,.07);border-radius:10px;padding:10px;text-align:center;"><div id="s-sem"  style="font-size:1.5rem;font-weight:700;color:white;">0</div><div style="font-size:.68rem;color:rgba(255,255,255,.45);margin-top:2px;">Esta semana</div></div>
-    <div style="background:rgba(255,255,255,.07);border-radius:10px;padding:10px;text-align:center;"><div id="s-tot"  style="font-size:1.5rem;font-weight:700;color:white;">0</div><div style="font-size:.68rem;color:rgba(255,255,255,.45);margin-top:2px;">Total</div></div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════
-     CONTEÚDO PRINCIPAL
-═══════════════════════════════════════════ -->
-<main style="max-width:680px;margin:0 auto;padding:16px 14px 100px;">
-
-  <!-- ── MISSÃO DO DIA ──────────────────── -->
-  <section style="margin-bottom:18px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-      <div>
-        <p class="eyebrow">Missão do dia</p>
-        <h2 style="font-size:1.05rem;font-weight:700;color:#1E463C;margin-top:2px;">Prioridades de Hoje</h2>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px;">
-        <div class="pd" style="width:7px;height:7px;border-radius:50%;background:#C8783A;"></div>
-        <span id="missao-date" style="font-size:.75rem;font-weight:600;color:#C8783A;"></span>
-      </div>
-    </div>
-    <div id="missao-list"></div>
-  </section>
-
-  <!-- ── MOTOR DE INTELIGÊNCIA ──────────── -->
-  <section style="margin-bottom:18px;">
-    <div class="card" style="overflow:hidden;">
-      <div class="sec-hdr" onclick="toggleSec('sec-motor','chev-motor')">
-        <div>
-          <p class="eyebrow">Motor de Inteligência</p>
-          <h2 style="font-size:.95rem;font-weight:700;color:#1E463C;margin-top:2px;">Relatoria / Importar Ata (.docx)</h2>
-        </div>
-        <div id="chev-motor" style="transition:transform .2s;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E463C" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-      </div>
-
-      <div id="sec-motor" style="padding:14px;">
-
-        <!-- Drop zone DOCX -->
-        <div class="drop-zone" id="dz"
-          onclick="document.getElementById('f-docx').click()"
-          ondragover="dzOver(event)" ondragleave="dzOut()" ondrop="dzDrop(event)"
-          style="margin-bottom:10px;">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3d7a6a" stroke-width="1.5" style="margin:0 auto 6px;display:block;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
-          <p style="font-size:.8rem;font-weight:600;color:#1E463C;">Clique ou arraste um arquivo .docx</p>
-          <p style="font-size:.72rem;color:#9ca3af;margin-top:3px;">O texto da ata será extraído automaticamente</p>
-          <input type="file" id="f-docx" accept=".docx" style="display:none;" onchange="onDocxFile(this)"/>
-        </div>
-
-        <p style="text-align:center;font-size:.72rem;color:#9ca3af;margin:6px 0;">— ou cole o texto da ata abaixo —</p>
-
-        <!-- Textarea -->
-        <textarea id="rel-txt" class="si" rows="5" style="margin-bottom:10px;"
-          placeholder="Ex: Reunião do Instituto Coopera em 15/07/2025 às 14h para discutir orçamento. Ecofeira da Rural no dia 22/07/2025..."></textarea>
-
-        <!-- Preview análise -->
-        <div id="rel-prev" style="display:none;background:#F0F6F3;border:1px solid #c8ddd7;border-radius:10px;padding:12px;margin-bottom:10px;">
-          <p style="font-size:.75rem;font-weight:700;color:#1E463C;margin-bottom:6px;">Análise prévia:</p>
-          <div id="rel-prev-body" style="font-size:.78rem;color:#374151;line-height:1.6;"></div>
-        </div>
-
-        <!-- Botões de ação -->
-        <div style="display:flex;gap:8px;margin-bottom:10px;">
-          <button class="btn btn-amber" style="flex:1;" onclick="processarRelatoria()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            Processar e Alocar
-          </button>
-          <button class="btn btn-ghost btn-sm" onclick="analisarTexto()">Analisar</button>
-        </div>
-
-        <!-- Mesa de validação -->
-        <div id="rel-mesa" style="display:none;background:#EAF2EC;border:1px solid #a8ccc0;border-radius:10px;padding:12px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <p style="font-size:.78rem;font-weight:700;color:#1E463C;">Mesa de Validação Humana</p>
-            <span id="rel-cnt" style="font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:99px;background:#1E463C;color:white;"></span>
-          </div>
-          <div id="rel-mesa-body" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px;"></div>
-          <div style="display:flex;gap:8px;">
-            <button class="btn btn-green" style="flex:1;font-size:.85rem;" onclick="confirmarRelatoria()">Confirmar e Salvar na Agenda</button>
-            <button class="btn btn-ghost btn-sm" onclick="cancelarRelatoria()">Cancelar</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ── INSERÇÃO MANUAL ────────────────── -->
-  <section style="margin-bottom:18px;" id="sec-manual-wrap">
-    <div class="card" style="overflow:hidden;">
-      <div class="sec-hdr" onclick="toggleSec('sec-manual','chev-manual')">
-        <div>
-          <p class="eyebrow">Inserção Manual</p>
-          <h2 style="font-size:.95rem;font-weight:700;color:#1E463C;margin-top:2px;">Adicionar Compromisso</h2>
-        </div>
-        <div id="chev-manual" style="transition:transform .2s;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E463C" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-      </div>
-      <div id="sec-manual" style="padding:14px;display:flex;flex-direction:column;gap:10px;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-          <div><label class="fld-lbl">Data *</label><input type="date" id="m-date" class="si"/></div>
-          <div><label class="fld-lbl">Horário</label><input type="time" id="m-time" class="si"/></div>
-        </div>
-        <div><label class="fld-lbl">Instituição *</label><select id="m-inst" class="si"><option value="">— Selecione —</option></select></div>
-        <div><label class="fld-lbl">Descrição / Pauta *</label><input type="text" id="m-desc" class="si" placeholder="Ex: Reunião de planejamento do semestre"/></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-          <div><label class="fld-lbl">Responsável</label><input type="text" id="m-resp" class="si" placeholder="Nome"/></div>
-          <div><label class="fld-lbl">Prioridade</label>
-            <select id="m-prio" class="si">
-              <option value="normal">Normal</option>
-              <option value="alta">Alta ⚡</option>
-              <option value="critica">Crítica 🔴</option>
-            </select>
-          </div>
-        </div>
-        <div><label class="fld-lbl">Observações</label><textarea id="m-obs" class="si" rows="2" placeholder="Detalhes adicionais..."></textarea></div>
-        <button class="btn btn-green" style="width:100%;" onclick="addEvento()">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          Adicionar à Agenda
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── VISUALIZAÇÃO DA AGENDA ─────────── -->
-  <section>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
-      <div>
-        <p class="eyebrow" id="ag-inst-lbl">Todos os compromissos</p>
-        <h2 style="font-size:1.05rem;font-weight:700;color:#1E463C;margin-top:2px;" id="ag-title">Agenda Completa</h2>
-      </div>
-      <div style="display:flex;gap:6px;align-items:center;">
-        <select id="ag-period" class="si" style="padding:7px 30px 7px 10px;font-size:.78rem;width:auto;" onchange="renderAgenda()">
-          <option value="all">Todos</option>
-          <option value="today">Hoje</option>
-          <option value="week">Esta semana</option>
-          <option value="month">Este mês</option>
-        </select>
-        <button onclick="abrirExport()" class="btn btn-ghost btn-sm">Exportar</button>
-      </div>
-    </div>
-    <!-- Busca -->
-    <div style="position:relative;margin-bottom:10px;">
-      <svg style="position:absolute;left:12px;top:50%;transform:translateY(-50%);pointer-events:none;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" id="ag-search" class="si" style="padding-left:34px;font-size:.875rem;" placeholder="Buscar compromisso, responsável..." oninput="renderAgenda()"/>
-    </div>
-    <!-- Lista -->
-    <div id="ag-list"></div>
-  </section>
-
-</main>
-
-<!-- FAB -->
-<div style="position:fixed;right:16px;bottom:20px;z-index:50;">
-  <button onclick="irParaManual()" style="width:52px;height:52px;border-radius:14px;background:#1E463C;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(30,70,60,.38);" title="Novo compromisso">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-  </button>
-</div>
-
-<!-- ═══════════════════════════════════════════
-     MODAL
-═══════════════════════════════════════════ -->
-<div id="mOverlay" onclick="mClickOut(event)">
-  <div id="mBox">
-    <div style="position:sticky;top:0;background:white;z-index:10;padding:16px 18px 12px;border-bottom:1px solid #f0f4f2;display:flex;align-items:center;justify-content:space-between;">
-      <h3 id="mTitle" style="font-size:1rem;font-weight:700;color:#1E463C;"></h3>
-      <button onclick="mClose()" style="width:30px;height:30px;border-radius:50%;background:#f3f4f6;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>
-    <div id="mBody" style="padding:16px 18px 24px;"></div>
-  </div>
-</div>
-
-<!-- TOAST -->
-<div id="toast"></div>
-
-<!-- Label style (inline so Tailwind purge doesn't drop it) -->
-<style>.fld-lbl{display:block;font-size:.75rem;font-weight:600;color:#374151;margin-bottom:5px;}</style>
-
-<!-- ═══════════════════════════════════════════
-     JAVASCRIPT
-═══════════════════════════════════════════ -->
-<script>
-'use strict';
-
-/* ══════════════════════════════════════════
-   CONSTANTES E ESTADO
-══════════════════════════════════════════ */
-const SK_EV   = 'sigma_ev_v3';
-const SK_INST = 'sigma_inst_v3';
-
-let eventos      = [];
-let insts        = [];
-let activeTab    = 'all';
-let pendentes    = [];   // eventos aguardando validação da mesa
-let toastTmr     = null;
-let statsVis     = false;
-
-const INST_DEFAULT = [
-  {id:'coopera',        name:'Instituto Coopera',                color:'#1E463C'},
-  {id:'mutcoor',        name:'Projeto Mutirão Coordenação',      color:'#2a5f52'},
-  {id:'mutecocol',      name:'Projeto Mutirão Ecocol',           color:'#4A7C59'},
-  {id:'estudos',        name:'Grupo de Estudos Coopera',         color:'#3d7a6a'},
-  {id:'paulsinger',     name:'Paul Singer',                      color:'#5c8a7a'},
-  {id:'ecofeira',       name:'Ecofeira da Rural',                color:'#C8783A'},
-  {id:'residuos',       name:'Resíduos Sólidos',                 color:'#7A5545'},
-  {id:'pesquisa',       name:'Pesquisa',                         color:'#163229'},
-  {id:'sementes',       name:'Coletivo Sementes',                color:'#6b8f71'},
-  {id:'agroeco',        name:'Bacharelado em Agroecologia',      color:'#2d6a4f'},
-  {id:'pessoal',        name:'Agenda Pessoal',                   color:'#5C4033'},
-];
-
-/* ══════════════════════════════════════════
-   STORAGE
-══════════════════════════════════════════ */
-function carregarDados() {
-  try {
-    const e = localStorage.getItem(SK_EV);
-    const i = localStorage.getItem(SK_INST);
-    eventos = e ? JSON.parse(e) : [];
-    insts   = i ? JSON.parse(i) : [...INST_DEFAULT];
-  } catch(_) {
-    eventos = []; insts = [...INST_DEFAULT];
-  }
-}
-
-function salvarEventos() {
-  try {
-    localStorage.setItem(SK_EV, JSON.stringify(eventos));
-  } catch(_) {
-    toast('Armazenamento cheio! Exporte e limpe dados antigos.', 'warn');
-    return false;
-  }
-  atualizarStats();
-  renderMissao();
-  renderAgenda();
-  return true;
-}
-
-function salvarInsts() {
-  try { localStorage.setItem(SK_INST, JSON.stringify(insts)); }
-  catch(_) { toast('Erro ao salvar instituição.', 'warn'); }
-}
-
-/* ══════════════════════════════════════════
-   UTILITÁRIOS DE DATA
-══════════════════════════════════════════ */
-function hoje() { return new Date().toISOString().slice(0,10); }
-
-function fmtBR(iso) {
-  if (!iso) return '—';
-  const [y,m,d] = iso.split('-');
-  return `${d}/${m}/${y}`;
-}
-
-/* ─────────────────────────────────────────
-   parseData — extrai ISO de string
-   Aceita: 15/07, 15/07/2025, 15/07/25,
-           15 de julho, 15 de julho de 2025
-   Valida dia máximo por mês.
-───────────────────────────────────────── */
-const MESES = {
-  janeiro:1,jan:1,fevereiro:2,fev:2,
-  marco:3,março:3,mar:3,abril:4,abr:4,
-  maio:5,mai:5,junho:6,jun:6,
-  julho:7,jul:7,agosto:8,ago:8,
-  setembro:9,set:9,outubro:10,out:10,
-  novembro:11,nov:11,dezembro:12,dez:12
-};
-const MAXD = [0,31,28,31,30,31,30,31,31,30,31,30,31];
-const isLeap = y => (y%4===0&&y%100!==0)||y%400===0;
-const maxDia  = (mo,y) => mo===2&&isLeap(y) ? 29 : MAXD[mo]||31;
-
-function parseData(str) {
-  if (!str) return null;
-  const anoAtual = new Date().getFullYear();
-
-  // Formato numérico: 15/07, 15/07/2025, 15-07-2025, 15.07.2025
-  const m1 = str.match(/(\d{1,2})[\/\.\-](\d{1,2})(?:[\/\.\-](\d{2,4}))?/);
-  if (m1) {
-    const d  = parseInt(m1[1], 10);
-    const mo = parseInt(m1[2], 10);
-    let   y  = m1[3]
-                ? (m1[3].length === 2 ? 2000 + parseInt(m1[3]) : parseInt(m1[3]))
-                : anoAtual;
-    if (mo < 1 || mo > 12) return null;
-    if (d  < 1 || d  > maxDia(mo, y)) return null;
-    return `${y}-${String(mo).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-  }
-
-  // Formato textual: "15 de julho", "15 de julho de 2025"
-  const m2 = str.match(/(\d{1,2})\s+de\s+([a-záéíóúç]+)(?:\s+de\s+(\d{4}))?/i);
-  if (m2) {
-    const chave = m2[2].toLowerCase()
-                       .normalize('NFD')
-                       .replace(/[\u0300-\u036f]/g,'');
-    const mo = MESES[chave];
-    if (!mo) return null;
-    const d = parseInt(m2[1], 10);
-    const y = m2[3] ? parseInt(m2[3]) : anoAtual;
-    if (d < 1 || d > maxDia(mo, y)) return null;
-    return `${y}-${String(mo).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-  }
-
-  return null;
-}
-
-// extrai horário de string: "14h", "14h30", "14:30", "às 9h"
-function parseHora(str) {
-  const m = str.match(/\b(\d{1,2})h(\d{2})?|(\d{1,2}):(\d{2})\b/i);
-  if (!m) return '';
-  const h   = parseInt(m[1] || m[3], 10);
-  const min = parseInt(m[2] || m[4] || '0', 10);
-  if (h < 0 || h > 23 || min < 0 || min > 59) return '';
-  return `${String(h).padStart(2,'0')}:${String(min).padStart(2,'0')}`;
-}
-
-function mesmaSemana(iso) {
-  const d = new Date(iso+'T00:00:00'), n = new Date();
-  const seg = new Date(n); seg.setDate(n.getDate() - n.getDay() + 1);
-  const dom = new Date(seg); dom.setDate(seg.getDate() + 6);
-  seg.setHours(0,0,0,0); dom.setHours(23,59,59,999);
-  return d >= seg && d <= dom;
-}
-
-function mesmoMes(iso) {
-  const n = new Date();
-  return iso.startsWith(`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}`);
-}
-
-function rotuloData(iso) {
-  const t = hoje();
-  const am = new Date(); am.setDate(am.getDate()+1);
-  const amISO = am.toISOString().slice(0,10);
-  if (iso === t)   return 'Hoje';
-  if (iso === amISO) return 'Amanhã';
-  return fmtBR(iso);
-}
-
-/* ══════════════════════════════════════════
-   INSTITUIÇÕES
-══════════════════════════════════════════ */
-function getInst(id) {
-  return insts.find(i => i.id === id) || {name: id || '—', color:'#1E463C'};
-}
-
-function kws() {
-  // constrói mapa de palavras-chave → instId para o motor
-  const map = [];
-  insts.forEach(inst => {
-    // palavras com ≥ 4 chars do nome
-    inst.name.split(/\s+/).filter(w=>w.length>=4).forEach(w =>
-      map.push({kw: norm(w), id: inst.id})
-    );
-    // nome completo normalizado
-    map.push({kw: norm(inst.name), id: inst.id});
-  });
-  return map;
-}
-
-function norm(s) {
-  return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-}
-
-/* ══════════════════════════════════════════
-   ABAS DE INSTITUIÇÕES
-══════════════════════════════════════════ */
-function renderTabs() {
-  const el = document.getElementById('tab-scroll');
-  el.innerHTML = '';
-
-  // Todos
-  const a0 = document.createElement('button');
-  a0.className = 'inst-tab' + (activeTab==='all'?' active':'');
-  a0.textContent = 'Todos';
-  a0.onclick = () => setTab('all');
-  el.appendChild(a0);
-
-  // Cada instituição
-  insts.forEach(inst => {
-    const btn = document.createElement('button');
-    btn.className = 'inst-tab' + (activeTab===inst.id?' active':'');
-    btn.textContent = inst.name;
-    btn.onclick = () => setTab(inst.id);
-    el.appendChild(btn);
-  });
-
-  // + Criar
-  const add = document.createElement('button');
-  add.className = 'inst-tab t-add';
-  add.textContent = '＋ Criar';
-  add.onclick = abrirNovaInst;
-  el.appendChild(add);
-
-  preencherSelects();
-}
-
-function setTab(id) {
-  activeTab = id;
-  renderTabs();
-  renderAgenda();
-  const inst = id === 'all' ? null : getInst(id);
-  document.getElementById('ag-inst-lbl').textContent = inst ? inst.name : 'Todos os compromissos';
-  document.getElementById('ag-title').textContent = inst
-    ? 'Agenda — ' + inst.name.split(' ').slice(0,3).join(' ')
-    : 'Agenda Completa';
-  if (id !== 'all') document.getElementById('m-inst').value = id;
-}
-
-function preencherSelects() {
-  const sel = document.getElementById('m-inst');
-  const cur = sel.value;
-  sel.innerHTML = '<option value="">— Selecione —</option>';
-  insts.forEach(i => {
-    const o = document.createElement('option');
-    o.value = i.id; o.textContent = i.name;
-    sel.appendChild(o);
-  });
-  if (cur) sel.value = cur;
-}
-
-/* ══════════════════════════════════════════
-   MISSÃO DO DIA
-══════════════════════════════════════════ */
-function renderMissao() {
-  const hj  = hoje();
-  const el  = document.getElementById('missao-list');
-  const evs = eventos.filter(e => e.data === hj)
-                     .sort((a,b) => (a.hora||'')>(b.hora||'')?1:-1);
-
-  if (!evs.length) {
-    el.innerHTML = `<div style="background:#EAF2EC;border:1.5px dashed #a8ccc0;border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3d7a6a" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-      <span style="font-size:.85rem;color:#3d7a6a;">Nenhum compromisso para hoje.</span>
-    </div>`;
-    return;
-  }
-
-  el.innerHTML = '';
-  evs.forEach(e => el.appendChild(buildMissaoCard(e)));
-}
-
-function buildMissaoCard(e) {
-  const inst = getInst(e.instId);
-  const bg   = e.prio==='critica'?'#FDEEE8' : e.prio==='alta'?'#FDF0E6' : '#F0F6F3';
-  const bdr  = e.prio==='critica'?'#c0392b' : e.prio==='alta'?'#C8783A' : inst.color;
-  const plbl = e.prio==='critica'?'🔴 Crítico' : e.prio==='alta'?'⚡ Alta' : '';
-
-  const card = crEl('div');
-  card.className = 'fi';
-  card.style.cssText = `background:${bg};border-left:4px solid ${bdr};border-radius:12px;padding:12px 14px;margin-bottom:8px;border-top:1px solid ${bdr}22;border-right:1px solid ${bdr}22;border-bottom:1px solid ${bdr}22;`;
-
-  const row = crEl('div'); row.style.cssText = 'display:flex;align-items:flex-start;justify-content:space-between;gap:8px;';
-  const body = crEl('div'); body.style.flex = '1';
-
-  if (e.hora || plbl) {
-    const meta = crEl('div'); meta.style.cssText = 'display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:3px;';
-    if (e.hora) {
-      const ht = crEl('span'); ht.style.cssText = `font-family:monospace;font-size:.78rem;font-weight:700;color:${inst.color};`;
-      ht.textContent = e.hora; meta.appendChild(ht);
-    }
-    if (plbl) {
-      const pb = crEl('span'); pb.style.cssText = `font-size:.68rem;font-weight:700;padding:1px 7px;border-radius:99px;background:${bdr}22;color:${bdr};`;
-      pb.textContent = plbl; meta.appendChild(pb);
-    }
-    body.appendChild(meta);
-  }
-
-  const tt = crEl('p'); tt.style.cssText = 'font-weight:600;font-size:.9rem;color:#1a1a1a;'; tt.textContent = e.desc; body.appendChild(tt);
-
-  const tags = crEl('div'); tags.style.cssText = 'display:flex;flex-wrap:wrap;gap:6px;margin-top:5px;';
-  const itag = crEl('span'); itag.style.cssText = `font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:99px;background:${inst.color}18;color:${inst.color};`;
-  itag.textContent = inst.name; tags.appendChild(itag);
-  if (e.resp) { const rt=crEl('span'); rt.style.cssText='font-size:.72rem;color:#6b7280;'; rt.textContent='👤 '+e.resp; tags.appendChild(rt); }
-  body.appendChild(tags);
-
-  const editB = crEl('button');
-  editB.style.cssText = `width:30px;height:30px;border-radius:8px;border:none;cursor:pointer;flex-shrink:0;background:${inst.color}15;color:${inst.color};display:flex;align-items:center;justify-content:center;`;
-  editB.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
-  editB.onclick = () => abrirEdit(e.id);
-
-  row.appendChild(body); row.appendChild(editB); card.appendChild(row);
-
-  if (e.obs) {
-    const obs = crEl('p'); obs.style.cssText = 'font-size:.78rem;color:#6b7280;margin-top:6px;line-height:1.4;';
-    obs.textContent = e.obs; card.appendChild(obs);
-  }
-
-  return card;
-}
-
-/* ══════════════════════════════════════════
-   AGENDA — LISTA CRONOLÓGICA
-══════════════════════════════════════════ */
-function renderAgenda() {
-  const el     = document.getElementById('ag-list');
-  const period = document.getElementById('ag-period').value;
-  const busca  = (document.getElementById('ag-search')?.value||'').toLowerCase().trim();
-  const hj     = hoje();
-
-  let evs = [...eventos];
-  if (activeTab !== 'all') evs = evs.filter(e => e.instId === activeTab);
-  if (period === 'today') evs = evs.filter(e => e.data === hj);
-  if (period === 'week')  evs = evs.filter(e => mesmaSemana(e.data));
-  if (period === 'month') evs = evs.filter(e => mesmoMes(e.data));
-  if (busca) evs = evs.filter(e =>
-    e.desc.toLowerCase().includes(busca) ||
-    (e.resp||'').toLowerCase().includes(busca) ||
-    getInst(e.instId).name.toLowerCase().includes(busca)
-  );
-
-  evs.sort((a,b) => {
-    const da = a.data+(a.hora||'00:00');
-    const db = b.data+(b.hora||'00:00');
-    return da > db ? 1 : -1;
-  });
-
-  if (!evs.length) {
-    el.innerHTML = `<div style="background:white;border:1px solid #e8edeb;border-radius:14px;padding:40px 20px;text-align:center;">
-      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.4" style="margin:0 auto 10px;display:block;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-      <p style="font-size:.875rem;font-weight:600;color:#6b7280;">Nenhum compromisso encontrado</p>
-      <p style="font-size:.78rem;color:#9ca3af;margin-top:4px;">Adicione manualmente ou importe via Motor de Inteligência.</p>
-    </div>`;
-    return;
-  }
-
-  // Agrupar por data
-  const grupos = {};
-  evs.forEach(e => { if (!grupos[e.data]) grupos[e.data]=[]; grupos[e.data].push(e); });
-
-  el.innerHTML = '';
-  Object.keys(grupos).sort().forEach(data => {
-    const isHj = data === hj;
-
-    // Header do grupo de data
-    const dg = crEl('div'); dg.className = 'dg-hdr';
-    const lbl = crEl('span'); lbl.className='dg-lbl';
-    lbl.style.cssText = isHj
-      ? 'background:#1E463C;color:white;'
-      : 'background:#e8edeb;color:#374151;';
-    lbl.textContent = rotuloData(data);
-    const line = crEl('div'); line.className='dg-line';
-    const cnt  = crEl('span'); cnt.className='dg-cnt'; cnt.textContent = grupos[data].length+' item'+(grupos[data].length>1?'s':'');
-    dg.appendChild(lbl); dg.appendChild(line); dg.appendChild(cnt);
-    el.appendChild(dg);
-
-    grupos[data].forEach(e => el.appendChild(buildEvCard(e)));
-  });
-}
-
-function buildEvCard(e) {
-  const inst = getInst(e.instId);
-  const prioIcon = e.prio==='critica'?'🔴 ':e.prio==='alta'?'⚡ ':'';
-
-  const card = crEl('div');
-  card.className = 'ev-card fi';
-  card.style.setProperty('--c', inst.color);
-
-  const row = crEl('div'); row.style.cssText='display:flex;align-items:flex-start;gap:10px;';
-
-  const barW = crEl('div'); barW.style.cssText='display:flex;flex-direction:column;align-items:center;gap:0;';
-  const bar  = crEl('div'); bar.style.cssText=`width:3px;border-radius:99px;background:${inst.color};align-self:stretch;min-height:40px;margin-right:0;`;
-  barW.appendChild(bar);
-
-  const body = crEl('div'); body.style.flex='1;min-width:0;';
-  const topR = crEl('div'); topR.style.cssText='display:flex;align-items:flex-start;justify-content:space-between;gap:8px;';
-  const info = crEl('div'); info.style.flex='1';
-
-  const tt = crEl('p'); tt.style.cssText='font-weight:600;font-size:.88rem;color:#1a1a1a;line-height:1.3;';
-  tt.textContent = prioIcon + e.desc; info.appendChild(tt);
-
-  const meta = crEl('div'); meta.style.cssText='display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:5px;';
-  if (e.hora) { const ht=crEl('span'); ht.style.cssText=`font-family:monospace;font-size:.75rem;font-weight:700;color:${inst.color};`; ht.textContent=e.hora; meta.appendChild(ht); }
-  const itag = crEl('span'); itag.style.cssText=`font-size:.7rem;font-weight:600;padding:2px 7px;border-radius:99px;background:${inst.color}15;color:${inst.color};`; itag.textContent=inst.name; meta.appendChild(itag);
-  if (e.resp) { const rt=crEl('span'); rt.style.cssText='font-size:.72rem;color:#9ca3af;'; rt.textContent='👤 '+e.resp; meta.appendChild(rt); }
-  info.appendChild(meta);
-
-  if (e.obs) { const obs=crEl('p'); obs.style.cssText='font-size:.75rem;color:#6b7280;margin-top:5px;line-height:1.4;'; obs.textContent=e.obs; info.appendChild(obs); }
-
-  // Botões editar/excluir
-  const btns = crEl('div'); btns.style.cssText='display:flex;flex-direction:column;gap:4px;flex-shrink:0;';
-  const eb = crEl('button'); eb.style.cssText=`width:26px;height:26px;border-radius:7px;border:none;cursor:pointer;background:${inst.color}12;color:${inst.color};display:flex;align-items:center;justify-content:center;`;
-  eb.innerHTML='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
-  eb.onclick = ev => { ev.stopPropagation(); abrirEdit(e.id); };
-  const db = crEl('button'); db.style.cssText='width:26px;height:26px;border-radius:7px;border:none;cursor:pointer;background:#fdeee8;color:#c0392b;display:flex;align-items:center;justify-content:center;';
-  db.innerHTML='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>';
-  db.onclick = ev => { ev.stopPropagation(); confirmarExclusao(e.id); };
-  btns.appendChild(eb); btns.appendChild(db);
-
-  topR.appendChild(info); topR.appendChild(btns);
-  body.appendChild(topR);
-  row.appendChild(barW); row.appendChild(body);
-  card.appendChild(row);
-  return card;
-}
-
-/* ══════════════════════════════════════════
-   ADD EVENTO (manual)
-══════════════════════════════════════════ */
-function addEvento(pre) {
-  const data = pre?.data || document.getElementById('m-date').value;
-  const inst = pre?.inst || document.getElementById('m-inst').value;
-  const desc = (pre?.desc || document.getElementById('m-desc').value || '').trim();
-  const resp = (pre?.resp || document.getElementById('m-resp').value || '').trim();
-  const hora = pre?.hora || document.getElementById('m-time').value;
-  const prio = pre?.prio || document.getElementById('m-prio').value;
-  const obs  = (pre?.obs  || document.getElementById('m-obs').value  || '').trim();
-
-  if (!data) { toast('Informe a data do compromisso.', 'warn'); return false; }
-  if (!inst) { toast('Selecione a instituição.', 'warn'); return false; }
-  if (!desc) { toast('Informe a descrição do compromisso.', 'warn'); return false; }
-
-  eventos.push({ id: uid(), data, instId: inst, desc, resp, hora, prio: prio||'normal', obs, criadoEm: Date.now() });
-  if (!salvarEventos()) { eventos.pop(); return false; }
-
-  if (!pre) {
-    ['m-desc','m-resp','m-obs'].forEach(id => { const el=document.getElementById(id); if(el)el.value=''; });
-    document.getElementById('m-time').value = '';
-    document.getElementById('m-prio').value = 'normal';
-  }
-  toast('Compromisso adicionado!');
-  return true;
-}
-
-/* ══════════════════════════════════════════
-   EDIT / DELETE EVENTO
-══════════════════════════════════════════ */
-function abrirEdit(id) {
-  const e = eventos.find(x => x.id === id); if (!e) return;
-  const inst = getInst(e.instId);
-
-  document.getElementById('mTitle').textContent = 'Editar Compromisso';
-  const body = document.getElementById('mBody');
-  body.innerHTML = '';
-
-  const w = crEl('div'); w.style.cssText='display:flex;flex-direction:column;gap:10px;';
-
-  // Preview
-  const pv = crEl('div'); pv.style.cssText=`background:${inst.color}12;border-left:3px solid ${inst.color};border-radius:10px;padding:10px 12px;`;
-  const pvI=crEl('p'); pvI.style.cssText=`font-size:.72rem;font-weight:700;color:${inst.color};margin-bottom:2px;`; pvI.textContent=inst.name;
-  const pvD=crEl('p'); pvD.style.cssText='font-weight:600;font-size:.88rem;color:#1a1a1a;'; pvD.textContent=e.desc;
-  pv.appendChild(pvI); pv.appendChild(pvD); w.appendChild(pv);
-
-  // Campos
-  function fld(label, el) {
-    const d=crEl('div'); const l=crEl('label'); l.className='fld-lbl'; l.textContent=label;
-    d.appendChild(l); d.appendChild(el); return d;
-  }
-  function inp(type, val) { const i=crEl('input'); i.type=type; i.value=val||''; i.className='si'; return i; }
-  function sel(opts, cur) {
-    const s=crEl('select'); s.className='si';
-    opts.forEach(([v,t])=>{ const o=crEl('option'); o.value=v; o.textContent=t; if(v===cur)o.selected=true; s.appendChild(o); });
-    return s;
-  }
-
-  const dtI=inp('date',e.data), hrI=inp('time',e.hora||'');
-  const g1=crEl('div'); g1.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:10px;';
-  g1.appendChild(fld('Data',dtI)); g1.appendChild(fld('Horário',hrI)); w.appendChild(g1);
-
-  const instS=sel(insts.map(i=>[i.id,i.name]), e.instId); w.appendChild(fld('Instituição',instS));
-  const descI=inp('text',e.desc); w.appendChild(fld('Descrição',descI));
-
-  const respI=inp('text',e.resp||'');
-  const prioS=sel([['normal','Normal'],['alta','Alta ⚡'],['critica','Crítica 🔴']], e.prio||'normal');
-  const g2=crEl('div'); g2.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:10px;';
-  g2.appendChild(fld('Responsável',respI)); g2.appendChild(fld('Prioridade',prioS)); w.appendChild(g2);
-
-  const obsTA=crEl('textarea'); obsTA.className='si'; obsTA.rows=2; obsTA.value=e.obs||''; w.appendChild(fld('Observações',obsTA));
-
-  // Botões
-  const br=crEl('div'); br.style.cssText='display:flex;gap:8px;padding-top:4px;';
-  const sv=crEl('button'); sv.className='btn btn-green'; sv.style.flex='1'; sv.textContent='Salvar alterações';
-  sv.onclick=()=>{
-    const idx=eventos.findIndex(x=>x.id===id); if(idx<0)return;
-    if(!dtI.value){toast('Informe a data.','warn');return;}
-    if(!instS.value){toast('Selecione a instituição.','warn');return;}
-    if(!descI.value.trim()){toast('Informe a descrição.','warn');return;}
-    eventos[idx]={...eventos[idx], data:dtI.value, hora:hrI.value, instId:instS.value, desc:descI.value.trim(), resp:respI.value.trim(), prio:prioS.value, obs:obsTA.value.trim()};
-    salvarEventos(); mClose(); toast('Compromisso atualizado!');
-  };
-  const dl=crEl('button'); dl.className='btn btn-red btn-sm'; dl.style.padding='10px 14px';
-  dl.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>';
-  dl.onclick=()=>confirmarExclusao(id);
-  br.appendChild(sv); br.appendChild(dl); w.appendChild(br);
-
-  body.appendChild(w);
-  mOpen();
-}
-
-function confirmarExclusao(id) {
-  const e = eventos.find(x=>x.id===id);
-  document.getElementById('mTitle').textContent = 'Excluir compromisso?';
-  const body = document.getElementById('mBody'); body.innerHTML='';
-
-  const w=crEl('div'); w.style.cssText='display:flex;flex-direction:column;gap:12px;';
-  const pv=crEl('div'); pv.style.cssText='background:#FDEEE8;border-left:3px solid #c0392b;border-radius:10px;padding:10px 12px;';
-  const pd=crEl('p'); pd.style.cssText='font-weight:600;font-size:.88rem;color:#1a1a1a;'; pd.textContent=e?.desc||'';
-  const pm=crEl('p'); pm.style.cssText='font-size:.75rem;color:#6b7280;margin-top:3px;'; pm.textContent=fmtBR(e?.data)+' · '+getInst(e?.instId).name;
-  pv.appendChild(pd); pv.appendChild(pm); w.appendChild(pv);
-  const wt=crEl('p'); wt.style.cssText='font-size:.85rem;color:#374151;'; wt.textContent='Esta ação não pode ser desfeita.'; w.appendChild(wt);
-  const br=crEl('div'); br.style.cssText='display:flex;gap:8px;';
-  const yb=crEl('button'); yb.className='btn btn-red'; yb.style.flex='1'; yb.textContent='Sim, excluir';
-  yb.onclick=()=>{ eventos=eventos.filter(e=>e.id!==id); salvarEventos(); mClose(); toast('Compromisso removido.'); };
-  const nb=crEl('button'); nb.className='btn btn-ghost'; nb.style.flex='1'; nb.textContent='Cancelar'; nb.onclick=mClose;
-  br.appendChild(yb); br.appendChild(nb); w.appendChild(br);
-  body.appendChild(w); mOpen();
-}
-
-/* ══════════════════════════════════════════
-   MOTOR DE INTELIGÊNCIA — DOCX + RELATORIA
-   CORREÇÃO PRINCIPAL: alocação de datas na agenda
-══════════════════════════════════════════ */
-
-// Drop zone
-function dzOver(e) { e.preventDefault(); document.getElementById('dz').classList.add('dov'); }
-function dzOut()  { document.getElementById('dz').classList.remove('dov'); }
-function dzDrop(e){ e.preventDefault(); dzOut(); const f=e.dataTransfer?.files[0]; if(f)lerDocx(f); }
-function onDocxFile(inp){ const f=inp.files[0]; if(f)lerDocx(f); inp.value=''; }
-
-function lerDocx(file) {
-  if (!file.name.toLowerCase().endsWith('.docx')) { toast('Selecione um arquivo .docx','warn'); return; }
-  if (typeof mammoth==='undefined') { toast('Biblioteca mammoth não carregada.','warn'); return; }
-  toast('Lendo arquivo .docx...');
-  const reader = new FileReader();
-  reader.onload = async ev => {
-    try {
-      const r = await mammoth.extractRawText({ arrayBuffer: ev.target.result });
-      document.getElementById('rel-txt').value = r.value;
-      toast('Arquivo carregado! Clique em "Processar e Alocar".');
-    } catch(err) {
-      console.error(err);
-      toast('Erro ao ler o arquivo .docx','warn');
-    }
-  };
-  reader.readAsArrayBuffer(file);
-}
-
-// Regex global de datas no texto
-const RGX_DATA = /\b(\d{1,2})[\/\.\-](\d{1,2})(?:[\/\.\-](\d{2,4}))?|\b(\d{1,2})\s+de\s+([a-záéíóúç]+)(?:\s+de\s+(\d{4}))?\b/gi;
-
-function analisarTexto() {
-  const txt = document.getElementById('rel-txt').value.trim();
-  if (!txt) { toast('Cole um texto primeiro.','warn'); return; }
-
-  const kwMap = kws();
-  const normTxt = norm(txt);
-  const instEnc = new Set();
-  kwMap.forEach(k => { if(normTxt.includes(k.kw)) instEnc.add(k.id); });
-
-  const datas = [];
-  let m;
-  RGX_DATA.lastIndex = 0;
-  while ((m=RGX_DATA.exec(txt))!==null) {
-    const iso = parseData(m[0]);
-    if (iso && !datas.includes(iso)) datas.push(iso);
-  }
-
-  const pv = document.getElementById('rel-prev');
-  const pb = document.getElementById('rel-prev-body');
-  pb.innerHTML = '';
-
-  const l1 = crEl('p');
-  l1.innerHTML = instEnc.size > 0
-    ? `<strong>Instituições detectadas:</strong> ${[...instEnc].map(id=>getInst(id).name).join(', ')}`
-    : '<span style="color:#9ca3af;">Nenhuma instituição identificada</span>';
-  pb.appendChild(l1);
-
-  const l2 = crEl('p');
-  l2.innerHTML = datas.length > 0
-    ? `<strong>Datas válidas encontradas:</strong> ${datas.map(fmtBR).join(', ')}`
-    : '<span style="color:#9ca3af;">Nenhuma data válida encontrada</span>';
-  pb.appendChild(l2);
-
-  const l3 = crEl('p'); l3.innerHTML = `<strong>Palavras:</strong> ${txt.split(/\s+/).length}`;
-  pb.appendChild(l3);
-
-  pv.style.display='block';
-  toast('Análise concluída!');
-}
-
-/* ─────────────────────────────────────────────────────────────
-   processarRelatoria — EXTRAÇÃO CORRIGIDA
-   Problema anterior: datas eram extraídas mas não salvas porque
-   o regex não capturava corretamente e parseData retornava null.
-
-   Correção:
-   1. Varrer o texto frase por frase
-   2. Para cada frase, usar RGX_DATA independentemente
-   3. Chamar parseData() na correspondência raw (não no grupo)
-   4. Cruzar com instituições via kws()
-   5. Deduplicar por hash (data+instId+desc)
-───────────────────────────────────────────────────────────── */
-function processarRelatoria() {
-  const txt = document.getElementById('rel-txt').value.trim();
-  if (!txt) { toast('Cole um texto para processar.','warn'); return; }
-
-  const kwMap = kws();
-  const HASH  = new Set();
-  pendentes = [];
-
-  // Divide em frases
-  const frases = txt.split(/(?<=[.!?;\n])\s+|\n+/).map(s=>s.trim()).filter(s=>s.length>6);
-
-  frases.forEach(frase => {
-    const normF  = norm(frase);
-    const instF  = new Set();
-    kwMap.forEach(k => { if(normF.includes(k.kw)) instF.add(k.id); });
-
-    // Extrai todas as datas brutas da frase
-    const datasNaFrase = [];
-    const rx = new RegExp(RGX_DATA.source, 'gi');
-    let m;
-    while ((m=rx.exec(frase)) !== null) {
-      const raw = m[0];
-      const iso = parseData(raw);
-      if (iso) datasNaFrase.push({ raw, iso });
-    }
-
-    if (!datasNaFrase.length) return;
-
-    // Extrai horário (busca na frase inteira)
-    const hora = parseHora(frase);
-
-    // Remove as datas do texto para obter a descrição
-    let descBase = frase;
-    datasNaFrase.forEach(({raw}) => {
-      descBase = descBase.replace(raw, '');
-    });
-    // Remove "às HH:mm" ou "às 14h" para limpar
-    descBase = descBase.replace(/\bàs?\s+\d{1,2}[h:]\d{0,2}\b/gi,'').replace(/\s{2,}/g,' ').trim();
-    if (descBase.length < 3) descBase = 'Compromisso importado';
-    const desc = descBase.slice(0, 120);
-
-    // Para cada data encontrada, criar eventos por instituição
-    datasNaFrase.forEach(({iso}) => {
-      const instIds = instF.size > 0 ? [...instF] : ['pessoal'];
-      instIds.forEach(instId => {
-        const hash = `${iso}|${instId}|${desc.slice(0,40)}`;
-        if (HASH.has(hash)) return;
-        HASH.add(hash);
-        pendentes.push({ id: uid(), data: iso, instId, desc, hora, prio:'normal' });
-      });
-    });
-  });
-
-  // Se não achou por frases, tenta varredura global (texto sem pontuação)
-  if (!pendentes.length) {
-    const rx2 = new RegExp(RGX_DATA.source, 'gi');
-    let m2;
-    while ((m2=rx2.exec(txt))!==null) {
-      const iso = parseData(m2[0]);
-      if (!iso) continue;
-      const hash = `${iso}|pessoal|Compromisso importado`;
-      if (HASH.has(hash)) continue;
-      HASH.add(hash);
-      pendentes.push({ id:uid(), data:iso, instId:'pessoal', desc:'Compromisso importado', hora:'', prio:'normal' });
-    }
-  }
-
-  if (!pendentes.length) {
-    toast('Nenhum evento com data válida encontrado no texto.','warn');
-    return;
-  }
-
-  renderMesa();
-  document.getElementById('rel-prev').style.display='none';
-}
-
-function renderMesa() {
-  const mesa = document.getElementById('rel-mesa');
-  const body = document.getElementById('rel-mesa-body');
-  document.getElementById('rel-cnt').textContent = pendentes.length+' evento(s)';
-  mesa.style.display='block';
-  body.innerHTML='';
-
-  pendentes.forEach(e => {
-    const inst=getInst(e.instId);
-    const card=crEl('div'); card.style.cssText='background:white;border-radius:8px;padding:9px 10px;border:1px solid #e8edeb;';
-    const top=crEl('div'); top.style.cssText='display:flex;align-items:flex-start;justify-content:space-between;gap:6px;';
-    const info=crEl('div'); info.style.flex='1';
-
-    // Tags de inst + data
-    const tg=crEl('div'); tg.style.cssText='display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin-bottom:5px;';
-    const it=crEl('span'); it.style.cssText=`font-size:.7rem;font-weight:700;color:${inst.color};`; it.textContent=inst.name; tg.appendChild(it);
-    const dt=crEl('span'); dt.style.cssText=`font-size:.7rem;font-weight:700;padding:1px 6px;border-radius:99px;background:${inst.color}15;color:${inst.color};`; dt.textContent=fmtBR(e.data); tg.appendChild(dt);
-    if (e.hora) { const ht=crEl('span'); ht.style.cssText='font-size:.7rem;color:#6b7280;font-family:monospace;'; ht.textContent=e.hora; tg.appendChild(ht); }
-    info.appendChild(tg);
-
-    // Campo de descrição editável
-    const di=crEl('input'); di.type='text'; di.className='si'; di.value=e.desc;
-    di.style.cssText='padding:6px 10px;font-size:.8rem;';
-    di.oninput=()=>{ e.desc=di.value; }; // mutação direta por referência
-    info.appendChild(di);
-
-    // Seletor de prioridade
-    const ps=crEl('select'); ps.className='si'; ps.style.cssText='padding:5px 28px 5px 8px;font-size:.75rem;margin-top:4px;';
-    [['normal','Normal'],['alta','Alta ⚡'],['critica','Crítica 🔴']].forEach(([v,t])=>{
-      const o=crEl('option'); o.value=v; o.textContent=t; if(v===e.prio)o.selected=true; ps.appendChild(o);
-    });
-    ps.onchange=()=>{ e.prio=ps.value; };
-    info.appendChild(ps);
-
-    // Botão remover — por .id, não por índice [FIX-2]
-    const rb=crEl('button'); rb.style.cssText='width:24px;height:24px;border-radius:6px;border:none;cursor:pointer;background:#fdeee8;color:#c0392b;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;';
-    rb.innerHTML='<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
-    rb.onclick=()=>{
-      pendentes=pendentes.filter(x=>x.id!==e.id);
-      if (!pendentes.length) document.getElementById('rel-mesa').style.display='none';
-      else renderMesa();
-    };
-
-    top.appendChild(info); top.appendChild(rb); card.appendChild(top);
-    body.appendChild(card);
-  });
-}
-
-function confirmarRelatoria() {
-  if (!pendentes.length) return;
-  let ok = 0;
-  pendentes.forEach(e => {
-    if (!e.data || !e.instId || !e.desc) return;
-    eventos.push({
-      id: e.id, data: e.data, instId: e.instId,
-      desc: e.desc, resp: '', hora: e.hora||'',
-      prio: e.prio||'normal', obs: '', criadoEm: Date.now()
-    });
-    ok++;
-  });
-  if (!salvarEventos()) {
-    eventos.splice(-ok, ok); return;
-  }
-  cancelarRelatoria();
-  toast(`${ok} evento(s) adicionado(s) à agenda!`);
-}
-
-function cancelarRelatoria() {
-  document.getElementById('rel-mesa').style.display='none';
-  document.getElementById('rel-prev').style.display='none';
-  document.getElementById('rel-txt').value='';
-  pendentes=[];
-}
-
-/* ══════════════════════════════════════════
-   NOVA INSTITUIÇÃO
-══════════════════════════════════════════ */
-function abrirNovaInst() {
-  document.getElementById('mTitle').textContent='Criar Instituição';
-  const body=document.getElementById('mBody'); body.innerHTML='';
-  const w=crEl('div'); w.style.cssText='display:flex;flex-direction:column;gap:10px;';
-
-  const ni=crEl('input'); ni.type='text'; ni.className='si'; ni.placeholder='Ex: Comitê de Educação';
-  const nd=crEl('div'); const nl=crEl('label'); nl.className='fld-lbl'; nl.textContent='Nome *';
-  nd.appendChild(nl); nd.appendChild(ni); w.appendChild(nd);
-
-  const ci=crEl('input'); ci.type='color'; ci.value='#1E463C'; ci.style.cssText='width:46px;height:38px;border-radius:8px;border:1px solid #d4d8d6;cursor:pointer;padding:3px;';
-  const cd=crEl('div'); const cl=crEl('label'); cl.className='fld-lbl'; cl.textContent='Cor de identificação';
-  const cr=crEl('div'); cr.style.cssText='display:flex;gap:8px;align-items:center;';
-  const ch=crEl('span'); ch.style.cssText='font-size:.78rem;color:#6b7280;'; ch.textContent='Cor da aba e dos eventos';
-  cr.appendChild(ci); cr.appendChild(ch); cd.appendChild(cl); cd.appendChild(cr); w.appendChild(cd);
-
-  const sb=crEl('button'); sb.className='btn btn-green'; sb.style.width='100%'; sb.textContent='Criar Instituição';
-  sb.onclick=()=>{
-    const name=ni.value.trim(); if(!name){toast('Informe o nome.','warn');return;}
-    const id=name.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'').slice(0,30)+'-'+Date.now().toString(36);
-    insts.push({id,name,color:ci.value});
-    salvarInsts(); renderTabs(); mClose(); toast(`"${name}" criada!`);
-  };
-  w.appendChild(sb); body.appendChild(w); mOpen();
-}
-
-/* ══════════════════════════════════════════
-   EXPORT
-══════════════════════════════════════════ */
-function abrirExport() {
-  const evs = activeTab==='all' ? eventos : eventos.filter(e=>e.instId===activeTab);
-  document.getElementById('mTitle').textContent='Exportar Agenda';
-  const body=document.getElementById('mBody'); body.innerHTML='';
-  const w=crEl('div'); w.style.cssText='display:flex;flex-direction:column;gap:8px;';
-  const info=crEl('p'); info.style.cssText='font-size:.85rem;color:#374151;';
-  info.textContent=`${evs.length} compromisso(s) ${activeTab!=='all'?'de '+getInst(activeTab).name:'no total'}.`;
-  w.appendChild(info);
-  const cb=crEl('button'); cb.className='btn btn-green'; cb.style.width='100%'; cb.textContent='Baixar CSV'; cb.onclick=exportarCSV; w.appendChild(cb);
-  const tb=crEl('button'); tb.className='btn btn-ghost'; tb.style.width='100%'; tb.textContent='Copiar como Texto'; tb.onclick=exportarTexto; w.appendChild(tb);
-  body.appendChild(w); mOpen();
-}
-
-function exportarCSV(){
-  const evs=activeTab==='all'?eventos:eventos.filter(e=>e.instId===activeTab);
-  const h='Data,Horário,Instituição,Descrição,Responsável,Prioridade,Observações\n';
-  const rows=evs.map(e=>[fmtBR(e.data),e.hora||'',getInst(e.instId).name,e.desc,e.resp||'',e.prio||'normal',e.obs||''].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(','));
-  const blob=new Blob([h+rows.join('\n')],{type:'text/csv;charset=utf-8;'});
-  const url=URL.createObjectURL(blob); const a=crEl('a'); a.href=url; a.download='sigma-agenda.csv'; a.click();
-  toast('CSV exportado!');
-}
-
-function exportarTexto(){
-  const evs=(activeTab==='all'?eventos:eventos.filter(e=>e.instId===activeTab)).sort((a,b)=>a.data>b.data?1:-1);
-  const t=evs.map(e=>fmtBR(e.data)+(e.hora?' '+e.hora:'')+' | '+getInst(e.instId).name+' | '+e.desc+(e.resp?' | '+e.resp:'')).join('\n');
-  navigator.clipboard.writeText(t).then(()=>toast('Copiado!')).catch(()=>toast('Erro ao copiar.','warn'));
-}
-
-/* ══════════════════════════════════════════
-   STATS
-══════════════════════════════════════════ */
-function atualizarStats(){
-  const hj=hoje(), tot=eventos.length;
-  document.getElementById('hdr-total').textContent=tot;
-  document.getElementById('s-hoje').textContent=eventos.filter(e=>e.data===hj).length;
-  document.getElementById('s-sem').textContent=eventos.filter(e=>mesmaSemana(e.data)).length;
-  document.getElementById('s-tot').textContent=tot;
-}
-
-function toggleStats(){
-  statsVis=!statsVis;
-  document.getElementById('stats-bar').style.display=statsVis?'block':'none';
-}
-
-/* ══════════════════════════════════════════
-   UI HELPERS
-══════════════════════════════════════════ */
-function toggleSec(id, chevId) {
-  const el=document.getElementById(id);
-  const ch=document.getElementById(chevId);
-  const vis=el.style.display!=='none';
-  el.style.display=vis?'none':'';
-  ch.style.transform=vis?'rotate(-90deg)':'';
-}
-
-function irParaManual(){
-  document.getElementById('sec-manual-wrap').scrollIntoView({behavior:'smooth',block:'start'});
-  setTimeout(()=>document.getElementById('m-date').focus(),350);
-}
-
-/* ── MODAL ──────────────────────────── */
-function mOpen(){ document.getElementById('mOverlay').classList.add('on'); }
-function mClose(){ document.getElementById('mOverlay').classList.remove('on'); }
-function mClickOut(e){ if(e.target===document.getElementById('mOverlay'))mClose(); }
-
-/* ── TOAST ──────────────────────────── */
-function toast(msg, type='ok'){
-  const t=document.getElementById('toast');
-  t.textContent=msg;
-  t.style.background=type==='warn'?'#C8783A':'#1E463C';
-  t.classList.add('on');
-  clearTimeout(toastTmr);
-  toastTmr=setTimeout(()=>t.classList.remove('on'),3400);
-}
-
-/* ── UTIL ───────────────────────────── */
-function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
-function crEl(tag){ return document.createElement(tag); }
-
-/* ══════════════════════════════════════════
-   PWA
-══════════════════════════════════════════ */
-const SW_SRC=`const C='sigma-v3';
-self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(['/'])));self.skipWaiting();});
-self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==C).map(k=>caches.delete(k)))));self.clients.claim();});
-self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)));});`;
-
-function regSW(){
-  if(!('serviceWorker'in navigator))return;
-  navigator.serviceWorker.register(URL.createObjectURL(new Blob([SW_SRC],{type:'application/javascript'}))).catch(()=>{});
-}
-
-function injManifest(){
-  const m={name:'SIGMA — Gestão Modular Assistida',short_name:'SIGMA',start_url:'/',display:'standalone',background_color:'#1E463C',theme_color:'#1E463C',lang:'pt-BR',
-    icons:[{src:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%231E463C'/%3E%3Ctext x='96' y='128' text-anchor='middle' font-size='96' fill='white'%3E%F0%9F%8C%B1%3C/text%3E%3C/svg%3E",sizes:'192x192',type:'image/svg+xml'}]};
-  document.getElementById('manifest-link').href=URL.createObjectURL(new Blob([JSON.stringify(m)],{type:'application/manifest+json'}));
-}
-
-/* ══════════════════════════════════════════
-   INICIALIZAÇÃO
-══════════════════════════════════════════ */
-document.addEventListener('DOMContentLoaded', () => {
-  carregarDados();
-  injManifest();
-  regSW();
-
-  const now = new Date();
-  document.getElementById('today-badge').textContent =
-    now.toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'short'});
-  document.getElementById('missao-date').textContent =
-    now.toLocaleDateString('pt-BR',{day:'2-digit',month:'long'});
-  document.getElementById('m-date').value = now.toISOString().slice(0,10);
-
-  renderTabs();
-  renderMissao();
-  renderAgenda();
-  atualizarStats();
-});
-</script>
+
+    <footer>
+        <p>Plataforma SIGMA v3.1 | Sistema Inteligente de Gestão Modular Assistida</p>
+    </footer>
+
+    <script>
+        // Configuração síncrona do leitor de PDF para evitar travamentos no celular
+        if (typeof pdfjsLib !== 'undefined') {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+        }
+
+        let listaModulosMestres = JSON.parse(localStorage.getItem('sigma_modulos_list_v6')) || [
+            "Todos", "Instituto Coopera", "Projeto Mutirão Coordenação executiva", 
+            "Projeto Mutirão Ecocol", "Grupo Estudos Coopera", "Paul Singer", 
+            "Ecofeira da Rural", "Residuos sólidos", "Pesquisa", "Coletivo Sementes",
+            "Bacharelado em agroecologia", "Agenda Pessoal"
+        ];
+
+        let moduloSelecionadoAtivo = "Todos";
+        let subAbaAtiva = "agenda";
+        
+        let mesaTemporariaRascunhos = [];
+        
+        // Bancos de Dados Isolados por Operador (LocalStorage v8 Blindado)
+        let dbCompromissosSigma = JSON.parse(localStorage.getItem('sigma_db_compromissos_v8')) || [];
+        let dbCadastroModulos = JSON.parse(localStorage.getItem('sigma_db_cadastro_modulos_v8')) || {};
+        let dbDocumentosSigma = JSON.parse(localStorage.getItem('sigma_db_documentos_v8')) || [];
+
+        let usuarioMasterAtivo = JSON.parse(localStorage.getItem('sigma_user_master_v5')) || {
+            nome: "Augusto Cesar P. da Silva",
+            email: "augusto@sigma.org"
+        };
+
+        window.onload = function() {
+            carregarDadosUsuarioIdentificador();
+            inicializarCalendariosEFechas();
+            renderizarMosaicoModulos();
+            atualizarListaOpcoesSelectForm();
+            carregarFichaDeCadastroDoModulo(moduloSelecionadoAtivo);
+            renderizarPainelAgendaCompleta();
+        };
+
+        function carregarDadosUsuarioIdentificador() {
+            document.getElementById('sys-user-nome').value = usuarioMasterAtivo.nome;
+            document.getElementById('sys-user-email').value = usuarioMasterAtivo.email;
+        }
+
+        function atualizarDadosUsuarioMaster() {
+            usuarioMasterAtivo.nome = document.getElementById('sys-user-nome').value || "Usuário Anonimo";
+            usuarioMasterAtivo.email = document.getElementById('sys-user-email').value || "sem@email.org";
+            localStorage.setItem('sigma_user_master_v5', JSON.stringify(usuarioMasterAtivo));
+            renderizarPainelAgendaCompleta();
+        }
+
+        function inicializarCalendariosEFechas() {
+            const hoje = new Date();
+            document.getElementById('data-atual').innerText = hoje.toLocaleDateString('pt-BR', { weekday: 'short', day: 'numeric', month: 'short' });
+            document.getElementById('motor-campo-data').value = hoje.toISOString().split('T')[0];
+            document.getElementById('manual-data').value = hoje.toISOString().split('T')[0];
+        }
+
+        function renderizarMosaicoModulos() {
+            const container = document.getElementById('container-modulos-mosaico');
+            container.innerHTML = '';
+            
+            listaModulosMestres.forEach(nomeMod => {
+                const card = document.createElement('div');
+                card.className = `modulo-card-btn ${nomeMod === moduloSelecionadoAtivo ? 'modulo-card-ativa' : ''}`;
+                
+                const txtSpan = document.createElement('span');
+                txtSpan.innerText = nomeMod;
+                txtSpan.onclick = () => {
+                    moduloSelecionadoAtivo = nomeMod;
+                    document.getElementById('sigma-txt-nome-modulo').innerText = nomeMod;
+                    carregarFichaDeCadastroDoModulo(nomeMod);
+                    renderizarMosaicoModulos();
+                    renderizarPainelAgendaCompleta();
+                    renderizarDocumentosCatalogadosDoModulo();
+                };
+                card.appendChild(txtSpan);
+
+                if(nomeMod !== "Todos") {
+                    const btnDel = document.createElement('button');
+                    btnDel.className = "btn-deletar-modulo-x";
+                    btnDel.innerText = "×";
+                    btnDel.onclick = (e) => {
+                        e.stopPropagation();
+                        deletarModuloDinamicoDoSistema(nomeMod);
+                    };
+                    card.appendChild(btnDel);
+                }
+                container.appendChild(card);
+            });
+
+            const btnCriar = document.createElement('button');
+            btnCriar.className = "btn-criar-modulo-trigger";
+            btnCriar.innerText = "+ Criar Novo Módulo Institucional";
+            btnCriar.onclick = abrirPromptCriacaoModulo;
+            container.appendChild(btnCriar);
+        }
+
+        function alternarSubAbasModulo(target) {
+            subAbaAtiva = target;
+            document.getElementById('btn-sub-agenda').classList.remove('menu-interno-btn-ativo');
+            document.getElementById('btn-sub-cadastro').classList.remove('menu-interno-btn-ativo');
+            document.getElementById('btn-sub-documentos').classList.remove('menu-interno-btn-ativo');
+            
+            document.getElementById('sub-bloco-agenda').classList.add('colapsado');
+            document.getElementById('sub-bloco-cadastro').classList.add('colapsado');
+            document.getElementById('sub-bloco-documentos').classList.add('colapsado');
+
+            if(target === 'agenda') {
+                document.getElementById('btn-sub-agenda').classList.add('menu-interno-btn-ativo');
+                document.getElementById('sub-bloco-agenda').classList.remove('colapsado');
+            } else if(target === 'cadastro') {
+                document.getElementById('btn-sub-cadastro').classList.add('menu-interno-btn-ativo');
+                document.getElementById('sub-bloco-cadastro').classList.remove('colapsado');
+            } else if(target === 'documentos') {
+                document.getElementById('btn-sub-documentos').classList.add('menu-interno-btn-ativo');
+                document.getElementById('sub-bloco-documentos').classList.remove('colapsado');
+                renderizarDocumentosCatalogadosDoModulo();
+            }
+        }
+
+        function carregarFichaDeCadastroDoModulo(nomeMod) {
+            if(!dbCadastroModulos[nomeMod]) {
+                dbCadastroModulos[nomeMod] = { nomeCompleto: nomeMod, cnpj: "", endereco: "", n1: "", f1: "", n2: "", f2: "", n3: "", f3: "", n4: "", f4: "", descricao: "" };
+            }
+            document.getElementById('cadastro-mod-nome-completo').value = dbCadastroModulos[nomeMod].nomeCompleto || "";
+            document.getElementById('cadastro-mod-cnpj').value = dbCadastroModulos[nomeMod].cnpj || "";
+            document.getElementById('cadastro-mod-endereco').value = dbCadastroModulos[nomeMod].endereco || "";
+            
+            document.getElementById('resp-nome-1').value = dbCadastroModulos[nomeMod].n1 || "";
+            document.getElementById('resp-funcao-1').value = dbCadastroModulos[nomeMod].f1 || "";
+            document.getElementById('resp-nome-2').value = dbCadastroModulos[nomeMod].n2 || "";
+            document.getElementById('resp-funcao-2').value = dbCadastroModulos[nomeMod].f2 || "";
+            document.getElementById('resp-nome-3').value = dbCadastroModulos[nomeMod].n3 || "";
+            document.getElementById('resp-funcao-3').value = dbCadastroModulos[nomeMod].f3 || "";
+            document.getElementById('resp-nome-4').value = dbCadastroModulos[nomeMod].n4 || "";
+            document.getElementById('resp-funcao-4').value = dbCadastroModulos[nomeMod].f4 || "";
+            
+            document.getElementById('cadastro-mod-descricao').value = dbCadastroModulos[nomeMod].descricao || "";
+        }
+
+        function salvarFichaDeCadastroAtual() {
+            dbCadastroModulos[moduloSelecionadoAtivo] = {
+                nomeCompleto: document.getElementById('cadastro-mod-nome-completo').value,
+                cnpj: document.getElementById('cadastro-mod-cnpj').value,
+                endereco: document.getElementById('cadastro-mod-endereco').value,
+                n1: document.getElementById('resp-nome-1').value,
+                f1: document.getElementById('resp-funcao-1').value,
+                n2: document.getElementById('resp-nome-2').value,
+                f2: document.getElementById('resp-funcao-2').value,
+                n3: document.getElementById('resp-nome-3').value,
+                f3: document.getElementById('resp-funcao-3').value,
+                n4: document.getElementById('resp-nome-4').value,
+                f4: document.getElementById('resp-funcao-4').value,
+                descricao: document.getElementById('cadastro-mod-descricao').value
+            };
+            localStorage.setItem('sigma_db_cadastro_modulos_v8', JSON.stringify(dbCadastroModulos));
+        }
+
+        function abrirPromptCriacaoModulo() {
+            const nome = prompt("Digite o nome do novo Módulo para o SIGMA:");
+            if(nome && nome.trim() !== "") {
+                const limpo = nome.trim();
+                if(!listaModulosMestres.includes(limpo)) {
+                    listaModulosMestres.push(limpo);
+                    localStorage.setItem('sigma_modulos_list_v6', JSON.stringify(listaModulosMestres));
+                    moduloSelecionadoAtivo = limpo;
+                    renderizarMosaicoModulos();
+                    atualizarListaOpcoesSelectForm();
+                    carregarFichaDeCadastroDoModulo(limpo);
+                    alternarSubAbasModulo('cadastro');
+                    renderizarPainelAgendaCompleta();
+                }
+            }
+        }
+
+        function deletarModuloDinamicoDoSistema(nomeMod) {
+            if(confirm(`Deseja remover o módulo "${nomeMod}"?`)) {
+                listaModulosMestres = listaModulosMestres.filter(m => m !== nomeMod);
+                localStorage.setItem('sigma_modulos_list_v6', JSON.stringify(listaModulosMestres));
+                if(dbCadastroModulos[nomeMod]) delete dbCadastroModulos[nomeMod];
+                localStorage.setItem('sigma_db_cadastro_modulos_v8', JSON.stringify(dbCadastroModulos));
+                if(moduloSelecionadoAtivo === nomeMod) moduloSelecionadoAtivo = "Todos";
+                renderizarMosaicoModulos();
+                atualizarListaOpcoesSelectForm();
+                renderizarPainelAgendaCompleta();
+            }
+        }
+
+        function atualizarListaOpcoesSelectForm() {
+            const select = document.getElementById('manual-select-instituicao');
+            select.innerHTML = '';
+            listaModulosMestres.forEach(m => {
+                if(m !== "Todos") {
+                    const opt = document.createElement('option'); opt.value = m; opt.innerText = m;
+                    select.appendChild(opt);
+                }
+            });
+        }
+
+        function dispararSeletorDeArquivo() { document.getElementById('input-arquivo-real').click(); }
+        
+        // MOTOR HÍBRIDO SÍNCRONO REAL DE LEITURA BLINDADO CONTRA TRAVAMENTOS MOBILE
+        function processarUploadELeituraReal(event) {
+            const arquivo = event.target.files[0];
+            if (!arquivo) return;
+            
+            document.getElementById('motor-campo-observacao').value = arquivo.name;
+            const ext = arquivo.name.split('.').pop().toLowerCase();
+            const leitor = new FileReader();
+            
+            // 1. Decodificação Síncrona de DOCX (Mammoth)
+            if (ext === "docx") {
+                leitor.onload = function(e) {
+                    mammoth.extractRawText({ arrayBuffer: e.target.result })
+                        .then(function(result) {
+                            document.getElementById('texto-caixa-entrada').value = result.value;
+                            extrairDadosDoRelatorioAutomatizado(result.value);
+                        });
+                }; leitor.readAsArrayBuffer(arquivo);
+            } 
+            // 2. Decodificação Síncrona de Planilhas (SheetJS)
+            else if (ext === "xlsx" || ext === "xls" || ext === "csv") {
+                leitor.onload = function(e) {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const sheetName = workbook.SheetNames[0];
+                    const text = XLSX.utils.sheet_to_txt(workbook.Sheets[sheetName]);
+                    document.getElementById('texto-caixa-entrada').value = text;
+                    extrairDadosDoRelatorioAutomatizado(text);
+                }; leitor.readAsArrayBuffer(arquivo);
+            } 
+            // 3. Decodificação Síncrona de PDF (pdf.js)
+            else if (ext === "pdf") {
+                leitor.onload = async function(e) {
+                    const doc = await pdfjsLib.getDocument({ data: e.target.result }).promise;
+                    let text = "";
+                    for (let i = 1; i <= doc.numPages; i++) {
+                        const page = await doc.getPage(i);
+                        const content = await page.getTextContent();
+                        text += content.items.map(item => item.str).join(" ") + "\n";
+                    }
+                    document.getElementById('texto-caixa-entrada').value = text;
+                    extrairDadosDoRelatorioAutomatizado(text);
+                }; leitor.readAsArrayBuffer(arquivo);
+            } 
+            // 4. Arquivos de Texto Comum
+            else { leitor.onload = function(e) {
+                document.getElementById('texto-caixa-entrada').value = e.target.result;
+                extrairDadosDoRelatorioAutomatizado(e.target.result);
+            }; leitor.readAsText(arquivo); }
+        }
+
+        // MOTOR DE INTELIGÊNCIA SÍNCRONO RESILIENTE (NÃO TRAVA E ALOCA DATAS REAIS)
+        function extrairDadosDoRelatorioAutomatizado(texto) {
+            if(!texto) return;
+            
+            // Mineração flexível mapeando datas contidas no texto brasileiro (DD/MM/AAAA)
+            const regexDataFlexivel = /(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{2,4}))?/g;
+            let matchData = regexDataFlexivel.exec(texto);
+            
+            if (matchData) {
+                const dia = matchData[1].padStart(2, '0');
+                const mes = matchData[2].padStart(2, '0');
+                let ano = matchData[3] || new Date().getFullYear();
+                if(ano.toString().length === 2) ano = "20" + ano;
+                
+                document.getElementById('motor-campo-data').value = `${ano}-${mes}-${dia}`;
+            } else {
+                document.getElementById('motor-campo-data').value = new Date().toISOString().split('T')[0];
+            }
+
+            // Mapeia os compromissos baseados na primeira linha
+            const linhas = texto.split(/[.\n]/);
+            const tituloProvavel = linhas[0].substring(0, 50);
+            
+            document.getElementById('motor-campo-titulo').value = tituloProvavel || "Pauta Operacional SIGMA AI";
+            document.getElementById('motor-campo-lembrete').value = texto.substring(0, 100).trim() + "...";
+            document.getElementById('motor-campo-observacao').value = texto.substring(0, 60) + "...";
+        }
+
+        function adicionarMotorAMesaTemporaria() {
+            const textoBox = document.getElementById('texto-caixa-entrada').value;
+            const titulo = document.getElementById('motor-campo-titulo').value || "Pauta Extraída";
+            const data = document.getElementById('motor-campo-data').value;
+            const hora = document.getElementById('motor-campo-hora').value || "09:00";
+            const lembrete = document.getElementById('motor-campo-lembrete').value;
+            const observacao = document.getElementById('motor-campo-observacao').value;
+
+            if(!textoBox.trim()) return alert("A caixa de texto está vazia!");
+            
+            let moduloAlvo = moduloSelecionadoAtivo !== "Todos" ? moduloSelecionadoAtivo : "Instituto Coopera";
+            for(let m of listaModulosMestres) {
+                if(m !== "Todos" && textoBox.toLowerCase().includes(m.toLowerCase())) {
+                    moduloAlvo = m;
+                    break;
+                }
+            }
+
+            const itemRascunho = {
+                id: Date.now(),
+                data: data,
+                horario: hora,
+                instituicao: moduloAlvo,
+                descricao: titulo,
+                responsavel: "SIGMA AI",
+                prioridade: textoBox.toLowerCase().includes("urgente") ? "Alta" : "Normal",
+                lembrete: lembrete,
+                observacao: observacao
+            };
+
+            mesaTemporariaRascunhos.push(itemRascunho);
+            document.getElementById('texto-caixa-entrada').value = '';
+            atualizarVisualizacaoMesaMestre();
+        }
+
+        function adicionarManualAMesaTemporaria(e) {
+            e.preventDefault();
+            const itemRascunho = {
+                id: Date.now(),
+                data: document.getElementById('manual-data').value,
+                horario: document.getElementById('manual-horario').value || "00:00",
+                instituicao: document.getElementById('manual-select-instituicao').value,
+                descricao: document.getElementById('manual-descricao').value,
+                responsavel: document.getElementById('manual-responsavel').value || "Augusto",
+                prioridade: document.getElementById('manual-prioridade').value,
+                lembrete: "",
+                observacao: ""
+            };
+
+            mesaTemporariaRascunhos.push(itemRascunho);
+            document.getElementById('form-manual').reset();
+            inicializarCalendariosEFechas();
+            atualizarVisualizacaoMesaMestre();
+        }
+
+        function atualizarVisualizacaoMesaMestre() {
+            const cardMesa = document.getElementById('card-mesa-validacao');
+            const lista = document.getElementById('lista-mesa-temporaria-rascunhos');
+            
+            if(mesaTemporariaRascunhos.length === 0) {
+                cardMesa.classList.add('colapsado');
+                return;
+            }
+            cardMesa.classList.remove('colapsado');
+            lista.innerHTML = '';
+
+            mesaTemporariaRascunhos.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'item-previa-linha';
+                div.innerHTML = `
+                    <div><strong>[${item.instituicao}]</strong> ${item.descricao} - 📅 ${item.data.split('-').reverse().join('/')}</div>
+                    <button onclick="removerItemDaMesaTemporaria(${index})" style="background:none; border:none; color:#E53E3E; font-weight:bold; cursor:pointer;">✕</button>
+                `;
+                lista.appendChild(div);
+            });
+        }
+
+        function removerItemDaMesaTemporaria(index) {
+            mesaTemporariaRascunhos.splice(index, 1);
+            atualizarVisualizacaoMesaMestre();
+        }
+
+        function consolidarEMandarParaAgendaDefinitiva() {
+            mesaTemporariaRascunhos.forEach(item => {
+                item.userOwner = usuarioMasterAtivo.nome;
+                dbCompromissosSigma.push(item);
+            });
+            // Ordenação por data síncrona
+            dbCompromissosSigma.sort((a,b) => new Date(a.data) - new Date(b.data));
+            localStorage.setItem('sigma_db_compromissos_v8', JSON.stringify(dbCompromissosSigma));
+            mesaTemporariaRascunhos = [];
+            atualizarVisualizacaoMesaMestre();
+            renderizarPainelAgendaCompleta();
+            alert("Sucesso! Registros validados e sincronizados com a agenda definitiva do SIGMA.");
+        }
+
+        function renderizarPainelAgendaCompleta() {
+            const lista = document.getElementById('lista-agenda-dinamica');
+            const busca = (document.getElementById('ag-search')?.value || '').toLowerCase().trim();
+            const filtroTempo = document.getElementById('filtro-tempo-agenda').value;
+            lista.innerHTML = '';
+            const hojeStr = new Date().toISOString().split('T')[0];
+
+            let filtrados = dbCompromissosSigma.filter(item => {
+                const porUsuario = (item.userOwner === usuarioMasterAtivo.nome);
+                const porAba = (moduloSelecionadoAtivo === "Todos" || item.instituicao === moduloSelecionadoAtivo);
+                const porBusca = item.descricao.toLowerCase().includes(busca) || item.instituicao.toLowerCase().includes(busca);
+                let porTempo = true;
+                if (filtroTempo === "hoje") porTempo = (item.data === hojeStr);
+                return porUsuario && porAba && porBusca && porTempo;
+            });
+
+            if(filtrados.length === 0) {
+                lista.innerHTML = '<p style="text-align:center; font-size:12px; color:var(--texto-principal); padding:12px; font-weight:700;">Nenhum registro para este âmbito.</p>';
+                return;
+            }
+
+            let dataAtualGrupo = "";
+            let divGrupoData = null;
+
+            filtrados.forEach(item => {
+                if(item.data !== dataAtualGrupo) {
+                    dataAtualGrupo = item.data;
+                    const partes = item.data.split('-');
+                    const badge = document.createElement('div');
+                    badge.className = 'bloco-data-grupo';
+                    badge.innerHTML = `<span class="badge-data-separador">${partes[2]}/${partes[1]}/${partes[0]}</span><div id="grupo-${dataAtualGrupo}"></div>`;
+                    lista.appendChild(badge);
+                    divGrupoData = document.getElementById(`grupo-${dataAtualGrupo}`);
+                }
+
+                const card = document.createElement('div');
+                card.className = 'agenda-card-item';
+                card.onclick = (e) => {
+                    if(!e.target.closest('.btn-lixeira')) {
+                        abrirModalDetalhe(item);
+                    }
+                };
+                card.innerHTML = `
+                    <div class="item-info-flex">
+                        <p class="item-titulo">${item.descricao}</p>
+                        <div class="item-tags-row"><span>⌚ ${item.horario}</span><span class="tag-inst">${item.instituicao}</span><span>👤 ${item.responsavel}</span></div>
+                    </div>
+                    <button onclick="removerCompromissoIndividual(${item.id})" class="btn-lixeira">🗑️</button>
+                `;
+                divGrupoData.appendChild(card);
+            });
+        }
+
+        function removerCompromissoIndividual(id) {
+            if(confirm("Excluir permanentemente este compromisso?")) {
+                dbCompromissosSigma = dbCompromissosSigma.filter(i => i.id !== id);
+                localStorage.setItem('sigma_db_compromissos_v8', JSON.stringify(dbCompromissosSigma));
+                renderizarPainelAgendaCompleta();
+            }
+        }
+
+        // GERENCIAMENTO COMPLETO DO SUB-BLOCO DE DOCUMENTOS (REPOSITÓRIO DIGITAL ATIVO)
+        function adicionarDocumentoAoModulo(e) {
+            e.preventDefault();
+            const novoDoc = {
+                id: Date.now(),
+                modulo: moduloSelecionadoAtivo,
+                userOwner: usuarioMasterAtivo.nome,
+                titulo: document.getElementById('doc-titulo').value,
+                link: document.getElementById('doc-link').value
+            };
+            dbDocumentosSigma.push(novoDoc);
+            localStorage.setItem('sigma_db_documentos_v8', JSON.stringify(dbDocumentosSigma));
+            document.getElementById('form-documentos-sigma').reset();
+            renderizarDocumentosCatalogadosDoModulo();
+            alert("Documento catalogado com sucesso!");
+        }
+
+        function renderizarDocumentosCatalogadosDoModulo() {
+            const container = document.getElementById('lista-documentos-modulo-ativos');
+            container.innerHTML = '';
+            
+            let filtrados = dbDocumentosSigma.filter(d => d.userOwner === usuarioMasterAtivo.nome && (moduloSelecionadoAtivo === "Todos" || d.modulo === moduloSelecionadoAtivo));
+            
+            if(filtrados.length === 0) {
+                container.innerHTML = '<p style="font-size:12px; color:var(--texto-principal); font-style:italic; font-weight:700;">Nenhum documento anexado.</p>';
+                return;
+            }
+
+            filtrados.forEach(d => {
+                const item = document.createElement('div');
+                item.className = 'item-previa-linha';
+                item.innerHTML = `
+                    <div><strong>[${d.modulo}]</strong> <a href="${d.link}" target="_blank" style="color: var(--cor-primaria); font-weight:800;">${d.titulo}</a></div>
+                    <button onclick="removerDocumentoDoAcervo(${d.id})" style="background:none; border:none; color:#E53E3E; font-weight:900;">✕</button>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function removerDocumentoDoAcervo(id) {
+            dbDocumentosSigma = dbDocumentosSigma.filter(d => d.id !== id);
+            localStorage.setItem('sigma_db_documentos_v8', JSON.stringify(dbDocumentosSigma));
+            renderizarDocumentosCatalogadosDoModulo();
+        }
+
+        // FUNÇÕES DO MODAL DE DETALHES (RESOLVE A VISUALIZAÇÃO "NÃO APARECE NADA")
+        function abrirModalDetalhe(item) {
+            const modal = document.getElementById('modal-sigma-detalhe');
+            document.getElementById('modal-titulo').innerText = item.descricao;
+            document.getElementById('modal-instituicao').innerText = item.instituicao;
+            
+            const partes = item.data.split('-');
+            document.getElementById('modal-data-hora').innerText = `${partes[2]}/${partes[1]}/${partes[0]} às ${item.horario}`;
+            document.getElementById('modal-responsavel').innerText = item.responsavel;
+            document.getElementById('modal-prioridade').innerText = item.prioridade;
+            document.getElementById('modal-lembrete').innerText = item.lembrete || "Sem pauta cadastrada.";
+            document.getElementById('modal-observacao').innerText = item.observacao || "Cadastro sem metadados.";
+            
+            modal.style.display = "block";
+        }
+        function fecharModalDetalhe() { document.getElementById('modal-sigma-detalhe').style.display = "none"; }
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal-sigma-detalhe');
+            if (event.target == modal) { fecharModalDetalhe(); }
+        }
+
+        function toggleSecao(id) { document.getElementById(id).classList.toggle('colapsado'); }
+    </script>
 </body>
 </html>
